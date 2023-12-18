@@ -5,7 +5,7 @@ import com.softsalud.software.persistence.service.interfaces.IDoseHistoryService
 import com.softsalud.software.persistence.service.interfaces.IPersonService;
 import com.softsalud.software.persistence.service.interfaces.IPhoneService;
 import com.softsalud.software.persistence.service.interfaces.IVaccineService;
-import com.softsalud.software.view.JFrameMain;
+import com.softsalud.software.view.JFrameVaccine;
 import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -33,8 +33,9 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        testBack();
         System.setProperty("java.awt.headless", "false");
-        JFrameMain main = new JFrameMain();
-        main.setVisible(true);
+        JFrameVaccine vaccine = new JFrameVaccine(vaccineService);
+        vaccine.setLocationRelativeTo(null);
+        vaccine.setVisible(true);
     }
 
     private void testBack() {
