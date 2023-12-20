@@ -2,23 +2,25 @@ package com.softsalud.software.controller;
 
 import com.softsalud.software.persistence.entity.Vaccine;
 import com.softsalud.software.persistence.service.interfaces.IVaccineService;
-import com.softsalud.software.view.JFrameVaccine;
+import com.softsalud.software.report.vaccineGenerator.VaccineGenerator;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Gonzalez Ismael
  */
+@Service
 public class VaccineLogic {
 
     private final IVaccineService iVaccineServi;
     private final int EMPTY = -1;
 
-    public VaccineLogic(IVaccineService iVaccineServi, JFrameVaccine vaccineFrame) {
+    public VaccineLogic(IVaccineService iVaccineServi) {
         this.iVaccineServi = iVaccineServi;
     }
 
@@ -88,4 +90,10 @@ public class VaccineLogic {
         }
     }
 
+    public void generateVaccineReport(){
+        VaccineGenerator generator = new VaccineGenerator();
+        String outputName = JOptionPane.showInputDialog("Ingrese un nombre para el archivo :");
+        generator.printListVaccinePDF("src/main/java/com/softsalud/software/report/jrxmlfile/list-vaccine.jrxml", 
+                "src/main/java/com/softsalud/software/report/output/" + outputName);
+    }
 }

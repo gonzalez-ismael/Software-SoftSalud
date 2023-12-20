@@ -55,7 +55,18 @@
             <artifactId>poi</artifactId>
             <version>5.2.5</version>
         </dependency>
-
+        <!-- JasperReports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.20.6</version> <!-- La versión puede variar, utiliza la última estable -->
+        </dependency>
+        <!-- JasperReports Font Extension (si necesitas fuentes adicionales) -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>6.20.6</version> <!-- La versión puede variar, utiliza la última estable -->
+        </dependency>
     </dependencies>
 
     <build>

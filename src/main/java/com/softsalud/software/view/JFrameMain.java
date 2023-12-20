@@ -1,16 +1,29 @@
 package com.softsalud.software.view;
 
+import com.softsalud.software.controller.VaccineLogic;
+import com.softsalud.software.persistence.service.interfaces.IVaccineService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  *
  * @author Gonzalez Ismael
  */
 public class JFrameMain extends javax.swing.JFrame {
 
+    private final IVaccineService iVaccineServi;
+    private final VaccineLogic vaccineController;
+
     /**
      * Creates new form JFrameMain
+     *
+     * @param vaccineService
      */
-    public JFrameMain() {
+    @Autowired
+    public JFrameMain(IVaccineService vaccineService) {
         initComponents();
+        this.iVaccineServi = vaccineService;
+        this.vaccineController = new VaccineLogic(iVaccineServi);
+        this.setTitle("Menú Principal - SoftSalud.inc | LP 2023 - ADES - UART - UNPA");
     }
 
     /**
@@ -20,28 +33,67 @@ public class JFrameMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        jPanel1 = new javax.swing.JPanel();
+        labelImage = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jmiVaccine = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
-        jMenuItem1.setText("jMenuItem1");
-
-        jMenuItem6.setText("jMenuItem6");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FINAL LP 2023");
 
-        jMenu1.setText("Menú Persona");
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        labelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/report/image/logo soft salud horizontal - chikito.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelImage)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jMenu1.setText("Menú");
+
+        jMenuItem1.setText("Persona");
+        jMenu1.add(jMenuItem1);
+
+        jmiVaccine.setText("Vacuna");
+        jmiVaccine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiVaccineActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmiVaccine);
+
+        jMenuItem3.setText("Vacunación");
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setText("Reportes");
+        jMenu1.add(jMenuItem4);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Menú Vacuna");
+        jMenu2.setText("Configuración");
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("Menú Vacunación");
+        jMenu4.setText("Personalización");
         jMenuBar1.add(jMenu4);
 
         jMenu3.setText("Acerca de Nosotros");
@@ -53,15 +105,28 @@ public class JFrameMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 753, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 533, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jmiVaccineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVaccineActionPerformed
+        JDialogVaccine vaccineDialog = new JDialogVaccine(this, true, vaccineController);
+        vaccineDialog.setTitle("Menu de las Vacunas");
+        vaccineDialog.setLocationRelativeTo(null);
+        vaccineDialog.setVisible(true);
+    }//GEN-LAST:event_jmiVaccineActionPerformed
     //
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
@@ -70,6 +135,10 @@ public class JFrameMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem jmiVaccine;
+    private javax.swing.JLabel labelImage;
     // End of variables declaration//GEN-END:variables
 }

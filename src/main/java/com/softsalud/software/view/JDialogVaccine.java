@@ -1,28 +1,25 @@
 package com.softsalud.software.view;
 
 import com.softsalud.software.controller.VaccineLogic;
-import com.softsalud.software.persistence.service.interfaces.IVaccineService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Gonzalez Ismael
  */
-public class JFrameVaccine extends javax.swing.JFrame {
-
-    private final IVaccineService iVaccineServi;
+public class JDialogVaccine extends javax.swing.JDialog {
+    
     private final VaccineLogic controller;
 
     /**
-     * Creates new form JFrameVaccine
-     *
-     * @param iVaccineServi
+     * Creates new form jDialogVaccine
+     * @param parent
+     * @param modal
+     * @param controller
      */
-    @Autowired
-    public JFrameVaccine(IVaccineService iVaccineServi) {
+    public JDialogVaccine(java.awt.Frame parent, boolean modal, VaccineLogic controller) {
+        super(parent, modal);
         initComponents();
-        this.iVaccineServi = iVaccineServi;
-        this.controller = new VaccineLogic(this.iVaccineServi, this);
+        this.controller = controller;
         controller.listVaccine(tableVaccine);
     }
 
@@ -33,6 +30,9 @@ public class JFrameVaccine extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableVaccine = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabelID = new javax.swing.JLabel();
         jLabelNameVaccine = new javax.swing.JLabel();
@@ -42,14 +42,39 @@ public class JFrameVaccine extends javax.swing.JFrame {
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        btnList = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableVaccine = new javax.swing.JTable();
+        btnList = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Menú de Vacuna");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle"));
+
+        tableVaccine.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre de la Vacuna"
+            }
+        ));
+        jScrollPane1.setViewportView(tableVaccine);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
@@ -88,18 +113,18 @@ public class JFrameVaccine extends javax.swing.JFrame {
             }
         });
 
-        btnList.setText("Listar Vacunas");
-        btnList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListActionPerformed(evt);
-            }
-        });
-
         btnCancel.setText("Cancelar");
         btnCancel.setEnabled(false);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
+            }
+        });
+
+        btnList.setText("Listar Vacunas");
+        btnList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListActionPerformed(evt);
             }
         });
 
@@ -115,7 +140,7 @@ public class JFrameVaccine extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelID)
                                 .addGap(112, 112, 112)
-                                .addComponent(jTextFieldID, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
+                                .addComponent(jTextFieldID))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelNameVaccine)
                                 .addGap(18, 18, 18)
@@ -139,9 +164,6 @@ public class JFrameVaccine extends javax.swing.JFrame {
                         .addComponent(btnCancel)))
                 .addContainerGap())
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnDelete, btnEdit, btnSave, btnUpdate});
-
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -160,40 +182,11 @@ public class JFrameVaccine extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSave)
                             .addComponent(btnDelete)
-                            .addComponent(btnList)
-                            .addComponent(btnUpdate)))
+                            .addComponent(btnUpdate)
+                            .addComponent(btnList)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(jLabelNameVaccine)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle"));
-
-        tableVaccine.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nombre de la Vacuna"
-            }
-        ));
-        jScrollPane1.setViewportView(tableVaccine);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -221,25 +214,6 @@ public class JFrameVaccine extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void clearCells() {
-        jTextFieldID.setText("");
-        jTextFieldNameVaccine.setText("");
-    }
-
-    private void clearBtns() {
-        btnCancel.setEnabled(false);
-        btnUpdate.setEnabled(false);
-        btnEdit.setEnabled(true);
-        btnSave.setEnabled(true);
-        btnDelete.setEnabled(true);
-    }
-
-    private void btnListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListActionPerformed
-        controller.listVaccine(tableVaccine);
-        clearCells();
-        clearBtns();
-    }//GEN-LAST:event_btnListActionPerformed
-
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         controller.addVaccine(rootPane, jTextFieldNameVaccine.getText());
         controller.listVaccine(tableVaccine);
@@ -259,6 +233,12 @@ public class JFrameVaccine extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        controller.deleteVaccine(rootPane, tableVaccine);
+        controller.listVaccine(tableVaccine);
+        clearCells();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         controller.updateVaccine(rootPane, jTextFieldID.getText(), jTextFieldNameVaccine.getText());
         controller.listVaccine(tableVaccine);
@@ -266,16 +246,29 @@ public class JFrameVaccine extends javax.swing.JFrame {
         clearBtns();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        controller.deleteVaccine(rootPane, tableVaccine);
-        controller.listVaccine(tableVaccine);
-        clearCells();
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         clearCells();
         clearBtns();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListActionPerformed
+        controller.listVaccine(tableVaccine);
+        clearCells();
+        clearBtns();
+    }//GEN-LAST:event_btnListActionPerformed
+    
+    private void clearBtns() {
+        btnCancel.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnEdit.setEnabled(true);
+        btnSave.setEnabled(true);
+        btnDelete.setEnabled(true);
+    }
+    
+    private void clearCells() {
+        jTextFieldID.setText("");
+        jTextFieldNameVaccine.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
