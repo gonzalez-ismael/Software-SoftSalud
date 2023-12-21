@@ -10,6 +10,7 @@ import java.util.List;
 public interface IPhoneService {
     public List<Phone> getPhones();
     public void savePhone(Long phone);
+    public Phone savePhone2(Long phone);
     public void deletePhone(Long id);
     public void updatePhone(Long id, Long phone);
     public Phone findPhone(Long id);

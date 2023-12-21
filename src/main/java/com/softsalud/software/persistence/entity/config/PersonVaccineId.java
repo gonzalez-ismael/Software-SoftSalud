@@ -21,12 +21,15 @@ public class PersonVaccineId {
     @ManyToOne
     @JoinColumn(name = "vaccine_code")
     private Vaccine vaccine;
+    
+    private String vaccine_lot;
 
     public PersonVaccineId() {
     }
     
-    public PersonVaccineId(Person person, Vaccine vaccine) {
+    public PersonVaccineId(Person person, Vaccine vaccine, String vaccine_lot) {
         this.person = person;
         this.vaccine = vaccine;
+        this.vaccine_lot = vaccine_lot;
     }
 }

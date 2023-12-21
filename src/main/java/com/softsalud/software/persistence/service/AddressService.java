@@ -28,7 +28,17 @@ public class AddressService implements IAddressService{
         a.setNumber(number);
         iAddressRepos.save(a);
     }
-
+    
+    @Override
+    public Address saveAddress2(String district, String street, Integer number) {
+        Address a = new Address();
+        a.setDistrict(district);
+        a.setStreet(street);
+        a.setNumber(number);
+        iAddressRepos.save(a);
+        return a;
+    }
+    
     @Override
     public void deleteAddress(Long id) {
         iAddressRepos.deleteById(id);
@@ -46,5 +56,5 @@ public class AddressService implements IAddressService{
     @Override
     public Address findAddress(Long id) {
         return iAddressRepos.findById(id).orElse(null);
-    }
+    }    
 }

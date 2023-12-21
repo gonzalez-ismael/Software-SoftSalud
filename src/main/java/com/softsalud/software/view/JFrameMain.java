@@ -1,6 +1,12 @@
 package com.softsalud.software.view;
 
+import com.softsalud.software.controller.PersonLogic;
+import com.softsalud.software.controller.ReportLogic;
 import com.softsalud.software.controller.VaccineLogic;
+import com.softsalud.software.persistence.repository.IDoseHistoryRepository;
+import com.softsalud.software.persistence.service.interfaces.IAddressService;
+import com.softsalud.software.persistence.service.interfaces.IPersonService;
+import com.softsalud.software.persistence.service.interfaces.IPhoneService;
 import com.softsalud.software.persistence.service.interfaces.IVaccineService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,21 +15,35 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Gonzalez Ismael
  */
 public class JFrameMain extends javax.swing.JFrame {
-
-    private final IVaccineService iVaccineServi;
+    
     private final VaccineLogic vaccineController;
+    private final IVaccineService iVaccineServi;
+    private final PersonLogic personController;
+    private final IPersonService iPersonServi;
+    private final ReportLogic reportController;
+    
 
     /**
      * Creates new form JFrameMain
      *
      * @param vaccineService
+     * @param iPersonService
+     * @param iAddressService
+     * @param iPhoneService
      */
     @Autowired
-    public JFrameMain(IVaccineService vaccineService) {
+    public JFrameMain(IVaccineService vaccineService, IPersonService iPersonService,
+            IAddressService iAddressService, IPhoneService iPhoneService) {
         initComponents();
+        this.setTitle("Menú Principal - SoftSalud.inc | LP 2023 - ADES - UART - UNPA");
+        
         this.iVaccineServi = vaccineService;
         this.vaccineController = new VaccineLogic(iVaccineServi);
-        this.setTitle("Menú Principal - SoftSalud.inc | LP 2023 - ADES - UART - UNPA");
+        
+        this.iPersonServi = iPersonService;
+        this.personController = new PersonLogic(iPersonServi, iAddressService, iPhoneService);
+
+        this.reportController = new ReportLogic(iVaccineServi);
     }
 
     /**
@@ -37,10 +57,10 @@ public class JFrameMain extends javax.swing.JFrame {
         labelImage = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jmiVaccine = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jmiPersonMenu = new javax.swing.JMenuItem();
+        jmiVaccineMenu = new javax.swing.JMenuItem();
+        jmiDoseHistoryMenu = new javax.swing.JMenuItem();
+        jmiReportMenu = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
@@ -56,37 +76,52 @@ public class JFrameMain extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelImage)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Menú");
 
-        jMenuItem1.setText("Persona");
-        jMenu1.add(jMenuItem1);
-
-        jmiVaccine.setText("Vacuna");
-        jmiVaccine.addActionListener(new java.awt.event.ActionListener() {
+        jmiPersonMenu.setText("Persona");
+        jmiPersonMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiVaccineActionPerformed(evt);
+                jmiPersonMenuActionPerformed(evt);
             }
         });
-        jMenu1.add(jmiVaccine);
+        jMenu1.add(jmiPersonMenu);
 
-        jMenuItem3.setText("Vacunación");
-        jMenu1.add(jMenuItem3);
+        jmiVaccineMenu.setText("Vacuna");
+        jmiVaccineMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiVaccineMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmiVaccineMenu);
 
-        jMenuItem4.setText("Reportes");
-        jMenu1.add(jMenuItem4);
+        jmiDoseHistoryMenu.setText("Vacunación");
+        jmiDoseHistoryMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiDoseHistoryMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmiDoseHistoryMenu);
+
+        jmiReportMenu.setText("Reportes");
+        jmiReportMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiReportMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmiReportMenu);
 
         jMenuBar1.add(jMenu1);
 
@@ -114,31 +149,50 @@ public class JFrameMain extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jmiVaccineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVaccineActionPerformed
+    private void jmiVaccineMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVaccineMenuActionPerformed
         JDialogVaccine vaccineDialog = new JDialogVaccine(this, true, vaccineController);
-        vaccineDialog.setTitle("Menu de las Vacunas");
+        vaccineDialog.setTitle("Menú de las Vacunas");
         vaccineDialog.setLocationRelativeTo(null);
         vaccineDialog.setVisible(true);
-    }//GEN-LAST:event_jmiVaccineActionPerformed
-    //
+    }//GEN-LAST:event_jmiVaccineMenuActionPerformed
+
+    private void jmiPersonMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPersonMenuActionPerformed
+        JDialogPerson personDialog = new JDialogPerson(this, true, personController);
+        personDialog.setTitle("Menú de las Personas");
+        personDialog.setLocationRelativeTo(null);
+        personDialog.setVisible(true);
+    }//GEN-LAST:event_jmiPersonMenuActionPerformed
+
+    private void jmiDoseHistoryMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDoseHistoryMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmiDoseHistoryMenuActionPerformed
+
+    private void jmiReportMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiReportMenuActionPerformed
+        JDialogReport reportDialog = new JDialogReport(this,true, reportController);
+        reportDialog.setTitle("Menú de Reportes");
+        reportDialog.setLocationRelativeTo(null);
+        reportDialog.setVisible(true);
+    }//GEN-LAST:event_jmiReportMenuActionPerformed
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JMenuItem jmiVaccine;
+    private javax.swing.JMenuItem jmiDoseHistoryMenu;
+    private javax.swing.JMenuItem jmiPersonMenu;
+    private javax.swing.JMenuItem jmiReportMenu;
+    private javax.swing.JMenuItem jmiVaccineMenu;
     private javax.swing.JLabel labelImage;
     // End of variables declaration//GEN-END:variables
 }

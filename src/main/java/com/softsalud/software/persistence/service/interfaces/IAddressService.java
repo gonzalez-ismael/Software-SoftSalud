@@ -10,6 +10,7 @@ import java.util.List;
 public interface IAddressService {
     public List<Address> getAddresses();
     public void saveAddress(String district, String street, Integer number);
+    public Address saveAddress2(String district, String street, Integer number);
     public void deleteAddress(Long id);
     public void updateAddress(Long id, String district, String street, Integer number);
     public Address findAddress(Long id);

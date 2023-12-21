@@ -70,17 +70,17 @@ public class DoseHistoryTest {
         String vaccine_lot = "LOT23/12";
         int number_doses = 1;
         String vaccination_place = "MI CASA JOJO";
-        servi.saveDoseHistory(dni, code, vaccination_date, vaccine_lot, number_doses, vaccination_place);
+        servi.saveDoseHistory(dni, code, vaccine_lot, vaccination_date, number_doses, vaccination_place);
     }
 
     private static void mostrarRelacionesVacunacion(IDoseHistoryService servi) {
         System.out.println("\nMostrando Relaciones de Vacunacion...");
         List<DoseHistory> relacionesVacunacion = servi.getDoseHistories();
-        relacionesVacunacion.forEach(r -> System.out.println("ID: " + r.getId().getPerson() + " " + r.getId().getVaccine() +
-                ", fecha: " + r.getVaccination_date() +
-                ", lugar de vacunacion: " + r.getVaccination_place() +
-                ", lote vacuna: " + r.getVaccine_lot() +
-                ", numero de dosis: " + r.getNumber_doses()
+        relacionesVacunacion.forEach(r -> System.out.println("ID: " + r.getId().getPerson() + " " + r.getId().getVaccine()
+                + ", lote vacuna: " + r.getId().getVaccine_lot()
+                + ", fecha: " + r.getVaccination_date()
+                + ", lugar de vacunacion: " + r.getVaccination_place()
+                + ", numero de dosis: " + r.getNumber_doses()
         ));
     }
 
@@ -94,16 +94,18 @@ public class DoseHistoryTest {
         String vaccine_lot = "LOT23/14";
         int number_doses = 2;
         String vaccination_place = "TU CASA JOJO";
-        servi.updateDoseHistory(dni, code, vaccination_date, vaccine_lot, number_doses, vaccination_place);
+        servi.updateDoseHistory(dni, code, vaccine_lot, vaccination_date, number_doses, vaccination_place);
     }
 
     private static void eliminarRelacionVacunacion(IDoseHistoryService servi) {
         System.out.println("\nEliminando una Relacion de Vacunacion...");
         Scanner s1 = new Scanner(System.in);
         Scanner s2 = new Scanner(System.in);
+        Scanner s3 = new Scanner(System.in);
         Long dni = s1.nextLong();
         Long code = s2.nextLong();
-        servi.deleteDoseHistory(dni, code);
+        String vaccine_lot = s3.next();
+        servi.deleteDoseHistory(dni, code,vaccine_lot);
     }
 
 }

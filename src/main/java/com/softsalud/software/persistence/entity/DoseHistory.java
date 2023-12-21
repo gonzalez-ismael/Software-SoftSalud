@@ -16,7 +16,6 @@ public class DoseHistory {
     @EmbeddedId
     private PersonVaccineId id;
     private LocalDate vaccination_date;
-    private String vaccine_lot;
-    private int number_doses;
     private String vaccination_place;
+    private int number_doses;
 }

@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface IDoseHistoryService {
     public List<DoseHistory> getDoseHistories();
-    public void saveDoseHistory(Long dni, Long code, LocalDate vaccionation_date, String vaccine_lot, int number_doses, String vaccionation_place);
-    public void saveDoseHistory(Person person, Vaccine vaccine, LocalDate vaccionation_date, String vaccine_lot, int number_doses, String vaccionation_place);
-    public void deleteDoseHistory(Long dni, Long code);
-    public void updateDoseHistory(Long dni, Long code, LocalDate vaccionation_date, String vaccine_lot, int number_doses, String vaccionation_place);
-    public DoseHistory findDoseHistory(Long dni, Long code);
+    public void saveDoseHistory(Long dni, Long code, String vaccine_lot, LocalDate vaccionation_date, int number_doses, String vaccionation_place);
+    public void saveDoseHistory(Person person, Vaccine vaccine, String vaccine_lot, LocalDate vaccionation_date, int number_doses, String vaccionation_place);
+    public void deleteDoseHistory(Long dni, Long code, String vaccine_lot);
+    public void updateDoseHistory(Long dni, Long code, String vaccine_lot, LocalDate vaccionation_date, int number_doses, String vaccionation_place);
+    public DoseHistory findDoseHistory(Long dni, Long code, String vaccine_lot);
 }

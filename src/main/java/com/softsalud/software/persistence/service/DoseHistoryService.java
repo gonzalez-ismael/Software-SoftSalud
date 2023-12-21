@@ -29,54 +29,51 @@ public class DoseHistoryService implements IDoseHistoryService {
     }
 
     @Override
-    public void saveDoseHistory(Long dni, Long code, LocalDate vaccionation_date, String vaccine_lot, int number_doses, String vaccionation_place) {
+    public void saveDoseHistory(Long dni, Long code, String vaccine_lot, LocalDate vaccionation_date, int number_doses, String vaccionation_place) {
         DoseHistory ds = new DoseHistory();
         Person p = iPersonServi.findPerson(dni);
         Vaccine v = iVaccineServi.findVaccine(code);
-        PersonVaccineId pvId = new PersonVaccineId(p,v);
+        PersonVaccineId pvId = new PersonVaccineId(p,v,vaccine_lot);
         ds.setId(pvId);
         ds.setVaccination_date(vaccionation_date);
-        ds.setVaccine_lot(vaccine_lot);
         ds.setNumber_doses(number_doses);
         ds.setVaccination_place(vaccionation_place);
         iDoseHistoryRepos.save(ds);
     }
     
     @Override
-    public void saveDoseHistory(Person person, Vaccine vaccine, LocalDate vaccionation_date, String vaccine_lot, int number_doses, String vaccionation_place) {
+    public void saveDoseHistory(Person person, Vaccine vaccine, String vaccine_lot, LocalDate vaccionation_date, int number_doses, String vaccionation_place) {
         DoseHistory ds = new DoseHistory();
-        PersonVaccineId pvId = new PersonVaccineId(person,vaccine);
+        PersonVaccineId pvId = new PersonVaccineId(person,vaccine,vaccine_lot);
         ds.setId(pvId);
         ds.setVaccination_date(vaccionation_date);
-        ds.setVaccine_lot(vaccine_lot);
         ds.setNumber_doses(number_doses);
         ds.setVaccination_place(vaccionation_place);
         iDoseHistoryRepos.save(ds);
     }
 
     @Override
-    public void deleteDoseHistory(Long dni, Long code) {
+    public void deleteDoseHistory(Long dni, Long code, String vaccine_lot) {
         Person p = iPersonServi.findPerson(dni);
         Vaccine v = iVaccineServi.findVaccine(code);
-        PersonVaccineId pvId = new PersonVaccineId(p,v);
+        PersonVaccineId pvId = new PersonVaccineId(p,v, vaccine_lot);
         iDoseHistoryRepos.deleteById(pvId);
     }
 
     @Override
-    public void updateDoseHistory(Long dni, Long code, LocalDate vaccionation_date, String vaccine_lot, int number_doses, String vaccionation_place) {
-        DoseHistory ds = findDoseHistory(dni, code);
+    public void updateDoseHistory(Long dni, Long code, String vaccine_lot, LocalDate vaccionation_date, int number_doses, String vaccionation_place) {
+        DoseHistory ds = findDoseHistory(dni, code, vaccine_lot);
         ds.setVaccination_date(vaccionation_date);
-        ds.setVaccine_lot(vaccine_lot);
-        ds.setNumber_doses(number_doses);
         ds.setVaccination_place(vaccionation_place);
+        ds.setNumber_doses(number_doses);
         iDoseHistoryRepos.save(ds);
     }
 
     @Override
-    public DoseHistory findDoseHistory(Long dni, Long code) {
+    public DoseHistory findDoseHistory(Long dni, Long code, String vaccine_lot) {
         Person p = iPersonServi.findPerson(dni);
         Vaccine v = iVaccineServi.findVaccine(code);
-        PersonVaccineId pvId = new PersonVaccineId(p,v);
+        PersonVaccineId pvId = new PersonVaccineId(p,v, vaccine_lot);
         return iDoseHistoryRepos.findById(pvId).orElse(null);
     }
 }

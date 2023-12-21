@@ -140,7 +140,7 @@ public class JDialogVaccine extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelID)
                                 .addGap(112, 112, 112)
-                                .addComponent(jTextFieldID))
+                                .addComponent(jTextFieldID, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelNameVaccine)
                                 .addGap(18, 18, 18)

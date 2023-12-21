@@ -1,5 +1,6 @@
 package com.softsalud.software.test;
 
+import com.softsalud.software.persistence.repository.IDoseHistoryRepository;
 import com.softsalud.software.persistence.service.interfaces.IAddressService;
 import com.softsalud.software.persistence.service.interfaces.IDoseHistoryService;
 import com.softsalud.software.persistence.service.interfaces.IPersonService;
@@ -15,9 +16,9 @@ import org.springframework.stereotype.Component;
 public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     private final IVaccineService vaccineService;
+    private final IPersonService personService;
     private final IPhoneService phoneService;
     private final IAddressService addressService;
-    private final IPersonService personService;
     private final IDoseHistoryService doseService;
 
     @Autowired
@@ -33,7 +34,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        testBack();
         System.setProperty("java.awt.headless", "false");
-        JFrameMain main = new JFrameMain(vaccineService);
+        JFrameMain main = new JFrameMain(vaccineService, personService, addressService, phoneService);
         main.setLocationRelativeTo(null);
         main.setVisible(true);
     }

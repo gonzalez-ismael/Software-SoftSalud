@@ -26,6 +26,14 @@ public class PhoneService implements IPhoneService {
         p.setPhone(phone);
         iPhoneRepos.save(p);
     }
+    
+    @Override
+    public Phone savePhone2(Long phone) {
+        Phone p = new Phone();
+        p.setPhone(phone);
+        iPhoneRepos.save(p);
+        return p;
+    }
 
     @Override
     public void deletePhone(Long id) {

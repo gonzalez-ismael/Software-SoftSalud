@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="list-vaccine" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="902c9e9d-f4ce-43d5-8324-fff677348cba">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="list-vaccine" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="902c9e9d-f4ce-43d5-8324-fff677348cba">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB SS"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="ireport.zoom" value="1.0"/>
@@ -9,11 +9,13 @@
 		<![CDATA[SELECT * FROM ssbd.vaccine]]>
 	</queryString>
 	<field name="code" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="code"/>
 		<property name="com.jaspersoft.studio.field.label" value="code"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="vaccine"/>
 	</field>
-	<field name="name_vaccine" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="name_vaccine"/>
+	<field name="nameVaccine" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nameVaccine"/>
+		<property name="com.jaspersoft.studio.field.label" value="nameVaccine"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="vaccine"/>
 	</field>
 	<background>
@@ -55,8 +57,8 @@
 			<line>
 				<reportElement x="-10" y="100" width="571" height="5" uuid="a534b91d-df2a-426c-9e65-1520124242d0"/>
 			</line>
-			<image>
-				<reportElement x="380" y="0" width="150" height="75" uuid="1f9ea198-9cea-4bf5-b2dc-89d84ffb44a0"/>
+			<image onErrorType="Blank">
+				<reportElement x="368" y="0" width="151" height="80" uuid="720555f4-ea73-4cbe-a5e7-44cb4c0d20cd"/>
 				<imageExpression><![CDATA["D:\\Archivos\\Documentos\\NetBeansProjects\\software\\src\\main\\resources\\report\\image\\logo soft salud horizontal - chikito.png"]]></imageExpression>
 			</image>
 		</band>
@@ -106,22 +108,22 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="27" splitType="Stretch">
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement x="100" y="26" width="380" height="1" uuid="5773ed7e-3eb9-4bf2-a880-54ab248d4059"/>
+			</line>
 			<textField>
-				<reportElement x="100" y="6" width="50" height="20" uuid="64ab7798-5b31-431d-8d96-95ee33da5b49">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c497ff8-05f9-4fac-9bf9-3e0a2e119a4f"/>
+				<reportElement x="100" y="6" width="50" height="20" uuid="f5e41fbf-4855-4e7f-9e6e-d226a7c01b60">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8e7e54ad-421b-4516-a455-a8ebdbddbbbc"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="153" y="6" width="330" height="20" uuid="7acc4a93-1228-4a28-807b-38b01d50b242">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4b01b3b7-4745-451f-b036-06b110af2ba9"/>
+				<reportElement x="150" y="6" width="330" height="20" uuid="fb8d26ee-5019-4b08-942a-fa71d1adb184">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d8329a9f-f1d6-47e1-adcf-77dfa2a9a779"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{name_vaccine}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nameVaccine}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement x="100" y="26" width="380" height="1" uuid="5773ed7e-3eb9-4bf2-a880-54ab248d4059"/>
-			</line>
 		</band>
 	</detail>
 	<columnFooter>
@@ -154,8 +156,8 @@
 				<reportElement x="10" y="0" width="100" height="20" uuid="27a82dd4-3df5-4c53-abd1-86e0a054e8b0"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="483" y="0" width="50" height="50" uuid="c816e9ef-238c-4b93-bea0-1c8be26e861a"/>
+			<image onErrorType="Blank">
+				<reportElement x="499" y="0" width="45" height="40" uuid="69bc2b19-ac10-4a51-8890-5f733a2f27da"/>
 				<imageExpression><![CDATA["D:\\Archivos\\Documentos\\NetBeansProjects\\software\\src\\main\\resources\\report\\image\\VACUNACIÓN.png"]]></imageExpression>
 			</image>
 		</band>
