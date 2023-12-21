@@ -1,9 +1,12 @@
-package com.softsalud.software.report.vaccineGenerator;
+package com.softsalud.software.reportGenerator;
 
 import com.softsalud.software.persistence.entity.Vaccine;
 import com.softsalud.software.persistence.service.interfaces.IVaccineService;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,17 +49,26 @@ public class reportGenerator {
         }
     }
     
-    public void printListPersonPerVaccine(String jrxml, String vaccineName, String outputName){
-//        try {
-//            List<Object> vaccines = doseRepos.listPeoplePerVaccine(vaccineName);
-//            File file = ResourceUtils.getFile(jrxml);
-//            JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-//            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(vaccines);
-//            Map<String, Object> parameters = new HashMap<>();
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-//            JasperExportManager.exportReportToPdfFile(jasperPrint, outputName);
-//        } catch (FileNotFoundException | JRException ex) {
-//            Logger.getLogger(reportGenerator.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+    public void printListPersonPerVaccine(String jrxml, String outputName, String vaccineName){
+        try {
+            //Se obtiene la conexion
+            ConexionBD conexion = new ConexionBD();
+            System.out.println("Conexion a: "+conexion.getConexion().getCatalog());
+            
+            //MAP TIENE DOS COMPONENTES, UN STRING NOMBRE Y UN OBJETC (DATO)
+            Map<String, Object> param = new HashMap();
+            //CARGAR LOS PARAMETROS DE PARAM
+            param.put("paramVaccineName", vaccineName);
+            
+            //Compilar el archivo jrxml a traves del compilador
+            JasperReport jr = JasperCompileManager.compileReport(jrxml);
+            //Creamos el objeto a imprimir
+            JasperPrint jprint = JasperFillManager.fillReport(jr, param, conexion.getConexion());
+            //Salida a formato
+            JasperExportManager.exportReportToPdfFile(jprint, outputName);
+            
+        } catch (JRException | IOException | SQLException ex) {
+            Logger.getLogger(reportGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

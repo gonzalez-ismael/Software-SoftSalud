@@ -1,7 +1,7 @@
 package com.softsalud.software.controller;
 
 import com.softsalud.software.persistence.service.interfaces.IVaccineService;
-import com.softsalud.software.report.vaccineGenerator.reportGenerator;
+import com.softsalud.software.reportGenerator.reportGenerator;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 
@@ -28,8 +28,9 @@ public class ReportLogic {
         if (!vaccineName.isEmpty()) {
             reportGenerator generator = new reportGenerator(iVaccineServi);
             String outputName = JOptionPane.showInputDialog("Ingrese un nombre para el archivo :");
-            generator.printListVaccinePDF("src/main/resources/report/jrxmlfile/list-personPerVaccine.jrxml",
-                    "src/main/java/com/softsalud/software/report/output/" + outputName + ".pdf");
+            generator.printListPersonPerVaccine("src/main/resources/report/jrxmlfile/list-personPerVaccine.jrxml",
+                    "src/main/java/com/softsalud/software/report/output/" + outputName + ".pdf",
+                    vaccineName);
         } else {
             JOptionPane.showMessageDialog(rootPane,
                     "Ha ocurrido un error, revise e intente de nuevo.",

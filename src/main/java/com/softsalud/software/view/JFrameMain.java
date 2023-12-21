@@ -3,7 +3,6 @@ package com.softsalud.software.view;
 import com.softsalud.software.controller.PersonLogic;
 import com.softsalud.software.controller.ReportLogic;
 import com.softsalud.software.controller.VaccineLogic;
-import com.softsalud.software.persistence.repository.IDoseHistoryRepository;
 import com.softsalud.software.persistence.service.interfaces.IAddressService;
 import com.softsalud.software.persistence.service.interfaces.IPersonService;
 import com.softsalud.software.persistence.service.interfaces.IPhoneService;
