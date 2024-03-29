@@ -1,15 +1,10 @@
 package com.softsalud.software.persistence.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,15 +23,8 @@ public class Person {
     private String risk_factor;
     private boolean has_covid;
     private boolean has_transplants;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "person_phone",
-            joinColumns = {
-                @JoinColumn(name = "person_id")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "phone_id")}
-    )
-    private List<Phone> phones = new ArrayList<Phone>();
+    private Long phone_number;
+    private Long optional_phone_number;
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;

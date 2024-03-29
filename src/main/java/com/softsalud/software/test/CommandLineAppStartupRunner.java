@@ -4,7 +4,6 @@ import com.softsalud.software.persistence.repository.IDoseHistoryRepository;
 import com.softsalud.software.persistence.service.interfaces.IAddressService;
 import com.softsalud.software.persistence.service.interfaces.IDoseHistoryService;
 import com.softsalud.software.persistence.service.interfaces.IPersonService;
-import com.softsalud.software.persistence.service.interfaces.IPhoneService;
 import com.softsalud.software.persistence.service.interfaces.IVaccineService;
 import com.softsalud.software.view.JFrameMain;
 import java.util.Scanner;
@@ -17,14 +16,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     private final IVaccineService vaccineService;
     private final IPersonService personService;
-    private final IPhoneService phoneService;
     private final IAddressService addressService;
     private final IDoseHistoryService doseService;
 
     @Autowired
-    public CommandLineAppStartupRunner(IVaccineService vaccineService, IPhoneService phoneService, IAddressService addressService, IPersonService personService, IDoseHistoryService doseService) {
+    public CommandLineAppStartupRunner(IVaccineService vaccineService, IAddressService addressService, IPersonService personService, IDoseHistoryService doseService) {
         this.vaccineService = vaccineService;
-        this.phoneService = phoneService;
         this.addressService = addressService;
         this.personService = personService;
         this.doseService = doseService;
@@ -34,7 +31,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        testBack();
         System.setProperty("java.awt.headless", "false");
-        JFrameMain main = new JFrameMain(vaccineService, personService, addressService, phoneService);
+        JFrameMain main = new JFrameMain(vaccineService, personService, addressService);
         main.setLocationRelativeTo(null);
         main.setVisible(true);
     }
@@ -45,10 +42,9 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
             System.out.println("\n\n==== Menú ====");
             System.out.println("1. Vacuna");
-            System.out.println("2. Telefono");
-            System.out.println("3. Direccion");
-            System.out.println("4. Persona");
-            System.out.println("5. Relacion Vacunacion");
+            System.out.println("2. Direccion");
+            System.out.println("3. Persona");
+            System.out.println("4. Relacion Vacunacion");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -58,12 +54,10 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 case 1 ->
                     mostrarVacuna();
                 case 2 ->
-                    mostrarTelefono();
-                case 3 ->
                     mostrarDireccion();
-                case 4 ->
+                case 3 ->
                     mostrarPersona();
-                case 5 ->
+                case 4 ->
                     mostrarRelacion();
                 case 0 ->
                     System.out.println("Saliendo del programa. ¡Hasta luego!");
@@ -81,18 +75,13 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         v.initeTest();
     }
 
-    public void mostrarTelefono() {
-        PhoneTest p = new PhoneTest(phoneService);
-        p.initTest();
-    }
-
     public void mostrarDireccion() {
         AddressTest a = new AddressTest(addressService);
         a.initTest();
     }
 
     public void mostrarPersona() {
-        PersonTest p = new PersonTest(personService, phoneService, addressService);
+        PersonTest p = new PersonTest(personService, addressService);
         p.initTest();
     }
 

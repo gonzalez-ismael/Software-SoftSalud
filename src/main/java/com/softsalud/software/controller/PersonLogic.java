@@ -2,15 +2,12 @@ package com.softsalud.software.controller;
 
 import com.softsalud.software.persistence.entity.Address;
 import com.softsalud.software.persistence.entity.Person;
-import com.softsalud.software.persistence.entity.Phone;
 import com.softsalud.software.persistence.service.interfaces.IAddressService;
 import com.softsalud.software.persistence.service.interfaces.IPersonService;
-import com.softsalud.software.persistence.service.interfaces.IPhoneService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -29,12 +26,10 @@ public class PersonLogic {
 
     private final IPersonService personServi;
     private final IAddressService addressServi;
-    private final IPhoneService phoneServi;
 
-    public PersonLogic(IPersonService personService, IAddressService addressService, IPhoneService phoneService) {
+    public PersonLogic(IPersonService personService, IAddressService addressService) {
         this.personServi = personService;
         this.addressServi = addressService;
-        this.phoneServi = phoneService;
     }
 
     public void listPerson(JTable tableFrame) {
@@ -61,17 +56,15 @@ public class PersonLogic {
         }
     }
 
-    public boolean addPerson(JRootPane rootPane, Long dni, String lastName, String name, String birthdate, Long telCel,
-            String neibor, String street, Integer houseNum,
+    public boolean addPerson(JRootPane rootPane, Long dni, String lastName, String name, String birthdate, Long phone,
+            Long optional_phone, String neibor, String street, Integer houseNum,
             boolean covid, boolean transplants, String riskFactor) {
         boolean operationFlag = false;
-        if (!emptyFields(dni, lastName, name, birthdate, telCel, neibor, street, houseNum, riskFactor)) {
+        if (!emptyFields(dni, lastName, name, birthdate, phone, neibor, street, houseNum, riskFactor)) {
             try {
                 LocalDate datePerson = convertToDate(birthdate);
                 int age = calculateAge(datePerson);
                 Address address = addAddress(neibor, street, houseNum);
-                List<Phone> phones = new ArrayList<>();
-                phones.add(addPhone(telCel));
 
                 Person p = new Person();
                 p.setDni(dni);
@@ -82,7 +75,10 @@ public class PersonLogic {
                 p.setRisk_factor(riskFactor);
                 p.setHas_covid(covid);
                 p.setHas_transplants(transplants);
-                p.setPhones(phones);
+                p.setPhone_number(phone);
+                if(optional_phone != null){
+                    p.setOptional_phone_number(optional_phone);
+                }
                 p.setAddress(address);
                 
                 personServi.savePerson(p);
@@ -103,14 +99,10 @@ public class PersonLogic {
         return addressServi.saveAddress2(neibor, street, houseNum);
     }
 
-    private Phone addPhone(Long telCel) {
-        return phoneServi.savePhone2(telCel);
-    }
-
-    private boolean emptyFields(Long dni, String lastName, String name, String birthdate, Long telCel,
+    private boolean emptyFields(Long dni, String lastName, String name, String birthdate, Long phone,
             String neibor, String street, Integer houseNum, String riskFactor) {
         // Verifica que ninguna de las variables esté vacía o nula
-        return (Objects.equals(dni, "") || "".equals(lastName) || "".equals(name) || "".equals(birthdate) || Objects.equals(telCel, "")
+        return (Objects.equals(dni, "") || "".equals(lastName) || "".equals(name) || "".equals(birthdate) || Objects.equals(phone, "")
                 || "".equals(neibor) || "".equals(street) || "".equals(houseNum)
                 || "".equals(riskFactor));
     }

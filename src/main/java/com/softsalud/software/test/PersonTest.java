@@ -2,13 +2,10 @@ package com.softsalud.software.test;
 
 import com.softsalud.software.persistence.entity.Address;
 import com.softsalud.software.persistence.entity.Person;
-import com.softsalud.software.persistence.entity.Phone;
 import com.softsalud.software.persistence.service.interfaces.IAddressService;
 import com.softsalud.software.persistence.service.interfaces.IPersonService;
-import com.softsalud.software.persistence.service.interfaces.IPhoneService;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +19,11 @@ import org.springframework.stereotype.Component;
 public class PersonTest {
 
     private final IPersonService personService;
-    private final IPhoneService phoneService;
     private final IAddressService addressService;
 
     @Autowired
-    public PersonTest(IPersonService personService, IPhoneService phoneService, IAddressService addressService) {
+    public PersonTest(IPersonService personService, IAddressService addressService) {
         this.personService = personService;
-        this.phoneService = phoneService;
         this.addressService = addressService;
     }
 
@@ -52,7 +47,7 @@ public class PersonTest {
                 // Procesar opción
                 switch (opcion) {
                     case 1 ->
-                        agregarPersona(this.personService, this.phoneService, this.addressService);
+                        agregarPersona(this.personService, this.addressService);
                     case 2 ->
                         mostrarPersonas(this.personService);
                     case 3 ->
@@ -70,7 +65,7 @@ public class PersonTest {
         }
     }
 
-    private static void agregarPersona(IPersonService perServi, IPhoneService phoServi, IAddressService addServi) {
+    private static void agregarPersona(IPersonService perServi, IAddressService addServi) {
         System.out.println("\nAgregando una persona...");
         Scanner s = new Scanner(System.in);
         Long dni = s.nextLong();
@@ -83,8 +78,8 @@ public class PersonTest {
         String risk_factors = "Diabetes tipo 2";
         boolean has_covid = false;
         boolean has_transplants = false;
-        List<Phone> phones = new ArrayList<>();
-        phones.add(phoServi.findPhone(Long.valueOf("2")));
+        Long phone = Long.valueOf("1234");
+        Long optional_phone = Long.valueOf("4321");
         Address address = addServi.findAddress(Long.valueOf("1"));
 
         Person p = new Person();
@@ -96,7 +91,8 @@ public class PersonTest {
         p.setRisk_factor(risk_factors);
         p.setHas_covid(has_covid);
         p.setHas_transplants(has_transplants);
-        p.setPhones(phones);
+        p.setPhone_number(phone);
+        p.setOptional_phone_number(optional_phone);
         p.setAddress(address);
 
         System.out.println("PERSONA: " + p.toString());

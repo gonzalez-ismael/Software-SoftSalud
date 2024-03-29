@@ -5,7 +5,6 @@ import com.softsalud.software.controller.ReportLogic;
 import com.softsalud.software.controller.VaccineLogic;
 import com.softsalud.software.persistence.service.interfaces.IAddressService;
 import com.softsalud.software.persistence.service.interfaces.IPersonService;
-import com.softsalud.software.persistence.service.interfaces.IPhoneService;
 import com.softsalud.software.persistence.service.interfaces.IVaccineService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,11 +27,9 @@ public class JFrameMain extends javax.swing.JFrame {
      * @param vaccineService
      * @param iPersonService
      * @param iAddressService
-     * @param iPhoneService
      */
     @Autowired
-    public JFrameMain(IVaccineService vaccineService, IPersonService iPersonService,
-            IAddressService iAddressService, IPhoneService iPhoneService) {
+    public JFrameMain(IVaccineService vaccineService, IPersonService iPersonService, IAddressService iAddressService) {
         initComponents();
         this.setTitle("Menú Principal - SoftSalud.inc | LP 2023 - ADES - UART - UNPA");
         
@@ -40,7 +37,7 @@ public class JFrameMain extends javax.swing.JFrame {
         this.vaccineController = new VaccineLogic(iVaccineServi);
         
         this.iPersonServi = iPersonService;
-        this.personController = new PersonLogic(iPersonServi, iAddressService, iPhoneService);
+        this.personController = new PersonLogic(iPersonServi, iAddressService);
 
         this.reportController = new ReportLogic(iVaccineServi);
     }

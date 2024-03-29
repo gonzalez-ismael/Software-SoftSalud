@@ -2,7 +2,6 @@ package com.softsalud.software.persistence.service;
 
 import com.softsalud.software.persistence.entity.Address;
 import com.softsalud.software.persistence.entity.Person;
-import com.softsalud.software.persistence.entity.Phone;
 import com.softsalud.software.persistence.repository.IPersonRepository;
 import com.softsalud.software.persistence.service.interfaces.IPersonService;
 import java.time.LocalDate;
@@ -29,14 +28,14 @@ public class PersonService implements IPersonService {
     }
     
     @Override
-    public void savePerson(Long dni, String name, String last_name, LocalDate birthdate, int age, List<Phone> phones, Address address, String risk_factor, boolean has_covid, boolean has_transplants) {
+    public void savePerson(Long dni, String name, String last_name, LocalDate birthdate, int age, Long phone_number,
+             Long optional_phone, Address address, String risk_factor, boolean has_covid, boolean has_transplants) {
         Person p = new Person();
         p.setDni(dni);
         p.setName(name);
         p.setLast_name(last_name);
         p.setBirthdate(birthdate);
         p.setAge(age);
-        p.setPhones(phones);
         p.setAddress(address);
         p.setRisk_factor(risk_factor);
         p.setHas_covid(has_covid);
@@ -50,14 +49,14 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public void updatePerson(Long dni, String name, String last_name, LocalDate birthdate, int age, List<Phone> phones, Address address, String risk_factor, boolean has_covid, boolean has_transplants) {
+    public void updatePerson(Long dni, String name, String last_name, LocalDate birthdate, int age, Long phone_number,
+             Long optional_phone, Address address, String risk_factor, boolean has_covid, boolean has_transplants) {
         Person p = findPerson(dni);
         p.setDni(dni);
         p.setName(name);
         p.setLast_name(last_name);
         p.setBirthdate(birthdate);
         p.setAge(age);
-        p.setPhones(phones);
         p.setAddress(address);
         p.setRisk_factor(risk_factor);
         p.setHas_covid(has_covid);
