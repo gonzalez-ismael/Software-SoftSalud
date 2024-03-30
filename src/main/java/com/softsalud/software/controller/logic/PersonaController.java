@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
@@ -113,7 +114,10 @@ public class PersonaController implements ActionListener, TableModelListener {
             String numero_tel, String numero_tel_opcional, String barrio, String calle, String numCasa,
             boolean tuvo_covid, boolean tiene_trasplantes, String factores_riesgo) {
         int resultadoOperacion; //= FALLA;
-        Persona p = personaRepos.buscarPersona(Long.valueOf(nuevoDni));
+        Persona p = null;
+        if (!Objects.equals(dniBuscado, Long.valueOf(nuevoDni))) {
+            p = personaRepos.buscarPersona(Long.valueOf(nuevoDni));
+        }
         if (p == null) {
             LocalDate fecha = LocalDate.parse(fecha_nac);
             int edad = calcularEdad(fecha);

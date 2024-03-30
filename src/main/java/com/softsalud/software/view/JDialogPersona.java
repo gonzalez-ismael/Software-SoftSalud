@@ -77,7 +77,6 @@ public class JDialogPersona extends javax.swing.JDialog {
         jtfFactoresRiesgo = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
         jlOptionTelCel = new javax.swing.JLabel();
         jtfOpcionalTelCel = new javax.swing.JTextField();
         jlErrorDni = new javax.swing.JLabel();
@@ -89,6 +88,7 @@ public class JDialogPersona extends javax.swing.JDialog {
         jlErrorRiskFactor = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jtfFechaNac = new javax.swing.JTextField();
+        btnUpdate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnSearchName = new javax.swing.JButton();
         jtfSearchName = new javax.swing.JTextField();
@@ -98,10 +98,10 @@ public class JDialogPersona extends javax.swing.JDialog {
         jlTittle1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablePerson = new javax.swing.JTable();
-        btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnReloader = new javax.swing.JButton();
         jPanelBotonesPagina = new javax.swing.JPanel();
+        btnEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MENÚ - PERSONA");
@@ -264,13 +264,6 @@ public class JDialogPersona extends javax.swing.JDialog {
             }
         });
 
-        btnEdit.setText("Editar");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-
         jlOptionTelCel.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jlOptionTelCel.setForeground(new java.awt.Color(0, 0, 0));
         jlOptionTelCel.setText("Tel / Cel : ");
@@ -317,6 +310,14 @@ public class JDialogPersona extends javax.swing.JDialog {
             }
         });
 
+        btnUpdate.setText("Guardar Cambios");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -357,10 +358,11 @@ public class JDialogPersona extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnSave)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnEdit)
-                                .addGap(13, 13, 13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnUpdate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCancel))
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(4, 4, 4)))
@@ -428,7 +430,7 @@ public class JDialogPersona extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnSave)
-                    .addComponent(btnEdit))
+                    .addComponent(btnUpdate))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
 
@@ -502,20 +504,13 @@ public class JDialogPersona extends javax.swing.JDialog {
 
             },
             new String [] {
-                "DNI", "Apellido", "Nombre", "Edad", "Fec Nac", "Telefono", "Telefono2", "Direccion", "Tuvo Covid?", "Tuvo Transplante?", "Factores de Riesgo"
+                "DNI", "Apellido", "Nombre", "Fec Nac", "Edad", "Telefono", "Telefono2", "Direccion", "Tuvo Covid?", "Tuvo Transplante?", "Factores de Riesgo"
             }
         ));
         jScrollPane1.setViewportView(TablePerson);
 
-        btnUpdate.setText("Guardar Cambios");
-        btnUpdate.setEnabled(false);
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-
         btnDelete.setText("Eliminar");
+        btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -530,6 +525,13 @@ public class JDialogPersona extends javax.swing.JDialog {
         });
 
         jPanelBotonesPagina.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        btnEdit.setText("Editar");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -547,9 +549,9 @@ public class JDialogPersona extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnReloader)
-                .addGap(18, 18, 18)
-                .addComponent(btnUpdate)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEdit)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete)
                 .addGap(20, 20, 20))
         );
@@ -559,14 +561,14 @@ public class JDialogPersona extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jlTittle1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelBotonesPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnUpdate)
                     .addComponent(btnDelete)
-                    .addComponent(btnReloader))
+                    .addComponent(btnReloader)
+                    .addComponent(btnEdit))
                 .addGap(19, 19, 19))
         );
 

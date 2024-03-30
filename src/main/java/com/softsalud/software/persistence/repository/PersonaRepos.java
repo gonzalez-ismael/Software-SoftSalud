@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 public class PersonaRepos implements IPersonaRepository {
 
     private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3;
+    private final String queryGetEdad = "((YEAR(current_date()) - YEAR(fecha_nac)) - (right(current_date,5) < right(fecha_nac,5))) as edad";
     private final Connection conn;
 
     public PersonaRepos(Connection conn) {
@@ -31,20 +32,19 @@ public class PersonaRepos implements IPersonaRepository {
     @Override
     public int insertar(Persona persona) {
         int resultadoOperacion = EMPTY;
-        String query = "INSERT INTO persona (dni, apellido, nombre, edad, fecha_nac, numero_tel, numero_tel_opcional, direccion_id, tuvo_covid, tiene_trasplantes, factores_riesgo) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO persona (dni, apellido, nombre, fecha_nac, numero_tel, numero_tel_opcional, direccion_id, tuvo_covid, tiene_trasplantes, factores_riesgo) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setLong(1, persona.getDni());
             pstmt.setString(2, persona.getApellido());
             pstmt.setString(3, persona.getNombre());
-            pstmt.setInt(4, persona.getEdad());
-            pstmt.setDate(5, Date.valueOf(persona.getFecha_nac()));
-            pstmt.setLong(6, persona.getNumero_tel());
-            pstmt.setLong(7, persona.getNumero_tel_opcional());
-            pstmt.setLong(8, persona.getDireccion().getId());
-            pstmt.setBoolean(9, persona.isTuvo_covid());
-            pstmt.setBoolean(10, persona.isTuvo_trasplantes());
-            pstmt.setString(11, persona.getFactores_riesgo());
+            pstmt.setDate(4, Date.valueOf(persona.getFecha_nac()));
+            pstmt.setLong(5, persona.getNumero_tel());
+            pstmt.setLong(6, persona.getNumero_tel_opcional());
+            pstmt.setLong(7, persona.getDireccion().getId());
+            pstmt.setBoolean(8, persona.isTuvo_covid());
+            pstmt.setBoolean(9, persona.isTuvo_trasplantes());
+            pstmt.setString(10, persona.getFactores_riesgo());
             if (pstmt.executeUpdate() == EXITO) {
                 resultadoOperacion = EXITO;
             }
@@ -61,20 +61,19 @@ public class PersonaRepos implements IPersonaRepository {
     @Override
     public int modificar(Persona persona, Long buscado) {
         int resultadoOperacion = EMPTY;
-        String query = "UPDATE persona SET dni = ?, apellido = ?, nombre = ?, edad = ?, fecha_nac = ?, numero_tel = ?, numero_tel_opcional = ?, direccion_id = ?, tuvo_covid = ?, tiene_trasplantes = ?, factores_riesgo = ? WHERE (dni = ?)";
+        String query = "UPDATE persona SET dni = ?, apellido = ?, nombre = ?, fecha_nac = ?, numero_tel = ?, numero_tel_opcional = ?, direccion_id = ?, tuvo_covid = ?, tiene_trasplantes = ?, factores_riesgo = ? WHERE (dni = ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setLong(1, persona.getDni());
             pstmt.setString(2, persona.getApellido());
             pstmt.setString(3, persona.getNombre());
-            pstmt.setInt(4, persona.getEdad());
-            pstmt.setDate(5, Date.valueOf(persona.getFecha_nac()));
-            pstmt.setLong(6, persona.getNumero_tel());
-            pstmt.setLong(7, persona.getNumero_tel_opcional());
-            pstmt.setLong(8, persona.getDireccion().getId());
-            pstmt.setBoolean(9, persona.isTuvo_covid());
-            pstmt.setBoolean(10, persona.isTuvo_trasplantes());
-            pstmt.setString(11, persona.getFactores_riesgo());
-            pstmt.setLong(12, buscado);
+            pstmt.setDate(4, Date.valueOf(persona.getFecha_nac()));
+            pstmt.setLong(5, persona.getNumero_tel());
+            pstmt.setLong(6, persona.getNumero_tel_opcional());
+            pstmt.setLong(7, persona.getDireccion().getId());
+            pstmt.setBoolean(8, persona.isTuvo_covid());
+            pstmt.setBoolean(9, persona.isTuvo_trasplantes());
+            pstmt.setString(10, persona.getFactores_riesgo());
+            pstmt.setLong(11, buscado);
             if (pstmt.executeUpdate() == EXITO) {
                 resultadoOperacion = EXITO;
             }
@@ -103,7 +102,7 @@ public class PersonaRepos implements IPersonaRepository {
         }
         return resultadoOperacion;
     }
-    
+
     @Override
     public int eliminarLogico(Long dni) {
         int resultadoOperacion = EMPTY;
@@ -123,9 +122,14 @@ public class PersonaRepos implements IPersonaRepository {
     @Override
     public List<Persona> listarPersonas() {
         List<Persona> personas = null;
-        try {
-            String query = "Select * from persona where visible = 1;";
-            Statement stmt = conn.createStatement();
+        String query = """
+                       SELECT dni, apellido, nombre, fecha_nac, 
+                       ((YEAR(current_date()) - YEAR(fecha_nac)) - (right(current_date,5) < right(fecha_nac,5))) as edad, 
+                       numero_tel, numero_tel_opcional, direccion_id, 
+                       tuvo_covid, tiene_trasplantes, factores_riesgo
+                       FROM persona WHERE visible = 1;
+                       """;
+        try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             IDireccionRepository iDireRepos = new DireccionRepos(this.conn);
             personas = new ArrayList();
@@ -134,8 +138,8 @@ public class PersonaRepos implements IPersonaRepository {
                 p.setDni(rs.getLong("dni"));
                 p.setApellido(rs.getString("apellido"));
                 p.setNombre(rs.getString("nombre"));
-                p.setEdad(rs.getInt("edad"));
                 p.setFecha_nac(rs.getDate("fecha_nac").toLocalDate());
+                p.setEdad(rs.getInt("edad"));
                 p.setNumero_tel(rs.getLong("numero_tel"));
                 p.setNumero_tel_opcional(rs.getLong("numero_tel_opcional"));
                 p.setDireccion(iDireRepos.buscarDireccion(rs.getLong("direccion_id")));
@@ -145,7 +149,6 @@ public class PersonaRepos implements IPersonaRepository {
                 personas.add(p);
             }
             rs.close();
-            stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(PersonaRepos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -155,7 +158,13 @@ public class PersonaRepos implements IPersonaRepository {
     @Override
     public Persona buscarPersona(Long dni) {
         Persona persona = null;
-        String query = "Select * from persona WHERE dni = ?";
+        String query = """
+                       SELECT dni, apellido, nombre, fecha_nac,
+                       ((YEAR(current_date()) - YEAR(fecha_nac)) - (right(current_date,5) < right(fecha_nac,5))) as edad, 
+                       numero_tel, numero_tel_opcional, direccion_id, 
+                       tuvo_covid, tiene_trasplantes, factores_riesgo
+                       FROM persona WHERE visible = 1 AND dni = ?
+                       """;
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setLong(1, dni);
             ResultSet rs = pstmt.executeQuery();
@@ -184,7 +193,13 @@ public class PersonaRepos implements IPersonaRepository {
     @Override
     public List<Persona> buscarPersonasPorDni(String dni) {
         List<Persona> personas = null;
-        String query = "SELECT * FROM persona WHERE dni LIKE ?;";
+        String query = """
+                       SELECT dni, apellido, nombre, fecha_nac,
+                       ((YEAR(current_date()) - YEAR(fecha_nac)) - (right(current_date,5) < right(fecha_nac,5))) as edad, 
+                       numero_tel, numero_tel_opcional, direccion_id, 
+                       tuvo_covid, tiene_trasplantes, factores_riesgo
+                       FROM persona WHERE dni LIKE ? AND visible = 1;
+                       """;
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, dni + "%");
             ResultSet rs = pstmt.executeQuery();
@@ -215,7 +230,13 @@ public class PersonaRepos implements IPersonaRepository {
     @Override
     public List<Persona> buscarPersonasPorNomYApe(String nomYApe) {
         List<Persona> personas = null;
-        String query = "SELECT * FROM persona WHERE nombre LIKE ? or apellido LIKE ?;";
+        String query = """
+                       SELECT dni, apellido, nombre, fecha_nac,
+                       ((YEAR(current_date()) - YEAR(fecha_nac)) - (right(current_date,5) < right(fecha_nac,5))) as edad, 
+                       numero_tel, numero_tel_opcional, direccion_id, 
+                       tuvo_covid, tiene_trasplantes, factores_riesgo
+                       FROM persona WHERE visible = 1 AND (nombre LIKE ? OR apellido LIKE ? ) ;
+                       """;
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, nomYApe + "%");
             pstmt.setString(2, nomYApe + "%");

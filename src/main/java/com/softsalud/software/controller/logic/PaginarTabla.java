@@ -55,8 +55,8 @@ public class PaginarTabla {
                     object[0] = nuevaLista.get(i).getDni();
                     object[1] = nuevaLista.get(i).getApellido();
                     object[2] = nuevaLista.get(i).getNombre();
-                    object[3] = nuevaLista.get(i).getEdad();
-                    object[4] = nuevaLista.get(i).getFecha_nac();
+                    object[3] = nuevaLista.get(i).getFecha_nac();
+                    object[4] = nuevaLista.get(i).getEdad();
                     object[5] = nuevaLista.get(i).getNumero_tel();
                     object[6] = nuevaLista.get(i).getNumero_tel_opcional();
                     object[7] = nuevaLista.get(i).getDireccion().toString();
