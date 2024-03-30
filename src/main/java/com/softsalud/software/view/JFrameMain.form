@@ -9,36 +9,42 @@
             <Property name="text" type="java.lang.String" value="Men&#xfa;"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiPersonMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="JMPersonaMenu">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Persona"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiPersonMenuActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JMPersonaMenuActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiVaccineMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="JMVacunaMenu">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F2"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Vacuna"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiVaccineMenuActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JMVacunaMenuActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiDoseHistoryMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="JMVacunacionMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Vacunaci&#xf3;n"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiDoseHistoryMenuActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JMVacunacionMenuActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiReportMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="JMReporteMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Reportes"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiReportMenuActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JMReporteMenuActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -136,7 +142,7 @@
         <Component class="javax.swing.JLabel" name="labelImage">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/report/image/logo soft salud horizontal - chikito.png"/>
+              <Image iconType="3" name="/images/logo soft salud horizontal - chikito.png"/>
             </Property>
           </Properties>
         </Component>
