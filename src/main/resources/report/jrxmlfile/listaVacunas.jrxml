@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="list-vaccine" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="902c9e9d-f4ce-43d5-8324-fff677348cba">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB SS"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT * FROM ssbd.vacuna]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="codigo"/>
+		<property name="com.jaspersoft.studio.field.label" value="codigo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vacuna"/>
+	</field>
+	<field name="nombre_vacuna" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_vacuna"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_vacuna"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vacuna"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="115" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="10" width="280" height="20" uuid="d0f1d4e2-4bff-49bc-992d-fe35bd17851f"/>
+				<textElement>
+					<font fontName="Arial" size="17" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hospital Dr. José Alberto Sánchez]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="30" width="280" height="20" uuid="ed94cef2-6362-4711-b5cf-70dc36680cda"/>
+				<textElement>
+					<font fontName="Arial" size="17" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Personal de Salud y Vacunación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="80" width="240" height="20" uuid="0648d564-6e0f-4f78-8a63-873434d0ff8c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rio Turbio, Santa Cruz, Argentina.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="50" width="280" height="20" uuid="bfcc2ee7-3145-498c-a594-9b0a63f79609"/>
+				<textElement>
+					<font fontName="Arial" size="17" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Software: SOFT SALUD]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-10" y="100" width="571" height="5" uuid="a534b91d-df2a-426c-9e65-1520124242d0"/>
+			</line>
+			<image onErrorType="Blank">
+				<reportElement x="366" y="0" width="164" height="80" uuid="720555f4-ea73-4cbe-a5e7-44cb4c0d20cd"/>
+				<imageExpression><![CDATA["D://Archivos//Documentos//NetBeansProjects//SoftSaludSoftware//src//main//resources//report//image//logo soft salud horizontal - chikito.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="240" height="20" uuid="e155cb82-0558-4f37-8aaf-5766e007d375">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE VACUNAS:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="0" width="50" height="20" uuid="cd0a6c91-8ab5-4b43-af54-afb7bcc463b4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="64e0b978-cdd8-439e-b578-3e39899cbea3"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="330" height="20" uuid="22a35a91-6485-46a3-8834-032ed91f194a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1db5fb59-b3da-4a03-8444-bf7245aac7b2"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE DE LA VACUNA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement x="100" y="26" width="380" height="1" uuid="5773ed7e-3eb9-4bf2-a880-54ab248d4059"/>
+			</line>
+			<textField>
+				<reportElement x="100" y="0" width="50" height="26" uuid="42c098f9-4046-4365-b25d-0efeaaf0ac00">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf0e499b-0cb5-4646-aecc-5ec99e50bdac"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="1" width="330" height="26" uuid="f7b1bda6-8d15-4df0-989a-3ac8ef87de37">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0f767e53-1265-43ba-b117-bf7bc9b680f6"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre_vacuna}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="330" y="10" width="100" height="20" uuid="b04f36f7-b1b3-4bec-bb05-93958f880e4b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="430" y="10" width="100" height="20" uuid="5231c273-e996-44db-ad24-5c4f476df23e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="10" width="119" height="20" uuid="e3864248-b74b-4e36-a2a9-ad9663a65d32"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Autor: Gonzalez Ismael]]></text>
+			</staticText>
+			<textField pattern="h.mm a">
+				<reportElement x="110" y="10" width="65" height="20" uuid="0407b134-d6ce-432e-9f86-9b5697843e29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="10" y="10" width="100" height="20" uuid="27a82dd4-3df5-4c53-abd1-86e0a054e8b0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Blank">
+				<reportElement x="530" y="0" width="45" height="40" uuid="69bc2b19-ac10-4a51-8890-5f733a2f27da"/>
+				<imageExpression><![CDATA["D://Archivos//Documentos//NetBeansProjects//SoftSaludSoftware//src//main//resources//report//image//logo vacunacion chico.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="33" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,7 +1,9 @@
 package com.softsalud.software.view;
 
+import com.softsalud.software.reporte.JDialogReporte;
 import com.softsalud.software.connection.ConnectionDB;
 import com.softsalud.software.controller.logic.PersonaController;
+import com.softsalud.software.reporte.ReporteController;
 import com.softsalud.software.controller.logic.VacunaController;
 import com.softsalud.software.persistence.repository.DireccionRepos;
 import com.softsalud.software.persistence.repository.PersonaRepos;
@@ -117,6 +119,7 @@ public class JFrameMain extends javax.swing.JFrame {
         });
         jMenu1.add(JMVacunacionMenu);
 
+        JMReporteMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         JMReporteMenu.setText("Reportes");
         JMReporteMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,10 +182,11 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMVacunacionMenuActionPerformed
 
     private void JMReporteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMReporteMenuActionPerformed
-//        JDialogReport reportDialog = new JDialogReport(this,true, reportController);
-//        reportDialog.setTitle("Menú de Reportes");
-//        reportDialog.setLocationRelativeTo(null);
-//        reportDialog.setVisible(true);
+        ReporteController reporteController = new ReporteController(iVacunaRepos);
+        JDialogReporte reportDialog = new JDialogReporte(this, true, reporteController);
+        reportDialog.setTitle("Menú de Reportes");
+        reportDialog.setLocationRelativeTo(null);
+        reportDialog.setVisible(true);
     }//GEN-LAST:event_JMReporteMenuActionPerformed
 
     /**

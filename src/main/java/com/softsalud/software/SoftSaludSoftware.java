@@ -3,10 +3,7 @@ package com.softsalud.software;
 import com.softsalud.software.connection.ConnectionDB;
 import com.softsalud.software.persistence.model.Vacuna;
 import com.softsalud.software.persistence.repository.VacunaRepos;
-import com.softsalud.software.view.JFrameMain;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -51,7 +48,7 @@ public class SoftSaludSoftware {
                 // Iteramos sobre el conjunto de vacunas e imprimimos cada vacuna
                 System.out.println("Lista de Vacunas:");
                 for (Vacuna vacuna : vacunas) {
-                    System.out.println("Código: " + vacuna.getCodigo() + ", Nombre: " + vacuna.getNombreVacuna());
+                    System.out.println("Código: " + vacuna.getCodigo() + ", Nombre: " + vacuna.getNombre_vacuna());
                 }
             } else {
                 System.out.println("No se pudo obtener la lista de vacunas.");
@@ -62,7 +59,7 @@ public class SoftSaludSoftware {
             if (find != null) {
                 // Iteramos sobre el conjunto de vacunas e imprimimos cada vacuna
                 System.out.println("\n\nVacuna:");
-                System.out.println("Código: " + find.getCodigo() + ", Nombre: " + find.getNombreVacuna());
+                System.out.println("Código: " + find.getCodigo() + ", Nombre: " + find.getNombre_vacuna());
 
             } else {
                 System.out.println("No se pudo obtener la vacuna buscada.\n\n");

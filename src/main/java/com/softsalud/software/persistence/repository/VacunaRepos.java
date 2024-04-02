@@ -111,7 +111,7 @@ public class VacunaRepos implements IVacunaRepository {
             while (rs.next()) {
                 Vacuna v = new Vacuna();
                 v.setCodigo(rs.getLong("codigo"));
-                v.setNombreVacuna(rs.getString("nombre_vacuna"));
+                v.setNombre_vacuna(rs.getString("nombre_vacuna"));
                 vacunas.add(v);
             }
             rs.close();
@@ -137,7 +137,7 @@ public class VacunaRepos implements IVacunaRepository {
             if (rs.next()) {
                 vacuna = new Vacuna();
                 vacuna.setCodigo(rs.getLong("codigo"));
-                vacuna.setNombreVacuna(rs.getString("nombre_vacuna"));
+                vacuna.setNombre_vacuna(rs.getString("nombre_vacuna"));
             }
             rs.close();
         } catch (SQLException ex) {
@@ -157,7 +157,7 @@ public class VacunaRepos implements IVacunaRepository {
             while (rs.next()) {
                 Vacuna v = new Vacuna();
                 v.setCodigo(rs.getLong("codigo"));
-                v.setNombreVacuna(rs.getString("nombre_vacuna"));
+                v.setNombre_vacuna(rs.getString("nombre_vacuna"));
                 vacunas.add(v);
             }
             rs.close();

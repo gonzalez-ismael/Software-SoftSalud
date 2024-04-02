@@ -72,7 +72,7 @@ public class PaginarTabla {
                 Object[] object = new Object[2];
                 for (int i = 0; i < nuevaLista.size(); i++) {
                     object[0] = nuevaLista.get(i).getCodigo();
-                    object[1] = nuevaLista.get(i).getNombreVacuna();
+                    object[1] = nuevaLista.get(i).getNombre_vacuna();
                     table.addRow(object);
                 }
             }

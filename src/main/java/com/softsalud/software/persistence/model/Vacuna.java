@@ -6,13 +6,13 @@ package com.softsalud.software.persistence.model;
  */
 public class Vacuna {
     private Long codigo;
-    private String nombreVacuna;
+    private String nombre_vacuna;
 
     public Vacuna() {
     }
     
     public Vacuna(String nombreVacuna) {
-        this.nombreVacuna = nombreVacuna;
+        this.nombre_vacuna = nombreVacuna;
     }
 
     public Long getCodigo() {
@@ -23,11 +23,11 @@ public class Vacuna {
         this.codigo = codigo;
     }
 
-    public String getNombreVacuna() {
-        return nombreVacuna;
+    public String getNombre_vacuna() {
+        return nombre_vacuna;
     }
 
-    public void setNombreVacuna(String nombreVacuna) {
-        this.nombreVacuna = nombreVacuna;
+    public void setNombre_vacuna(String nombre_vacuna) {
+        this.nombre_vacuna = nombre_vacuna;
     }
 }
