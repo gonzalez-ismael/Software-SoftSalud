@@ -6,9 +6,7 @@ import com.softsalud.software.view.JDialogVacuna;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
@@ -60,55 +58,36 @@ public class VacunaController implements ActionListener, TableModelListener {
         ventanaVacuna.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
     }
 
-    public void agregarVacuna(JRootPane rootPane, String nameFrame) {
+    public void agregarVacuna(String nameFrame) {
         if (!nameFrame.isEmpty()) {
             vacunaRepos.insertar(nameFrame);
-        } else {
-            JOptionPane.showMessageDialog(rootPane,
-                    "Ha ocurrido un error, revise e intente de nuevo.",
-                    "Ups",
-                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public String[] editarVacuna(JRootPane rootPane, JTable tableFrame) {
+    public String[] editarVacuna(JTable tableFrame) {
         String[] data = new String[2];
         int row = tableFrame.getSelectedRow();
         if (row != EMPTY) {
             data[0] = tableFrame.getValueAt(row, 0).toString();
             data[1] = tableFrame.getValueAt(row, 1).toString();
-        } else {
-            data[0] = "EMPTY";
-            JOptionPane.showMessageDialog(rootPane,
-                    "Seleccione una celda para editar.",
-                    "Ups",
-                    JOptionPane.ERROR_MESSAGE);
         }
         return data;
     }
 
-    public void modificarVacuna(JRootPane rootPane, String idFrame, String nameFrame) {
+    public void modificarVacuna(String idFrame, String nameFrame) {
         if (!nameFrame.isEmpty()) {
             vacunaRepos.modificar(Integer.parseInt(idFrame), nameFrame);
-        } else { //NO deberia entrar nunca aca pero lo dejo porsi
-            JOptionPane.showMessageDialog(rootPane,
-                    "Ha ocurrido un error, revise e intente de nuevo",
-                    "Ups",
-                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void eliminarVacuna(JRootPane rootPane, JTable tableFrame) {
+    public boolean eliminarVacuna(JTable tableFrame) {
+        boolean vacunaEliminada = false;
         int row = tableFrame.getSelectedRow();
         if (row != EMPTY) {
             int id = Integer.parseInt(tableFrame.getValueAt(row, 0).toString());
-            vacunaRepos.eliminar(id);
-        } else {
-            JOptionPane.showMessageDialog(rootPane,
-                    "Seleccione una celda para editar.",
-                    "Ups",
-                    JOptionPane.ERROR_MESSAGE);
+            vacunaEliminada = vacunaRepos.eliminar(id);
         }
+        return vacunaEliminada;
     }
 
     public void buscarVacunaPorNombre(JTable tableFrame, JPanel panelBotones, JTextField jtfSearchDni) {

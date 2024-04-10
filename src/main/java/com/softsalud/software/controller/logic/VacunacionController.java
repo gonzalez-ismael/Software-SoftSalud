@@ -67,7 +67,7 @@ public class VacunacionController implements ActionListener, TableModelListener 
         ventanaVacunacion.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
     }
 
-    public int agregarVacunacion(JRootPane rootPane, String dni, String marcaVacuna, String loteVacuna,
+    public int agregarVacunacion(String dni, String marcaVacuna, String loteVacuna,
             String dosis, String fechaVac, String lugarVacunacion) {
         Persona p = personaRepos.buscarPersona(Long.valueOf(dni));
         if (p == null) {
@@ -110,7 +110,7 @@ public class VacunacionController implements ActionListener, TableModelListener 
         return vacunacion;
     }
 
-    public int modificarVacunacion(JRootPane rootPane, Long dniBuscado, String marcaVacunaBuscada, String loteVacunaBuscada,
+    public int modificarVacunacion(Long dniBuscado, String marcaVacunaBuscada, String loteVacunaBuscada,
             Long dni, String marcaVacuna, String loteVacuna, int numeroDosis, String fechaVacunacion, String lugarVacunacion) {
         int resultadoOperacion; //= FALLA;
         Vacunacion v = null;

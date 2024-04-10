@@ -3,6 +3,7 @@ package com.softsalud.software.view;
 import com.softsalud.software.controller.logic.VacunaController;
 import java.awt.Color;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -236,13 +237,20 @@ public class JDialogVacuna extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        controller.agregarVacuna(rootPane, jTextFieldNameVaccine.getText());
-        controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
-        clearCells();
+        if (!jTextFieldNameVaccine.getText().isEmpty()) {
+            controller.agregarVacuna(jTextFieldNameVaccine.getText());
+            controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
+            clearCells();
+        } else {
+            String mensaje = "Complete el nombre de la vacuna para poder ingresarla.";
+            String titulo = "El nombre de la vacuna esta vacio";
+            int modo = JOptionPane.ERROR_MESSAGE;
+            mostrarMensaje(mensaje, titulo, modo);
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        String[] data = controller.editarVacuna(rootPane, tableVaccine);
+        String[] data = controller.editarVacuna(tableVaccine);
         if (!"EMPTY".equals(data[0])) {
             jTextFieldID.setText(data[0]);
             jTextFieldNameVaccine.setText(data[1]);
@@ -251,20 +259,40 @@ public class JDialogVacuna extends javax.swing.JDialog {
             btnEdit.setEnabled(false);
             btnSave.setEnabled(false);
             btnDelete.setEnabled(false);
+        } else {
+            String mensaje = "Seleccione una celda para editar.";
+            String titulo = "Ups";
+            int modo = JOptionPane.ERROR_MESSAGE;
+            mostrarMensaje(mensaje, titulo, modo);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        controller.eliminarVacuna(rootPane, tableVaccine);
-        controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
-        clearCells();
+        if (controller.eliminarVacuna(tableVaccine)) {
+            controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
+            clearCells();
+        } else {
+            String mensaje = "Seleccione una celda para editar.";
+            String titulo = "Ups";
+            int modo = JOptionPane.ERROR_MESSAGE;
+            mostrarMensaje(mensaje, titulo, modo);
+        }
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        controller.modificarVacuna(rootPane, jTextFieldID.getText(), jTextFieldNameVaccine.getText());
-        controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
-        clearCells();
-        clearBtns();
+        if (!jTextFieldNameVaccine.getText().isEmpty()) {
+            controller.modificarVacuna(jTextFieldID.getText(), jTextFieldNameVaccine.getText());
+            controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
+            clearCells();
+            clearBtns();
+        } else {
+            String mensaje = "Complete el nombre de la vacuna para poder ingresarla.";
+            String titulo = "El nombre de la vacuna esta vacio";
+            int modo = JOptionPane.ERROR_MESSAGE;
+            mostrarMensaje(mensaje, titulo, modo);
+        }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -311,6 +339,10 @@ public class JDialogVacuna extends javax.swing.JDialog {
     private void clearCells() {
         jTextFieldID.setText("");
         jTextFieldNameVaccine.setText("");
+    }
+
+    private void mostrarMensaje(String mensaje, String titulo, int modo) {
+        JOptionPane.showMessageDialog(rootPane, mensaje, titulo, modo);
     }
 
     public JComboBox<Integer> getPaginaComboBox() {

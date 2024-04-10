@@ -488,8 +488,9 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         if (estanCamposCompletosYValidos()) {
             int valorDosis = ("Anual".equals(jcbNumeroDosis.getSelectedItem().toString()))
                     ? 0 : Integer.parseInt(jcbNumeroDosis.getSelectedItem().toString());
-            int resultado = controller.modificarVacunacion(rootPane,
-                    dniBuscado, marcaVacuna, loteVacuna,
+            int resultado = controller.modificarVacunacion(dniBuscado, 
+                    marcaVacuna, 
+                    loteVacuna,
                     Long.valueOf(jtfDNI.getText()),
                     jtfMarcaVacuna.getText(),
                     jtfLoteVacuna.getText(),
@@ -548,8 +549,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (estanCamposCompletosYValidos()) {
-            int resultado = controller.agregarVacunacion(rootPane,
-                    jtfDNI.getText(),
+            int resultado = controller.agregarVacunacion(jtfDNI.getText(),
                     jtfMarcaVacuna.getText(),
                     jtfLoteVacuna.getText(),
                     jcbNumeroDosis.getSelectedItem().toString(),
@@ -646,8 +646,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }
 
     private boolean esFechaValida() {
-        return (!jtfFechaVac.getText().isEmpty()
-                && esEstructuraFechaValido() && esFormatoFechaValido()
+        return (esEstructuraFechaValido() && esFormatoFechaValido()
                 && esFechaMenorHoy() && esFechaMayor1900());
     }
 

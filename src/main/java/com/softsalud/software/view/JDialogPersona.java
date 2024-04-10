@@ -609,8 +609,7 @@ public class JDialogPersona extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (estanCamposCompletosYValidos()) {
-            int resultado = controller.agregarPersona(rootPane,
-                    jtfDNI.getText(),
+            int resultado = controller.agregarPersona(jtfDNI.getText(),
                     jtfApellido.getText(),
                     jtfNombre.getText(),
                     formatearFecha(jtfFechaNac.getText(), STRINGTODATE),
@@ -644,7 +643,7 @@ public class JDialogPersona extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        Persona p = controller.editarPersona(rootPane, TablePerson);
+        Persona p = controller.editarPersona(TablePerson);
         if (p != null) {
             dniBuscado = p.getDni();
             jtfDNI.setText(dniBuscado.toString());
@@ -671,7 +670,7 @@ public class JDialogPersona extends javax.swing.JDialog {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         if (estanCamposCompletosYValidos()) {
-            int resultado = controller.modificarPersona(rootPane, dniBuscado,
+            int resultado = controller.modificarPersona(dniBuscado,
                     jtfDNI.getText(),
                     jtfApellido.getText(),
                     jtfNombre.getText(),
@@ -713,7 +712,7 @@ public class JDialogPersona extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (controller.eliminarPersonaLogico(rootPane, TablePerson)) {
+        if (controller.eliminarPersonaLogico(TablePerson)) {
             controller.listarPersonas(TablePerson, jPanelBotonesPagina);
             clearCells();
         } else {
@@ -858,7 +857,8 @@ public class JDialogPersona extends javax.swing.JDialog {
     }
 
     private boolean esFechaValida() {
-        return (esEstructuraFechaValido() && esFormatoFechaValido() && esFechaMenorHoy());
+        return (esEstructuraFechaValido() && esFormatoFechaValido()
+                && esFechaMenorHoy() && esFechaMayor1900());
     }
 
     private boolean esEstructuraFechaValido() {
@@ -886,6 +886,13 @@ public class JDialogPersona extends javax.swing.JDialog {
         LocalDate fechaIngresada = LocalDate.parse(fechaFormateada);
         LocalDate fechaActual = LocalDate.now(); // Obtener la fecha actual
         return fechaIngresada.isBefore(fechaActual) || fechaIngresada.equals(fechaActual);
+    }
+    
+    private boolean esFechaMayor1900() {
+        String fechaFormateada = formatearFecha(jtfFechaNac.getText(), STRINGTODATE);
+        LocalDate fechaIngresada = LocalDate.parse(fechaFormateada); // Convertir la fecha ingresada a un objeto LocalDate
+        LocalDate fecha1900 = LocalDate.of(1900, 1, 1); // Crear una fecha para el año 1900
+        return fechaIngresada.isAfter(fecha1900) || fechaIngresada.equals(fecha1900);
     }
 
     private void validarNumero(java.awt.event.KeyEvent evt) {

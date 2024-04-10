@@ -12,7 +12,6 @@ import java.time.Period;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
@@ -66,7 +65,7 @@ public class PersonaController implements ActionListener, TableModelListener {
         ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
     }
 
-    public int agregarPersona(JRootPane rootPane, String dni, String apellido, String nombre, String fecha_nac,
+    public int agregarPersona(String dni, String apellido, String nombre, String fecha_nac,
             String numero_tel, String numero_tel_opcional, String barrio, String calle, String numCasa,
             boolean tuvo_covid, boolean tiene_trasplantes, String factores_riesgo) {
         int resultadoOperacion;
@@ -94,7 +93,7 @@ public class PersonaController implements ActionListener, TableModelListener {
         return resultadoOperacion;
     }
 
-    public Persona editarPersona(JRootPane rootPane, JTable tableFrame) {
+    public Persona editarPersona(JTable tableFrame) {
         Persona persona = null;
         int row = tableFrame.getSelectedRow();
         if (row != EMPTY) {
@@ -103,7 +102,7 @@ public class PersonaController implements ActionListener, TableModelListener {
         return persona;
     }
 
-    public int modificarPersona(JRootPane rootPane, Long dniBuscado, String nuevoDni, String apellido, String nombre, String fecha_nac,
+    public int modificarPersona(Long dniBuscado, String nuevoDni, String apellido, String nombre, String fecha_nac,
             String numero_tel, String numero_tel_opcional, String barrio, String calle, String numCasa,
             boolean tuvo_covid, boolean tiene_trasplantes, String factores_riesgo) {
         int resultadoOperacion; //= FALLA;
@@ -134,7 +133,7 @@ public class PersonaController implements ActionListener, TableModelListener {
         return resultadoOperacion;
     }
 
-    public boolean eliminarPersonaLogico(JRootPane rootPane, JTable tableFrame) {
+    public boolean eliminarPersonaLogico(JTable tableFrame) {
         boolean operacionExitosa = false;
         int row = tableFrame.getSelectedRow();
         if (row != EMPTY) {
