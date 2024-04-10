@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 import java.util.Objects;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JTable;
@@ -89,12 +88,8 @@ public class PersonaController implements ActionListener, TableModelListener {
             p.setTuvo_trasplantes(tiene_trasplantes);
             p.setFactores_riesgo(factores_riesgo);
             resultadoOperacion = personaRepos.insertar(p);
-            if (resultadoOperacion != EXITO) {
-                mostrarMensajesError(rootPane, resultadoOperacion);
-            }
         } else {
             resultadoOperacion = CLAVEREPETIDA;
-            mostrarMensajesError(rootPane, resultadoOperacion);
         }
         return resultadoOperacion;
     }
@@ -104,8 +99,6 @@ public class PersonaController implements ActionListener, TableModelListener {
         int row = tableFrame.getSelectedRow();
         if (row != EMPTY) {
             persona = personaRepos.buscarPersona(Long.valueOf(tableFrame.getValueAt(row, 0).toString()));
-        } else {
-            mostrarMensajesError(rootPane, EMPTY);
         }
         return persona;
     }
@@ -135,12 +128,8 @@ public class PersonaController implements ActionListener, TableModelListener {
             p.setTuvo_trasplantes(tiene_trasplantes);
             p.setFactores_riesgo(factores_riesgo);
             resultadoOperacion = personaRepos.modificar(p, dniBuscado);
-            if (resultadoOperacion != EXITO) {
-                mostrarMensajesError(rootPane, resultadoOperacion);
-            }
         } else {
             resultadoOperacion = CLAVEREPETIDA;
-            mostrarMensajesError(rootPane, resultadoOperacion);
         }
         return resultadoOperacion;
     }
@@ -153,8 +142,6 @@ public class PersonaController implements ActionListener, TableModelListener {
             if (personaRepos.eliminarLogico(dni) == EXITO) {
                 operacionExitosa = true;
             }
-        } else {
-            mostrarMensajesError(rootPane, EMPTY);
         }
         return operacionExitosa;
     }
@@ -185,30 +172,6 @@ public class PersonaController implements ActionListener, TableModelListener {
             events();
             ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
         }
-    }
-
-    private void mostrarMensajesError(JRootPane rootPane, int resultadoOperacion) {
-        String mensaje;
-        String titulo;
-        int tipoMensaje;
-        switch (resultadoOperacion) {
-            case CLAVEREPETIDA -> {
-                mensaje = "El DNI ingresado ya está registrado para otra persona.";
-                titulo = "Mensaje de Error";
-                tipoMensaje = JOptionPane.ERROR_MESSAGE;
-            }
-            case EMPTY -> {
-                mensaje = "Seleccione una celda para editar.";
-                titulo = "Atención";
-                tipoMensaje = JOptionPane.WARNING_MESSAGE;
-            }
-            default -> {
-                mensaje = "Error desconocido.";
-                titulo = "Ups";
-                tipoMensaje = JOptionPane.ERROR_MESSAGE;
-            }
-        }
-        JOptionPane.showMessageDialog(rootPane, mensaje, titulo, tipoMensaje);
     }
 
     private int calcularEdad(LocalDate birthdate) {

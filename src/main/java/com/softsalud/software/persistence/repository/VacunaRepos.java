@@ -147,7 +147,7 @@ public class VacunaRepos implements IVacunaRepository {
     }
 
     @Override
-    public List<Vacuna> buscarVacunaPorNombre(String nombre) {
+    public List<Vacuna> listarVacunasPorNombre(String nombre) {
         List<Vacuna> vacunas = null;
         String query = "Select * from vacuna where nombre_vacuna like ?";
         try (PreparedStatement pstmt = conn.prepareCall(query)) {
@@ -165,5 +165,24 @@ public class VacunaRepos implements IVacunaRepository {
             Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return vacunas;
+    }
+    
+    @Override
+    public Vacuna buscarVacunaPorNombre(String nombre) {
+        Vacuna vacuna = null;
+        String query = "Select * from vacuna where nombre_vacuna = ?";
+        try (PreparedStatement pstmt = conn.prepareCall(query)) {
+            pstmt.setString(1, nombre);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                vacuna = new Vacuna();
+                vacuna.setCodigo(rs.getLong("codigo"));
+                vacuna.setNombre_vacuna(rs.getString("nombre_vacuna"));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vacuna;
     }
 }

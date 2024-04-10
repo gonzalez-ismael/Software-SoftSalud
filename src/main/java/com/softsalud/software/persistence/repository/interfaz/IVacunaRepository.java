@@ -13,5 +13,6 @@ public interface IVacunaRepository {
     public boolean eliminar(int codigo);
     public List<Vacuna> listarVacunas();
     public Vacuna buscarVacuna(int codigo);
-    public List<Vacuna> buscarVacunaPorNombre(String nombre);
+    public List<Vacuna> listarVacunasPorNombre(String nombre);
+    public Vacuna buscarVacunaPorNombre(String nombre);
 }

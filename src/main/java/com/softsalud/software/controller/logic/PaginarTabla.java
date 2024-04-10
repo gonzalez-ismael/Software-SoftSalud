@@ -2,6 +2,7 @@ package com.softsalud.software.controller.logic;
 
 import com.softsalud.software.persistence.model.Persona;
 import com.softsalud.software.persistence.model.Vacuna;
+import com.softsalud.software.persistence.model.Vacunacion;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -26,7 +27,7 @@ public class PaginarTabla {
     private int cantFilasPermitidas;
     private int paginaActual = 1;
     private final int limiteSup = 7, modo;
-    public static final int MODO_PERSONA = 99, MODO_VACUNA = 98;
+    public static final int MODO_PERSONA = 99, MODO_VACUNA = 98, MODO_VACUNACION = 97;
 
     private JPanel panelBotones;
     private JComboBox<Integer> jcbCantidadRegistros;
@@ -73,6 +74,21 @@ public class PaginarTabla {
                 for (int i = 0; i < nuevaLista.size(); i++) {
                     object[0] = nuevaLista.get(i).getCodigo();
                     object[1] = nuevaLista.get(i).getNombre_vacuna();
+                    table.addRow(object);
+                }
+            }
+            case MODO_VACUNACION -> {
+                List<Vacunacion> nuevaLista = this.listaDatos.subList(inicio, fin);
+
+                Object[] object = new Object[7];
+                for (int i = 0; i < nuevaLista.size(); i++) {
+                    object[0] = nuevaLista.get(i).getPersona_dni();
+                    object[1] = nuevaLista.get(i).getNombre_completo();
+                    object[2] = nuevaLista.get(i).getNombre_vacuna();
+                    object[3] = nuevaLista.get(i).getLote_vacuna();
+                    object[4] = nuevaLista.get(i).getNumero_dosis() == 0 ? "Anual" : nuevaLista.get(i).getNumero_dosis();
+                    object[5] = nuevaLista.get(i).getFecha_vacunacion();
+                    object[6] = nuevaLista.get(i).getLugar_vacunacion();
                     table.addRow(object);
                 }
             }

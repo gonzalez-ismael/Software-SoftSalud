@@ -5,12 +5,15 @@ import com.softsalud.software.connection.ConnectionDB;
 import com.softsalud.software.controller.logic.PersonaController;
 import com.softsalud.software.reporte.ReporteController;
 import com.softsalud.software.controller.logic.VacunaController;
+import com.softsalud.software.controller.logic.VacunacionController;
 import com.softsalud.software.persistence.repository.DireccionRepos;
 import com.softsalud.software.persistence.repository.PersonaRepos;
 import com.softsalud.software.persistence.repository.VacunaRepos;
+import com.softsalud.software.persistence.repository.VacunacionRepos;
 import com.softsalud.software.persistence.repository.interfaz.IDireccionRepository;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
+import com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -25,8 +28,10 @@ public class JFrameMain extends javax.swing.JFrame {
     private final IVacunaRepository iVacunaRepos;
     private final IDireccionRepository iDireccionRepos;
     private final IPersonaRepository iPersonaRepos;
+    private final IVacunacionRepository iVacunacionRepos;
     private PersonaController personaController;
     private VacunaController vacunaController;
+    private VacunacionController vacunacionController;
     private final ConnectionDB connection;
 
     public JFrameMain(ConnectionDB connection) {
@@ -37,6 +42,7 @@ public class JFrameMain extends javax.swing.JFrame {
         iVacunaRepos = new VacunaRepos(this.connection.getConnection());
         iDireccionRepos = new DireccionRepos(this.connection.getConnection());
         iPersonaRepos = new PersonaRepos(this.connection.getConnection());
+        iVacunacionRepos = new VacunacionRepos(this.connection.getConnection());
 
         // Agregar un WindowListener para escuchar el evento de cierre del JFrame
         addWindowListener(new WindowAdapter() {
@@ -111,6 +117,7 @@ public class JFrameMain extends javax.swing.JFrame {
         });
         jMenu1.add(JMVacunaMenu);
 
+        JMVacunacionMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         JMVacunacionMenu.setText("Vacunación");
         JMVacunacionMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,7 +126,7 @@ public class JFrameMain extends javax.swing.JFrame {
         });
         jMenu1.add(JMVacunacionMenu);
 
-        JMReporteMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        JMReporteMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
         JMReporteMenu.setText("Reportes");
         JMReporteMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +185,11 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMPersonaMenuActionPerformed
 
     private void JMVacunacionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMVacunacionMenuActionPerformed
-        // TODO add your handling code here:
+        vacunacionController = new VacunacionController(iVacunacionRepos, iPersonaRepos, iVacunaRepos);
+        JDialogVacunacion vacunacionDialog = new JDialogVacunacion(this, true, vacunacionController);
+        vacunacionDialog.setTitle("Menú de las Vacunaciones");
+        vacunacionDialog.setLocationRelativeTo(null);
+        vacunacionDialog.setVisible(true);
     }//GEN-LAST:event_JMVacunacionMenuActionPerformed
 
     private void JMReporteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMReporteMenuActionPerformed

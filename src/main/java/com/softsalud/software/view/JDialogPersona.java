@@ -622,15 +622,24 @@ public class JDialogPersona extends javax.swing.JDialog {
                     jcbCovid.isSelected(),
                     jcbTrasplantes.isSelected(),
                     jtfFactoresRiesgo.getText());
-            if (resultado == EXITO) {
-                controller.listarPersonas(TablePerson, jPanelBotonesPagina);
-                clearCells();
-            } else if (resultado == CLAVEREPETIDA) {
-                jlErrorDni.setText("Ingresar un número de DNI válido");
-                jtfDNI.requestFocus();
+            switch (resultado) {
+                case EXITO -> {
+                    controller.listarPersonas(TablePerson, jPanelBotonesPagina);
+                    clearCells();
+                    clearBtns();
+                }
+                case CLAVEREPETIDA -> {
+                    mostrarMensajesError(resultado);
+                    jlErrorDni.setText("Ingresar un número de DNI válido");
+                    jtfDNI.requestFocus();
+                }
+                default ->
+                    mostrarMensajesError(resultado);
             }
         } else {
-            mostrarMensajeDatosInvalidos();
+            String mensaje = "Exiten campos vacíos o inválidos. Revise e intente de nuevo.";
+            String titulo = "Error";
+            mostrarMensaje(mensaje, titulo, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -655,6 +664,8 @@ public class JDialogPersona extends javax.swing.JDialog {
             btnEdit.setEnabled(false);
             btnSave.setEnabled(false);
             btnDelete.setEnabled(false);
+        } else {
+            mostrarMensajesError(EMPTY);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -673,17 +684,25 @@ public class JDialogPersona extends javax.swing.JDialog {
                     jcbCovid.isSelected(),
                     jcbTrasplantes.isSelected(),
                     jtfFactoresRiesgo.getText());
-            if (resultado == EXITO) {
-                controller.listarPersonas(TablePerson, jPanelBotonesPagina);
-                dniBuscado = null;
-                clearCells();
-                clearBtns();
-            } else if (resultado == CLAVEREPETIDA) {
-                jlErrorDni.setText("Ingresar un número de DNI válido");
-                jtfDNI.requestFocus();
+            switch (resultado) {
+                case EXITO -> {
+                    controller.listarPersonas(TablePerson, jPanelBotonesPagina);
+                    dniBuscado = null;
+                    clearCells();
+                    clearBtns();
+                }
+                case CLAVEREPETIDA -> {
+                    mostrarMensajesError(resultado);
+                    jlErrorDni.setText("Ingresar un número de DNI válido");
+                    jtfDNI.requestFocus();
+                }
+                default ->
+                    mostrarMensajesError(resultado);
             }
         } else {
-            mostrarMensajeDatosInvalidos();
+            String mensaje = "Exiten campos vacíos o inválidos. Revise e intente de nuevo.";
+            String titulo = "Error";
+            mostrarMensaje(mensaje, titulo, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -694,18 +713,21 @@ public class JDialogPersona extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        controller.eliminarPersonaLogico(rootPane, TablePerson);
-        controller.listarPersonas(TablePerson, jPanelBotonesPagina);
-        clearCells();
+        if (controller.eliminarPersonaLogico(rootPane, TablePerson)) {
+            controller.listarPersonas(TablePerson, jPanelBotonesPagina);
+            clearCells();
+        } else {
+            mostrarMensajesError(EMPTY);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void jtfDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyTyped
-        validarNumero(evt, jtfDNI);
+        validarNumero(evt);
         validarLongitudCadena(evt, jtfDNI, 8);
     }//GEN-LAST:event_jtfDNIKeyTyped
 
     private void jtfSearchDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfSearchDniKeyTyped
-        validarNumero(evt, jtfSearchDni);
+        validarNumero(evt);
         validarLongitudCadena(evt, jtfSearchDni, 8);
     }//GEN-LAST:event_jtfSearchDniKeyTyped
 
@@ -726,15 +748,15 @@ public class JDialogPersona extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSearchNameActionPerformed
 
     private void jtfTelCelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTelCelKeyTyped
-        validarNumero(evt, jtfTelCel);
+        validarNumero(evt);
     }//GEN-LAST:event_jtfTelCelKeyTyped
 
     private void jtfOpcionalTelCelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfOpcionalTelCelKeyTyped
-        validarNumero(evt, jtfOpcionalTelCel);
+        validarNumero(evt);
     }//GEN-LAST:event_jtfOpcionalTelCelKeyTyped
 
     private void jtfNumCasaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNumCasaKeyTyped
-        validarNumero(evt, jtfNumCasa);
+        validarNumero(evt);
     }//GEN-LAST:event_jtfNumCasaKeyTyped
 
     private void jtfFechaNacFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfFechaNacFocusGained
@@ -745,7 +767,7 @@ public class JDialogPersona extends javax.swing.JDialog {
 
     private void jtfFechaNacKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFechaNacKeyTyped
         if (evt.getKeyChar() != 45) { // 45 es "-" en ascii
-            validarNumero(evt, jtfFechaNac);
+            validarNumero(evt);
         }
         validarLongitudCadena(evt, jtfFechaNac, 10);
     }//GEN-LAST:event_jtfFechaNacKeyTyped
@@ -796,6 +818,7 @@ public class JDialogPersona extends javax.swing.JDialog {
 
     private boolean estanCamposCompletosYValidos() {
         boolean camposValidos = true;
+        clearLabelError();
         if (jtfFactoresRiesgo.getText().isEmpty() || jtfFactoresRiesgo.getText().equals("En caso de no poseer factores, poner \"NINGUNO\".")) {
             jlErrorRiskFactor.setText("Ingrese los factores de riesgos");
             jtfFactoresRiesgo.requestFocus();
@@ -865,7 +888,7 @@ public class JDialogPersona extends javax.swing.JDialog {
         return fechaIngresada.isBefore(fechaActual) || fechaIngresada.equals(fechaActual);
     }
 
-    private void validarNumero(java.awt.event.KeyEvent evt, javax.swing.JTextField array) {
+    private void validarNumero(java.awt.event.KeyEvent evt) {
         int ascii = evt.getKeyChar();
         if (!(ascii >= 48 && ascii <= 57)) {
             evt.consume();
@@ -902,10 +925,31 @@ public class JDialogPersona extends javax.swing.JDialog {
         }
     }
 
-    private void mostrarMensajeDatosInvalidos() {
-        String mensaje = "Exiten campos vacíos o inválidos. Revise e intente de nuevo.";
-        String titulo = "Error";
-        int tipoMensaje = JOptionPane.ERROR_MESSAGE;
+    private void mostrarMensajesError(int resultadoOperacion) {
+        String mensaje;
+        String titulo;
+        int tipoMensaje;
+        switch (resultadoOperacion) {
+            case CLAVEREPETIDA -> {
+                mensaje = "El DNI ingresado ya está registrado para otra persona.";
+                titulo = "Mensaje de Error";
+                tipoMensaje = JOptionPane.ERROR_MESSAGE;
+            }
+            case EMPTY -> {
+                mensaje = "Seleccione una celda para editar.";
+                titulo = "Atención";
+                tipoMensaje = JOptionPane.WARNING_MESSAGE;
+            }
+            default -> {
+                mensaje = "Error desconocido.";
+                titulo = "Ups";
+                tipoMensaje = JOptionPane.ERROR_MESSAGE;
+            }
+        }
+        mostrarMensaje(mensaje, titulo, tipoMensaje);
+    }
+
+    private void mostrarMensaje(String mensaje, String titulo, int tipoMensaje) {
         JOptionPane.showMessageDialog(rootPane, mensaje, titulo, tipoMensaje);
     }
 
@@ -919,26 +963,30 @@ public class JDialogPersona extends javax.swing.JDialog {
 
     private void clearCells() {
         jtfDNI.setText("");
-        jlErrorDni.setText(" ");
         jtfApellido.setText("");
-        jlErrorApellido.setText(" ");
         jtfNombre.setText("");
-        jlErrorNombre.setText(" ");
         jtfFechaNac.setText("Formato: DD-MM-AAAA, ej : 12-09-1998");
-        jlErrorFechaNac.setText(" ");
         jtfTelCel.setText("");
-        jlErrorTel.setText(" ");
         jtfOpcionalTelCel.setText("");
         jtfBarrio.setText("");
         jtfCalle.setText("");
         jtfNumCasa.setText("");
-        jlErrorDireccion.setText(" ");
         jtfFactoresRiesgo.setText("En caso de no poseer factores, poner \"NINGUNO\".");
-        jlErrorRiskFactor.setText(" ");
         jtfSearchDni.setText("");
         jtfSearchName.setText("");
+        clearLabelError();
         jcbCovid.setSelected(false);
         jcbTrasplantes.setSelected(false);
+    }
+
+    private void clearLabelError() {
+        jlErrorDni.setText(" ");
+        jlErrorApellido.setText(" ");
+        jlErrorNombre.setText(" ");
+        jlErrorFechaNac.setText(" ");
+        jlErrorTel.setText(" ");
+        jlErrorDireccion.setText(" ");
+        jlErrorRiskFactor.setText(" ");
     }
 
     public JComboBox<Integer> getPaginaComboBox() {

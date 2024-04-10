@@ -58,19 +58,6 @@ public class VacunaController implements ActionListener, TableModelListener {
         ventanaVacuna.setPaginaComboBox(pag.getJcbCantidadRegistros());
         events();
         ventanaVacuna.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
-
-//        DefaultTableModel table = (DefaultTableModel) tableFrame.getModel();
-//
-//        table.setRowCount(0);
-//
-//        List<Vacuna> vacunas = vacunaRepos.listarVacunas();
-//        Object[] object = new Object[2];
-//
-//        for (Vacuna vacuna : vacunas) {
-//            object[0] = vacuna.getCodigo();
-//            object[1] = vacuna.getNombreVacuna();
-//            table.addRow(object);
-//        }
     }
 
     public void agregarVacuna(JRootPane rootPane, String nameFrame) {
@@ -126,7 +113,7 @@ public class VacunaController implements ActionListener, TableModelListener {
 
     public void buscarVacunaPorNombre(JTable tableFrame, JPanel panelBotones, JTextField jtfSearchDni) {
         if (jtfSearchDni != null) {
-            List<Vacuna> listaDatos = vacunaRepos.buscarVacunaPorNombre(jtfSearchDni.getText());
+            List<Vacuna> listaDatos = vacunaRepos.listarVacunasPorNombre(jtfSearchDni.getText());
 
             pag = new PaginarTabla(tableFrame, listaDatos, PaginarTabla.MODO_VACUNA);
 
