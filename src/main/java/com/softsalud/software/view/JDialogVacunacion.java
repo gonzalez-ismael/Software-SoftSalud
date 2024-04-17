@@ -119,7 +119,6 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         }
 
         btnDelete.setText("Eliminar");
-        btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -450,7 +449,18 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        //Metodo Eliminar
+        Vacunacion v = controller.editarVacunacion(TableVacunacion);
+        if (v != null) {
+            controller.eliminarVacunacion(v);
+            controller.ListarVacunacion(TableVacunacion, jPanelBotonesPagina);
+            clearBtns();
+            clearCells();
+        } else {
+            String mensaje = "Seleccione una celda para editar.";
+            String titulo = "Atención";
+            int tipoMensaje = JOptionPane.WARNING_MESSAGE;
+            mostrarMensajeError(mensaje, titulo, tipoMensaje);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnReloaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloaderActionPerformed
@@ -460,7 +470,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }//GEN-LAST:event_btnReloaderActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        Vacunacion v = controller.editarVacunacion(rootPane, TableVacunacion);
+        Vacunacion v = controller.editarVacunacion(TableVacunacion);
         if (v != null) {
             dniBuscado = Long.valueOf(v.getPersona_dni().toString());
             marcaVacuna = v.getNombre_vacuna();
@@ -488,8 +498,8 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         if (estanCamposCompletosYValidos()) {
             int valorDosis = ("Anual".equals(jcbNumeroDosis.getSelectedItem().toString()))
                     ? 0 : Integer.parseInt(jcbNumeroDosis.getSelectedItem().toString());
-            int resultado = controller.modificarVacunacion(dniBuscado, 
-                    marcaVacuna, 
+            int resultado = controller.modificarVacunacion(dniBuscado,
+                    marcaVacuna,
                     loteVacuna,
                     Long.valueOf(jtfDNI.getText()),
                     jtfMarcaVacuna.getText(),
@@ -515,7 +525,8 @@ public class JDialogVacunacion extends javax.swing.JDialog {
                             "Datos Repetidos",
                             JOptionPane.ERROR_MESSAGE);
                 }
-                case UNKNOWNFAIL -> mostrarMensajeError("Error desconocido.",
+                case UNKNOWNFAIL ->
+                    mostrarMensajeError("Error desconocido.",
                             "UNKNOWFAIL",
                             JOptionPane.ERROR_MESSAGE);
                 default -> {

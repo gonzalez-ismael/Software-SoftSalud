@@ -6,11 +6,9 @@ import com.softsalud.software.controller.logic.PersonaController;
 import com.softsalud.software.reporte.ReporteController;
 import com.softsalud.software.controller.logic.VacunaController;
 import com.softsalud.software.controller.logic.VacunacionController;
-import com.softsalud.software.persistence.repository.DireccionRepos;
 import com.softsalud.software.persistence.repository.PersonaRepos;
 import com.softsalud.software.persistence.repository.VacunaRepos;
 import com.softsalud.software.persistence.repository.VacunacionRepos;
-import com.softsalud.software.persistence.repository.interfaz.IDireccionRepository;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository;
@@ -26,7 +24,6 @@ import javax.swing.JFrame;
 public class JFrameMain extends javax.swing.JFrame {
 
     private final IVacunaRepository iVacunaRepos;
-    private final IDireccionRepository iDireccionRepos;
     private final IPersonaRepository iPersonaRepos;
     private final IVacunacionRepository iVacunacionRepos;
     private PersonaController personaController;
@@ -40,7 +37,6 @@ public class JFrameMain extends javax.swing.JFrame {
 
         this.connection = connection;
         iVacunaRepos = new VacunaRepos(this.connection.getConnection());
-        iDireccionRepos = new DireccionRepos(this.connection.getConnection());
         iPersonaRepos = new PersonaRepos(this.connection.getConnection());
         iVacunacionRepos = new VacunacionRepos(this.connection.getConnection());
 
@@ -70,6 +66,7 @@ public class JFrameMain extends javax.swing.JFrame {
         JMVacunacionMenu = new javax.swing.JMenuItem();
         JMReporteMenu = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
@@ -138,6 +135,16 @@ public class JFrameMain extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Configuración");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem1.setText("Importar Datos de Personas");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
         jMenuBar1.add(jMenu2);
 
         jMenu4.setText("Personalización");
@@ -177,7 +184,7 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMVacunaMenuActionPerformed
 
     private void JMPersonaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMPersonaMenuActionPerformed
-        personaController = new PersonaController(iPersonaRepos, iDireccionRepos);
+        personaController = new PersonaController(iPersonaRepos);
         JDialogPersona personDialog = new JDialogPersona(this, true, personaController);
         personDialog.setTitle("Menú de las Personas");
         personDialog.setLocationRelativeTo(null);
@@ -199,6 +206,13 @@ public class JFrameMain extends javax.swing.JFrame {
         reportDialog.setLocationRelativeTo(null);
         reportDialog.setVisible(true);
     }//GEN-LAST:event_JMReporteMenuActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        JDialogImportarPersonas importarDialog = new JDialogImportarPersonas(this, true);
+        importarDialog.setTitle("Menú para Importar Personas");
+        importarDialog.setLocationRelativeTo(null);
+        importarDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,6 +263,7 @@ public class JFrameMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelImage;
     // End of variables declaration//GEN-END:variables

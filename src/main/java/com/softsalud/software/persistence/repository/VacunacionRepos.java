@@ -71,20 +71,29 @@ public class VacunacionRepos implements IVacunacionRepository {
             if (pstmt.executeUpdate() == EXITO) {
                 resultadoOperacion = EXITO;
             }
-            System.out.println("\n\nRESULTADO: " + resultadoOperacion);
-        } catch (SQLIntegrityConstraintViolationException ex) {
-            resultadoOperacion = 2;
-            Logger.getLogger(PersonaRepos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            resultadoOperacion = 3;
+            resultadoOperacion = EMPTY;
             Logger.getLogger(PersonaRepos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultadoOperacion;
     }
 
     @Override
-    public boolean eliminar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int eliminar(Vacunacion vacunacion) {
+        int resultadoOperacion = EMPTY;
+        String query = "DELETE FROM historial_vacunacion WHERE (persona_dni = ?) and (vacuna_codigo = ?) and (lote_vacuna = ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setLong(1, vacunacion.getPersona_dni());
+            pstmt.setLong(2, vacunacion.getVacuna_codigo());
+            pstmt.setString(3, vacunacion.getLote_vacuna());
+            if (pstmt.executeUpdate() == EXITO) {
+                resultadoOperacion = EXITO;
+            }
+        } catch (SQLException ex) {
+            resultadoOperacion = EMPTY;
+            Logger.getLogger(PersonaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultadoOperacion;
     }
 
     @Override

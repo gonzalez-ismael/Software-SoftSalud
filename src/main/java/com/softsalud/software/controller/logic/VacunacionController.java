@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -96,7 +95,7 @@ public class VacunacionController implements ActionListener, TableModelListener 
         return (resultadoOperacion != EXITO) ? UNKNOWNFAIL : resultadoOperacion;
     }
 
-    public Vacunacion editarVacunacion(JRootPane rootPane, JTable tableFrame) {
+    public Vacunacion editarVacunacion(JTable tableFrame) {
         Vacunacion vacunacion = null;
         int row = tableFrame.getSelectedRow();
         if (row != EMPTY) {
@@ -115,6 +114,7 @@ public class VacunacionController implements ActionListener, TableModelListener 
         int resultadoOperacion; //= FALLA;
         Vacunacion v = null;
         Vacuna vacuna = vacunaRepos.buscarVacunaPorNombre(marcaVacuna);
+        Vacuna vacunaBuscada = vacunaRepos.buscarVacunaPorNombre(marcaVacunaBuscada);
         if (!esMismaVacunacion(dniBuscado, marcaVacunaBuscada, loteVacunaBuscada, dni, marcaVacuna, loteVacuna)) {
             v = vacunacionRepos.buscarVacunacion(dni, vacuna.getCodigo(), loteVacuna);
         }
@@ -126,12 +126,16 @@ public class VacunacionController implements ActionListener, TableModelListener 
             v.setNumero_dosis(numeroDosis);
             v.setFecha_vacunacion(LocalDate.parse(fechaVacunacion));
             v.setLugar_vacunacion(lugarVacunacion);
-            resultadoOperacion = vacunacionRepos.modificar(v, dni, vacuna.getCodigo(), loteVacuna);
+            resultadoOperacion = vacunacionRepos.modificar(v, dniBuscado, vacunaBuscada.getCodigo(), loteVacunaBuscada);
             resultadoOperacion = (resultadoOperacion != EXITO) ? UNKNOWNFAIL : resultadoOperacion;
         } else {
             resultadoOperacion = CLAVEREPETIDA;
         }
         return resultadoOperacion;
+    }
+
+    public int eliminarVacunacion(Vacunacion vacunacion) {
+        return vacunacionRepos.eliminar(vacunacion);
     }
 
     private boolean esMismaVacunacion(Long dniBuscado, String marcaVacunaBuscada, String loteVacunaBuscada,

@@ -15,7 +15,8 @@ public class Persona {
     private LocalDate fecha_nac;
     private Long numero_tel;
     private Long numero_tel_opcional;
-    private Direccion direccion;
+    private String localidad; //RIO TURBIO - JULIA DEFOUR
+    private String direccion;
     private boolean tuvo_covid;
     private boolean tuvo_trasplantes;
     private String factores_riesgo;
@@ -25,9 +26,8 @@ public class Persona {
         this.visible = true;
     }
 
-    public Persona(Long dni, String apellido, String nombre, int edad, LocalDate fecha_nac,
-            Long numero_tel, Long numero_tel_opcional, Direccion direccion,
-            boolean tuvo_covid, boolean tuvo_trasplantes, String factores_riesgo) {
+    public Persona(Long dni, String apellido, String nombre, int edad, LocalDate fecha_nac, Long numero_tel, Long numero_tel_opcional,
+            String localidad, String direccion, boolean tuvo_covid, boolean tuvo_trasplantes, String factores_riesgo) {
         this.dni = dni;
         this.apellido = apellido;
         this.nombre = nombre;
@@ -35,18 +35,16 @@ public class Persona {
         this.fecha_nac = fecha_nac;
         this.numero_tel = numero_tel;
         this.numero_tel_opcional = numero_tel_opcional;
+        this.localidad = localidad;
         this.direccion = direccion;
         this.tuvo_covid = tuvo_covid;
         this.tuvo_trasplantes = tuvo_trasplantes;
         this.factores_riesgo = factores_riesgo;
-        this.visible = true;
     }
 
     @Override
     public String toString() {
-        return "Persona{" + "dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + ", edad=" + edad + ", fecha_nac=" + fecha_nac
-                + ", numero_tel=" + numero_tel + ", numero_tel_opcional=" + numero_tel_opcional + ", direccion=" + direccion
-                + ", tuvo_covid=" + tuvo_covid + ", tuvo_trasplantes=" + tuvo_trasplantes + ", factores_riesgo=" + factores_riesgo + '}';
+        return "Persona{" + "dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + ", edad=" + edad + ", fecha_nac=" + fecha_nac + ", numero_tel=" + numero_tel + ", numero_tel_opcional=" + numero_tel_opcional + ", localidad=" + localidad + ", direccion=" + direccion + ", tuvo_covid=" + tuvo_covid + ", tuvo_trasplantes=" + tuvo_trasplantes + ", factores_riesgo=" + factores_riesgo + ", visible=" + visible + '}';
     }
 
     public Long getDni() {
@@ -105,11 +103,19 @@ public class Persona {
         this.numero_tel_opcional = numero_tel_opcional;
     }
 
-    public Direccion getDireccion() {
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public String getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(Direccion direccion) {
+    public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 

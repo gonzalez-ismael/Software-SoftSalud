@@ -277,7 +277,6 @@ public class JDialogVacuna extends javax.swing.JDialog {
             int modo = JOptionPane.ERROR_MESSAGE;
             mostrarMensaje(mensaje, titulo, modo);
         }
-
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed

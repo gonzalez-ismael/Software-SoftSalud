@@ -68,6 +68,8 @@ public class JDialogPersona extends javax.swing.JDialog {
         jtfCalle = new javax.swing.JTextField();
         jlHouseNum = new javax.swing.JLabel();
         jtfNumCasa = new javax.swing.JTextField();
+        jlHouseNum1 = new javax.swing.JLabel();
+        jcbLocalidad = new javax.swing.JComboBox<>();
         jlTelCel = new javax.swing.JLabel();
         jtfTelCel = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
@@ -150,6 +152,10 @@ public class JDialogPersona extends javax.swing.JDialog {
             }
         });
 
+        jlHouseNum1.setText("Localidad : ");
+
+        jcbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rio Turbio", "Julia Defour", "Zona Rural", "Otros" }));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -157,32 +163,42 @@ public class JDialogPersona extends javax.swing.JDialog {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlHouseNum)
-                    .addComponent(jlStreet)
-                    .addComponent(jlNeighbor))
-                .addGap(7, 7, 7)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfBarrio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfCalle, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtfNumCasa, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jlStreet)
+                            .addComponent(jlNeighbor)
+                            .addComponent(jlHouseNum))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfCalle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                            .addComponent(jtfNumCasa, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jtfBarrio, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jlHouseNum1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcbLocalidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcbLocalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlHouseNum1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlNeighbor)
                     .addComponent(jtfBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jlStreet)
-                    .addComponent(jtfCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtfCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlStreet))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlHouseNum)
                     .addComponent(jtfNumCasa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jlTelCel.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
@@ -323,59 +339,57 @@ public class JDialogPersona extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jlTittle)
+                .addContainerGap(136, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(162, Short.MAX_VALUE)
+                .addComponent(jlErrorRiskFactor)
+                .addContainerGap(244, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jlTittle))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlDni, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlLastName, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlName, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlBirthdate, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlTelCel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlOptionTelCel, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfDNI)
-                            .addComponent(jlErrorDni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtfApellido)
-                            .addComponent(jlErrorApellido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtfNombre)
-                            .addComponent(jlErrorNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jlErrorFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jtfOpcionalTelCel, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtfTelCel)
-                                    .addComponent(jlErrorTel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(1, 1, 1))
-                            .addComponent(jtfFechaNac))
-                        .addGap(5, 5, 5))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnSave)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnUpdate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancel))
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(4, 4, 4)))
-                .addGap(141, 141, 141))
-            .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jlDni, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlLastName, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlName, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlBirthdate, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlTelCel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlOptionTelCel, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfDNI)
+                    .addComponent(jlErrorDni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtfApellido)
+                    .addComponent(jlErrorApellido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtfNombre)
+                    .addComponent(jlErrorNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlErrorFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jtfOpcionalTelCel, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfTelCel)
+                            .addComponent(jlErrorTel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(1, 1, 1))
+                    .addComponent(jtfFechaNac))
+                .addGap(25, 25, 25))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jlErrorRiskFactor))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSave)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancel))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jlErrorDireccion)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlErrorDireccion)
+                .addGap(17, 17, 17))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -420,18 +434,19 @@ public class JDialogPersona extends javax.swing.JDialog {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jlErrorDireccion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jlErrorRiskFactor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlErrorDireccion)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnSave)
                     .addComponent(btnUpdate))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlErrorRiskFactor)
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jtfApellido, jtfDNI, jtfNombre, jtfTelCel});
@@ -504,7 +519,7 @@ public class JDialogPersona extends javax.swing.JDialog {
 
             },
             new String [] {
-                "DNI", "Apellido", "Nombre", "Fec Nac", "Edad", "Telefono", "Telefono2", "Direccion", "Tuvo Covid?", "Tuvo Transplante?", "Factores de Riesgo"
+                "DNI", "Apellido", "Nombre", "Fec Nac", "Edad", "Telefono", "Telefono2", "Localidad", "Direccion", "Tuvo Covid?", "Tuvo Transplante?", "Factores de Riesgo"
             }
         ));
         jScrollPane1.setViewportView(TablePerson);
@@ -544,7 +559,7 @@ public class JDialogPersona extends javax.swing.JDialog {
                         .addComponent(jlTittle1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanelBotonesPagina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -561,7 +576,7 @@ public class JDialogPersona extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jlTittle1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelBotonesPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -578,7 +593,7 @@ public class JDialogPersona extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -607,6 +622,117 @@ public class JDialogPersona extends javax.swing.JDialog {
         clearCells();
     }//GEN-LAST:event_btnReloaderActionPerformed
 
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        Persona p = controller.editarPersona(TablePerson);
+        if (p != null) {
+            dniBuscado = p.getDni();
+            jtfDNI.setText(dniBuscado.toString());
+            jtfApellido.setText(p.getApellido());
+            jtfNombre.setText(p.getNombre());
+            jtfFechaNac.setText(formatearFecha(p.getFecha_nac().toString(), DATETOSTRING));
+            jtfTelCel.setText(p.getNumero_tel().toString());
+            jtfOpcionalTelCel.setText(p.getNumero_tel_opcional().toString());
+            jtfBarrio.setText(p.getDireccion());
+            jcbCovid.setSelected(p.isTuvo_covid());
+            jcbTrasplantes.setSelected(p.isTuvo_trasplantes());
+            jtfFactoresRiesgo.setText(p.getFactores_riesgo());
+            jtfCalle.setEnabled(false);
+            jtfNumCasa.setEnabled(false);
+            btnCancel.setEnabled(true);
+            btnUpdate.setEnabled(true);
+            btnEdit.setEnabled(false);
+            btnSave.setEnabled(false);
+            btnDelete.setEnabled(false);
+        } else {
+            mostrarMensajesError(EMPTY);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (controller.eliminarPersonaLogico(TablePerson)) {
+            controller.listarPersonas(TablePerson, jPanelBotonesPagina);
+            clearCells();
+        } else {
+            mostrarMensajesError(EMPTY);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void jtfSearchDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfSearchDniKeyTyped
+        validarNumero(evt);
+        validarLongitudCadena(evt, jtfSearchDni, 8);
+    }//GEN-LAST:event_jtfSearchDniKeyTyped
+
+    private void btnSearchDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDNIActionPerformed
+        jtfSearchName.setEnabled(false);
+        jtfSearchDni.setEnabled(true);
+        jtfSearchDni.requestFocus();
+    }//GEN-LAST:event_btnSearchDNIActionPerformed
+
+    private void btnSearchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchNameActionPerformed
+        jtfSearchDni.setEnabled(false);
+        jtfSearchName.setEnabled(true);
+        jtfSearchName.requestFocus();
+    }//GEN-LAST:event_btnSearchNameActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if (estanCamposCompletosYValidos()) {
+            int resultado = controller.modificarPersona(dniBuscado,
+                    jtfDNI.getText(),
+                    jtfApellido.getText(),
+                    jtfNombre.getText(),
+                    formatearFecha(jtfFechaNac.getText(), STRINGTODATE),
+                    jtfTelCel.getText(),
+                    jtfOpcionalTelCel.getText(),
+                    jcbLocalidad.getSelectedItem().toString(),
+                    jtfBarrio.getText(),
+                    jcbCovid.isSelected(),
+                    jcbTrasplantes.isSelected(),
+                    jtfFactoresRiesgo.getText());
+            switch (resultado) {
+                case EXITO -> {
+                    controller.listarPersonas(TablePerson, jPanelBotonesPagina);
+                    dniBuscado = null;
+                    clearCells();
+                    clearBtns();
+                }
+                case CLAVEREPETIDA -> {
+                    mostrarMensajesError(resultado);
+                    jlErrorDni.setText("Ingresar un número de DNI válido");
+                    jtfDNI.requestFocus();
+                }
+                default ->
+                    mostrarMensajesError(resultado);
+            }
+        } else {
+            String mensaje = "Exiten campos vacíos o inválidos. Revise e intente de nuevo.";
+            String titulo = "Error";
+            mostrarMensaje(mensaje, titulo, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void jtfFechaNacKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFechaNacKeyTyped
+        if (evt.getKeyChar() != 45) { // 45 es "-" en ascii
+            validarNumero(evt);
+        }
+        validarLongitudCadena(evt, jtfFechaNac, 10);
+    }//GEN-LAST:event_jtfFechaNacKeyTyped
+
+    private void jtfFechaNacFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfFechaNacFocusGained
+        if (jtfFechaNac.getText().equals("Formato: DD-MM-AAAA, ej : 12-09-1998")) {
+            jtfFechaNac.setText("");
+        }
+    }//GEN-LAST:event_jtfFechaNacFocusGained
+
+    private void jtfOpcionalTelCelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfOpcionalTelCelKeyTyped
+        validarNumero(evt);
+    }//GEN-LAST:event_jtfOpcionalTelCelKeyTyped
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        dniBuscado = null;
+        clearCells();
+        clearBtns();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (estanCamposCompletosYValidos()) {
             int resultado = controller.agregarPersona(jtfDNI.getText(),
@@ -615,6 +741,7 @@ public class JDialogPersona extends javax.swing.JDialog {
                     formatearFecha(jtfFechaNac.getText(), STRINGTODATE),
                     jtfTelCel.getText(),
                     jtfOpcionalTelCel.getText(),
+                    jcbLocalidad.getSelectedItem().toString(),
                     jtfBarrio.getText(),
                     jtfCalle.getText(),
                     jtfNumCasa.getText(),
@@ -642,134 +769,22 @@ public class JDialogPersona extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        Persona p = controller.editarPersona(TablePerson);
-        if (p != null) {
-            dniBuscado = p.getDni();
-            jtfDNI.setText(dniBuscado.toString());
-            jtfApellido.setText(p.getApellido());
-            jtfNombre.setText(p.getNombre());
-            jtfFechaNac.setText(formatearFecha(p.getFecha_nac().toString(), DATETOSTRING));
-            jtfTelCel.setText(p.getNumero_tel().toString());
-            jtfOpcionalTelCel.setText(p.getNumero_tel_opcional().toString());
-            jtfBarrio.setText(p.getDireccion().getBarrio());
-            jtfCalle.setText(p.getDireccion().getCalle());
-            jtfNumCasa.setText(p.getDireccion().getNumero().toString());
-            jcbCovid.setSelected(p.isTuvo_covid());
-            jcbTrasplantes.setSelected(p.isTuvo_trasplantes());
-            jtfFactoresRiesgo.setText(p.getFactores_riesgo());
-            btnCancel.setEnabled(true);
-            btnUpdate.setEnabled(true);
-            btnEdit.setEnabled(false);
-            btnSave.setEnabled(false);
-            btnDelete.setEnabled(false);
-        } else {
-            mostrarMensajesError(EMPTY);
-        }
-    }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        if (estanCamposCompletosYValidos()) {
-            int resultado = controller.modificarPersona(dniBuscado,
-                    jtfDNI.getText(),
-                    jtfApellido.getText(),
-                    jtfNombre.getText(),
-                    formatearFecha(jtfFechaNac.getText(), STRINGTODATE),
-                    jtfTelCel.getText(),
-                    jtfOpcionalTelCel.getText(),
-                    jtfBarrio.getText(),
-                    jtfCalle.getText(),
-                    jtfNumCasa.getText(),
-                    jcbCovid.isSelected(),
-                    jcbTrasplantes.isSelected(),
-                    jtfFactoresRiesgo.getText());
-            switch (resultado) {
-                case EXITO -> {
-                    controller.listarPersonas(TablePerson, jPanelBotonesPagina);
-                    dniBuscado = null;
-                    clearCells();
-                    clearBtns();
-                }
-                case CLAVEREPETIDA -> {
-                    mostrarMensajesError(resultado);
-                    jlErrorDni.setText("Ingresar un número de DNI válido");
-                    jtfDNI.requestFocus();
-                }
-                default ->
-                    mostrarMensajesError(resultado);
-            }
-        } else {
-            String mensaje = "Exiten campos vacíos o inválidos. Revise e intente de nuevo.";
-            String titulo = "Error";
-            mostrarMensaje(mensaje, titulo, JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        dniBuscado = null;
-        clearCells();
-        clearBtns();
-    }//GEN-LAST:event_btnCancelActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (controller.eliminarPersonaLogico(TablePerson)) {
-            controller.listarPersonas(TablePerson, jPanelBotonesPagina);
-            clearCells();
-        } else {
-            mostrarMensajesError(EMPTY);
-        }
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void jtfDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyTyped
-        validarNumero(evt);
-        validarLongitudCadena(evt, jtfDNI, 8);
-    }//GEN-LAST:event_jtfDNIKeyTyped
-
-    private void jtfSearchDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfSearchDniKeyTyped
-        validarNumero(evt);
-        validarLongitudCadena(evt, jtfSearchDni, 8);
-    }//GEN-LAST:event_jtfSearchDniKeyTyped
-
     private void jtfFactoresRiesgoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfFactoresRiesgoMouseClicked
         jtfFactoresRiesgo.setText("");
     }//GEN-LAST:event_jtfFactoresRiesgoMouseClicked
-
-    private void btnSearchDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDNIActionPerformed
-        jtfSearchName.setEnabled(false);
-        jtfSearchDni.setEnabled(true);
-        jtfSearchDni.requestFocus();
-    }//GEN-LAST:event_btnSearchDNIActionPerformed
-
-    private void btnSearchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchNameActionPerformed
-        jtfSearchDni.setEnabled(false);
-        jtfSearchName.setEnabled(true);
-        jtfSearchName.requestFocus();
-    }//GEN-LAST:event_btnSearchNameActionPerformed
 
     private void jtfTelCelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTelCelKeyTyped
         validarNumero(evt);
     }//GEN-LAST:event_jtfTelCelKeyTyped
 
-    private void jtfOpcionalTelCelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfOpcionalTelCelKeyTyped
-        validarNumero(evt);
-    }//GEN-LAST:event_jtfOpcionalTelCelKeyTyped
-
     private void jtfNumCasaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNumCasaKeyTyped
         validarNumero(evt);
     }//GEN-LAST:event_jtfNumCasaKeyTyped
 
-    private void jtfFechaNacFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfFechaNacFocusGained
-        if (jtfFechaNac.getText().equals("Formato: DD-MM-AAAA, ej : 12-09-1998")) {
-            jtfFechaNac.setText("");
-        }
-    }//GEN-LAST:event_jtfFechaNacFocusGained
-
-    private void jtfFechaNacKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFechaNacKeyTyped
-        if (evt.getKeyChar() != 45) { // 45 es "-" en ascii
-            validarNumero(evt);
-        }
-        validarLongitudCadena(evt, jtfFechaNac, 10);
-    }//GEN-LAST:event_jtfFechaNacKeyTyped
+    private void jtfDNIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDNIKeyTyped
+        validarNumero(evt);
+        validarLongitudCadena(evt, jtfDNI, 8);
+    }//GEN-LAST:event_jtfDNIKeyTyped
 
     private void eventoBusquedaDni() {
         // Agregamos un DocumentListener al dni
@@ -823,7 +838,7 @@ public class JDialogPersona extends javax.swing.JDialog {
             jtfFactoresRiesgo.requestFocus();
             camposValidos = false;
         }
-        if (jtfBarrio.getText().isEmpty() || jtfCalle.getText().isEmpty() || jtfNumCasa.getText().isEmpty()) {
+        if (jtfBarrio.getText().isEmpty()) {
             jlErrorDireccion.setText("Complete los datos de la dirección");
             jtfBarrio.requestFocus();
             camposValidos = false;
@@ -848,7 +863,7 @@ public class JDialogPersona extends javax.swing.JDialog {
             jtfApellido.requestFocus();
             camposValidos = false;
         }
-        if (jtfDNI.getText().isEmpty()) {
+        if (jtfDNI.getText().isEmpty() || !esDNIMayorMillon()) {
             jlErrorDni.setText("Ingresar un número de DNI válido");
             jtfDNI.requestFocus();
             camposValidos = false;
@@ -887,12 +902,16 @@ public class JDialogPersona extends javax.swing.JDialog {
         LocalDate fechaActual = LocalDate.now(); // Obtener la fecha actual
         return fechaIngresada.isBefore(fechaActual) || fechaIngresada.equals(fechaActual);
     }
-    
+
     private boolean esFechaMayor1900() {
         String fechaFormateada = formatearFecha(jtfFechaNac.getText(), STRINGTODATE);
         LocalDate fechaIngresada = LocalDate.parse(fechaFormateada); // Convertir la fecha ingresada a un objeto LocalDate
         LocalDate fecha1900 = LocalDate.of(1900, 1, 1); // Crear una fecha para el año 1900
         return fechaIngresada.isAfter(fecha1900) || fechaIngresada.equals(fecha1900);
+    }
+
+    private boolean esDNIMayorMillon() {
+        return (Long.parseLong(jtfDNI.getText()) > 1000000);
     }
 
     private void validarNumero(java.awt.event.KeyEvent evt) {
@@ -982,8 +1001,11 @@ public class JDialogPersona extends javax.swing.JDialog {
         jtfSearchDni.setText("");
         jtfSearchName.setText("");
         clearLabelError();
+        jcbLocalidad.setSelectedIndex(0);
         jcbCovid.setSelected(false);
         jcbTrasplantes.setSelected(false);
+        jtfCalle.setEnabled(true);
+        jtfNumCasa.setEnabled(true);
     }
 
     private void clearLabelError() {
@@ -1032,6 +1054,7 @@ public class JDialogPersona extends javax.swing.JDialog {
     private javax.swing.JPanel jPanelBotonesPagina;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox jcbCovid;
+    private javax.swing.JComboBox<String> jcbLocalidad;
     private javax.swing.JCheckBox jcbTrasplantes;
     private javax.swing.JLabel jlBirthdate;
     private javax.swing.JLabel jlDni;
@@ -1043,6 +1066,7 @@ public class JDialogPersona extends javax.swing.JDialog {
     private javax.swing.JLabel jlErrorRiskFactor;
     private javax.swing.JLabel jlErrorTel;
     private javax.swing.JLabel jlHouseNum;
+    private javax.swing.JLabel jlHouseNum1;
     private javax.swing.JLabel jlLastName;
     private javax.swing.JLabel jlName;
     private javax.swing.JLabel jlNeighbor;

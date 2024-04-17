@@ -10,7 +10,7 @@ import java.util.List;
 public interface IVacunacionRepository {
     public int insertar(Vacunacion vacunacion);
     public int modificar(Vacunacion nuevaVacunacion, Long dniPersona, Long codigoVacuna, String loteVacuna);
-    public boolean eliminar();
+    public int eliminar(Vacunacion vacunacion);
     public List<Vacunacion> listarVacunaciones();
     public Vacunacion buscarVacunacion(Long dniPersona, Long codigoVacuna, String loteVacuna);
 }

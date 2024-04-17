@@ -1,8 +1,6 @@
 package com.softsalud.software.controller.logic;
 
-import com.softsalud.software.persistence.model.Direccion;
 import com.softsalud.software.persistence.model.Persona;
-import com.softsalud.software.persistence.repository.interfaz.IDireccionRepository;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.view.JDialogPersona;
 import java.awt.event.ActionEvent;
@@ -26,12 +24,10 @@ public class PersonaController implements ActionListener, TableModelListener {
     private JDialogPersona ventanaPersona;
     private PaginarTabla pag;
     private final IPersonaRepository personaRepos;
-    private final IDireccionRepository direccionRepos;
     private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3;
 
-    public PersonaController(IPersonaRepository personaRepos, IDireccionRepository direccionRepos) {
+    public PersonaController(IPersonaRepository personaRepos) {
         this.personaRepos = personaRepos;
-        this.direccionRepos = direccionRepos;
     }
 
     public final void events() {
@@ -62,18 +58,17 @@ public class PersonaController implements ActionListener, TableModelListener {
 
         ventanaPersona.setPaginaComboBox(pag.getJcbCantidadRegistros());
         events();
-        ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
+        ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("3"));
     }
 
     public int agregarPersona(String dni, String apellido, String nombre, String fecha_nac,
-            String numero_tel, String numero_tel_opcional, String barrio, String calle, String numCasa,
+            String numero_tel, String numero_tel_opcional, String localidad, String barrio, String calle, String numCasa,
             boolean tuvo_covid, boolean tiene_trasplantes, String factores_riesgo) {
         int resultadoOperacion;
         Persona p = personaRepos.buscarPersona(Long.valueOf(dni));
         if (p == null) {
             LocalDate fecha = LocalDate.parse(fecha_nac);
             int edad = calcularEdad(fecha);
-            Direccion direccion = insertarDireccion(barrio, calle, numCasa);
             p = new Persona();
             p.setDni(Long.valueOf(dni));
             p.setApellido(apellido);
@@ -82,7 +77,8 @@ public class PersonaController implements ActionListener, TableModelListener {
             p.setFecha_nac(fecha);
             p.setNumero_tel(Long.valueOf(numero_tel));
             p.setNumero_tel_opcional(numero_tel_opcional.isEmpty() ? 0L : Long.valueOf(numero_tel_opcional));
-            p.setDireccion(direccion);
+            p.setLocalidad(localidad);
+            p.setDireccion(barrio + " " + calle + " " + numCasa);
             p.setTuvo_covid(tuvo_covid);
             p.setTuvo_trasplantes(tiene_trasplantes);
             p.setFactores_riesgo(factores_riesgo);
@@ -103,7 +99,7 @@ public class PersonaController implements ActionListener, TableModelListener {
     }
 
     public int modificarPersona(Long dniBuscado, String nuevoDni, String apellido, String nombre, String fecha_nac,
-            String numero_tel, String numero_tel_opcional, String barrio, String calle, String numCasa,
+            String numero_tel, String numero_tel_opcional, String localidad, String direccion,
             boolean tuvo_covid, boolean tiene_trasplantes, String factores_riesgo) {
         int resultadoOperacion; //= FALLA;
         Persona p = null;
@@ -113,7 +109,6 @@ public class PersonaController implements ActionListener, TableModelListener {
         if (p == null) {
             LocalDate fecha = LocalDate.parse(fecha_nac);
             int edad = calcularEdad(fecha);
-            Direccion direccion = insertarDireccion(barrio, calle, numCasa);
             p = new Persona();
             p.setDni(Long.valueOf(nuevoDni));
             p.setApellido(apellido);
@@ -122,6 +117,7 @@ public class PersonaController implements ActionListener, TableModelListener {
             p.setFecha_nac(fecha);
             p.setNumero_tel(Long.valueOf(numero_tel));
             p.setNumero_tel_opcional(numero_tel_opcional.isEmpty() ? 0L : Long.valueOf(numero_tel_opcional));
+            p.setLocalidad(localidad);
             p.setDireccion(direccion);
             p.setTuvo_covid(tuvo_covid);
             p.setTuvo_trasplantes(tiene_trasplantes);
@@ -155,7 +151,7 @@ public class PersonaController implements ActionListener, TableModelListener {
 
             ventanaPersona.setPaginaComboBox(pag.getJcbCantidadRegistros());
             events();
-            ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
+            ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("3"));
         }
     }
 
@@ -169,24 +165,13 @@ public class PersonaController implements ActionListener, TableModelListener {
 
             ventanaPersona.setPaginaComboBox(pag.getJcbCantidadRegistros());
             events();
-            ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
+            ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("3"));
         }
     }
 
     private int calcularEdad(LocalDate birthdate) {
         LocalDate currentDate = LocalDate.now();
         return Period.between(birthdate, currentDate).getYears();
-    }
-
-    private Direccion insertarDireccion(String barrio, String calle, String numCasa) {
-        Direccion direccion = direccionRepos.buscarDireccion(barrio, calle, Integer.parseInt(numCasa));
-        if (direccion == null) {
-            boolean insercionDireccion = direccionRepos.insertar(barrio, calle, Integer.parseInt(numCasa));
-            if (insercionDireccion) {
-                direccion = direccionRepos.buscarDireccion(barrio, calle, Integer.parseInt(numCasa));
-            }
-        }
-        return direccion;
     }
 
     public JDialogPersona getVentana() {

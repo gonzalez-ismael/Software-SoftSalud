@@ -51,7 +51,7 @@ public class PaginarTabla {
             case MODO_PERSONA -> {
                 List<Persona> nuevaLista = this.listaDatos.subList(inicio, fin);
 
-                Object[] object = new Object[11];
+                Object[] object = new Object[12];
                 for (int i = 0; i < nuevaLista.size(); i++) {
                     object[0] = nuevaLista.get(i).getDni();
                     object[1] = nuevaLista.get(i).getApellido();
@@ -60,10 +60,11 @@ public class PaginarTabla {
                     object[4] = nuevaLista.get(i).getEdad();
                     object[5] = nuevaLista.get(i).getNumero_tel();
                     object[6] = nuevaLista.get(i).getNumero_tel_opcional();
-                    object[7] = nuevaLista.get(i).getDireccion().toString();
-                    object[8] = nuevaLista.get(i).isTuvo_trasplantes() ? "SI" : "NO";
+                    object[7] = nuevaLista.get(i).getLocalidad();
+                    object[8] = nuevaLista.get(i).getDireccion();
                     object[9] = nuevaLista.get(i).isTuvo_trasplantes() ? "SI" : "NO";
-                    object[10] = nuevaLista.get(i).getFactores_riesgo();
+                    object[10] = nuevaLista.get(i).isTuvo_trasplantes() ? "SI" : "NO";
+                    object[11] = nuevaLista.get(i).getFactores_riesgo();
                     table.addRow(object);
                 }
             }
