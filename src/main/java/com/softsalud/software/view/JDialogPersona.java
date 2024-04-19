@@ -742,9 +742,7 @@ public class JDialogPersona extends javax.swing.JDialog {
                     jtfTelCel.getText(),
                     jtfOpcionalTelCel.getText(),
                     jcbLocalidad.getSelectedItem().toString(),
-                    jtfBarrio.getText(),
-                    jtfCalle.getText(),
-                    jtfNumCasa.getText(),
+                    jtfBarrio.getText() + " " + jtfCalle.getText() + " " + jtfNumCasa.getText(),
                     jcbCovid.isSelected(),
                     jcbTrasplantes.isSelected(),
                     jtfFactoresRiesgo.getText());

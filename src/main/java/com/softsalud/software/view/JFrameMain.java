@@ -1,11 +1,13 @@
 package com.softsalud.software.view;
 
+import com.softsalud.software.excel.JDialogImportarPersonas;
 import com.softsalud.software.reporte.JDialogReporte;
 import com.softsalud.software.connection.ConnectionDB;
 import com.softsalud.software.controller.logic.PersonaController;
 import com.softsalud.software.reporte.ReporteController;
 import com.softsalud.software.controller.logic.VacunaController;
 import com.softsalud.software.controller.logic.VacunacionController;
+import com.softsalud.software.excel.ControladorExcel;
 import com.softsalud.software.persistence.repository.PersonaRepos;
 import com.softsalud.software.persistence.repository.VacunaRepos;
 import com.softsalud.software.persistence.repository.VacunacionRepos;
@@ -208,7 +210,9 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMReporteMenuActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        JDialogImportarPersonas importarDialog = new JDialogImportarPersonas(this, true);
+        personaController = new PersonaController(iPersonaRepos);
+        ControladorExcel excelController = new ControladorExcel(personaController);
+        JDialogImportarPersonas importarDialog = new JDialogImportarPersonas(this, true, excelController);
         importarDialog.setTitle("Menú para Importar Personas");
         importarDialog.setLocationRelativeTo(null);
         importarDialog.setVisible(true);

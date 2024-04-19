@@ -62,7 +62,7 @@ public class PersonaController implements ActionListener, TableModelListener {
     }
 
     public int agregarPersona(String dni, String apellido, String nombre, String fecha_nac,
-            String numero_tel, String numero_tel_opcional, String localidad, String barrio, String calle, String numCasa,
+            String numero_tel, String numero_tel_opcional, String localidad, String direccion,
             boolean tuvo_covid, boolean tiene_trasplantes, String factores_riesgo) {
         int resultadoOperacion;
         Persona p = personaRepos.buscarPersona(Long.valueOf(dni));
@@ -78,7 +78,7 @@ public class PersonaController implements ActionListener, TableModelListener {
             p.setNumero_tel(Long.valueOf(numero_tel));
             p.setNumero_tel_opcional(numero_tel_opcional.isEmpty() ? 0L : Long.valueOf(numero_tel_opcional));
             p.setLocalidad(localidad);
-            p.setDireccion(barrio + " " + calle + " " + numCasa);
+            p.setDireccion(direccion);
             p.setTuvo_covid(tuvo_covid);
             p.setTuvo_trasplantes(tiene_trasplantes);
             p.setFactores_riesgo(factores_riesgo);
