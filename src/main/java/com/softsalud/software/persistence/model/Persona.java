@@ -18,7 +18,7 @@ public class Persona {
     private String localidad; //RIO TURBIO - JULIA DEFOUR
     private String direccion;
     private boolean tuvo_covid;
-    private boolean tuvo_trasplantes;
+    private boolean tiene_trasplantes;
     private String factores_riesgo;
     private boolean visible;
 
@@ -27,7 +27,7 @@ public class Persona {
     }
 
     public Persona(Long dni, String apellido, String nombre, int edad, LocalDate fecha_nac, Long numero_tel, Long numero_tel_opcional,
-            String localidad, String direccion, boolean tuvo_covid, boolean tuvo_trasplantes, String factores_riesgo) {
+            String localidad, String direccion, boolean tuvo_covid, boolean tiene_trasplantes, String factores_riesgo) {
         this.dni = dni;
         this.apellido = apellido;
         this.nombre = nombre;
@@ -38,13 +38,13 @@ public class Persona {
         this.localidad = localidad;
         this.direccion = direccion;
         this.tuvo_covid = tuvo_covid;
-        this.tuvo_trasplantes = tuvo_trasplantes;
+        this.tiene_trasplantes = tiene_trasplantes;
         this.factores_riesgo = factores_riesgo;
     }
 
     @Override
     public String toString() {
-        return "Persona{" + "dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + ", edad=" + edad + ", fecha_nac=" + fecha_nac + ", numero_tel=" + numero_tel + ", numero_tel_opcional=" + numero_tel_opcional + ", localidad=" + localidad + ", direccion=" + direccion + ", tuvo_covid=" + tuvo_covid + ", tuvo_trasplantes=" + tuvo_trasplantes + ", factores_riesgo=" + factores_riesgo + ", visible=" + visible + '}';
+        return "Persona{" + "dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + ", edad=" + edad + ", fecha_nac=" + fecha_nac + ", numero_tel=" + numero_tel + ", numero_tel_opcional=" + numero_tel_opcional + ", localidad=" + localidad + ", direccion=" + direccion + ", tuvo_covid=" + tuvo_covid + ", tiene_trasplantes=" + tiene_trasplantes + ", factores_riesgo=" + factores_riesgo + '}';
     }
 
     public Long getDni() {
@@ -127,12 +127,12 @@ public class Persona {
         this.tuvo_covid = tuvo_covid;
     }
 
-    public boolean isTuvo_trasplantes() {
-        return tuvo_trasplantes;
+    public boolean isTiene_trasplantes() {
+        return tiene_trasplantes;
     }
 
-    public void setTuvo_trasplantes(boolean tuvo_trasplantes) {
-        this.tuvo_trasplantes = tuvo_trasplantes;
+    public void setTiene_trasplantes(boolean tiene_trasplantes) {
+        this.tiene_trasplantes = tiene_trasplantes;
     }
 
     public String getFactores_riesgo() {

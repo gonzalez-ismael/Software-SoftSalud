@@ -62,8 +62,8 @@ public class PaginarTabla {
                     object[6] = nuevaLista.get(i).getNumero_tel_opcional();
                     object[7] = nuevaLista.get(i).getLocalidad();
                     object[8] = nuevaLista.get(i).getDireccion();
-                    object[9] = nuevaLista.get(i).isTuvo_trasplantes() ? "SI" : "NO";
-                    object[10] = nuevaLista.get(i).isTuvo_trasplantes() ? "SI" : "NO";
+                    object[9] = nuevaLista.get(i).isTuvo_covid() ? "SI" : "NO";
+                    object[10] = nuevaLista.get(i).isTiene_trasplantes() ? "SI" : "NO";
                     object[11] = nuevaLista.get(i).getFactores_riesgo();
                     table.addRow(object);
                 }

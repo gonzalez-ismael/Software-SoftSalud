@@ -14,10 +14,15 @@ import com.softsalud.software.persistence.repository.VacunacionRepos;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.border.Border;
 
 /**
  *
@@ -35,7 +40,7 @@ public class JFrameMain extends javax.swing.JFrame {
 
     public JFrameMain(ConnectionDB connection) {
         initComponents();
-        this.setTitle("Menú Principal - SoftSalud.inc | LP 2023 - ADES - UART - UNPA");
+        personalizarMenu();
 
         this.connection = connection;
         iVacunaRepos = new VacunaRepos(this.connection.getConnection());
@@ -59,44 +64,30 @@ public class JFrameMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        labelImage = new javax.swing.JLabel();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        labelImagenFondo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuPrincipal = new javax.swing.JMenu();
         JMPersonaMenu = new javax.swing.JMenuItem();
         JMVacunaMenu = new javax.swing.JMenuItem();
         JMVacunacionMenu = new javax.swing.JMenuItem();
-        JMReporteMenu = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        JMReporteMenu = new javax.swing.JMenuItem();
+        JMImportarDatosPersona = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        JMManualUsuario = new javax.swing.JMenuItem();
+        JMAboutUs = new javax.swing.JMenuItem();
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FINAL LP 2023");
+        setIconImage(getIconImage());
+        setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        labelImagenFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/HOSPITAL RIO TURBIO.png"))); // NOI18N
 
-        labelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo soft salud horizontal - chikito.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
-        );
-
-        jMenu1.setText("Menú");
+        jMenuPrincipal.setText("Administración");
 
         JMPersonaMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         JMPersonaMenu.setText("Persona");
@@ -105,7 +96,7 @@ public class JFrameMain extends javax.swing.JFrame {
                 JMPersonaMenuActionPerformed(evt);
             }
         });
-        jMenu1.add(JMPersonaMenu);
+        jMenuPrincipal.add(JMPersonaMenu);
 
         JMVacunaMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
         JMVacunaMenu.setText("Vacuna");
@@ -114,7 +105,7 @@ public class JFrameMain extends javax.swing.JFrame {
                 JMVacunaMenuActionPerformed(evt);
             }
         });
-        jMenu1.add(JMVacunaMenu);
+        jMenuPrincipal.add(JMVacunaMenu);
 
         JMVacunacionMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         JMVacunacionMenu.setText("Vacunación");
@@ -123,7 +114,11 @@ public class JFrameMain extends javax.swing.JFrame {
                 JMVacunacionMenuActionPerformed(evt);
             }
         });
-        jMenu1.add(JMVacunacionMenu);
+        jMenuPrincipal.add(JMVacunacionMenu);
+
+        jMenuBar1.add(jMenuPrincipal);
+
+        jMenu2.setText("Opciones Adicionales");
 
         JMReporteMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
         JMReporteMenu.setText("Reportes");
@@ -132,27 +127,32 @@ public class JFrameMain extends javax.swing.JFrame {
                 JMReporteMenuActionPerformed(evt);
             }
         });
-        jMenu1.add(JMReporteMenu);
+        jMenu2.add(JMReporteMenu);
 
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Configuración");
-
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        jMenuItem1.setText("Importar Datos de Personas");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        JMImportarDatosPersona.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        JMImportarDatosPersona.setText("Importar datos de personas");
+        JMImportarDatosPersona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                JMImportarDatosPersonaActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMenu2.add(JMImportarDatosPersona);
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("Personalización");
-        jMenuBar1.add(jMenu4);
+        jMenu3.setText("Asistencia y Apoyo");
 
-        jMenu3.setText("Acerca de Nosotros");
+        JMManualUsuario.setText("Manual de usuario");
+        jMenu3.add(JMManualUsuario);
+
+        JMAboutUs.setText("Acerca de nosotros");
+        JMAboutUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JMAboutUsActionPerformed(evt);
+            }
+        });
+        jMenu3.add(JMAboutUs);
+
         jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
@@ -163,15 +163,14 @@ public class JFrameMain extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(labelImagenFondo)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(labelImagenFondo)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -202,21 +201,28 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMVacunacionMenuActionPerformed
 
     private void JMReporteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMReporteMenuActionPerformed
-        ReporteController reporteController = new ReporteController(iVacunaRepos);
+        ReporteController reporteController = new ReporteController(iPersonaRepos, iVacunaRepos);
         JDialogReporte reportDialog = new JDialogReporte(this, true, reporteController);
         reportDialog.setTitle("Menú de Reportes");
         reportDialog.setLocationRelativeTo(null);
         reportDialog.setVisible(true);
     }//GEN-LAST:event_JMReporteMenuActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void JMImportarDatosPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMImportarDatosPersonaActionPerformed
         personaController = new PersonaController(iPersonaRepos);
         ControladorExcel excelController = new ControladorExcel(personaController);
         JDialogImportarPersonas importarDialog = new JDialogImportarPersonas(this, true, excelController);
         importarDialog.setTitle("Menú para Importar Personas");
         importarDialog.setLocationRelativeTo(null);
         importarDialog.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_JMImportarDatosPersonaActionPerformed
+
+    private void JMAboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMAboutUsActionPerformed
+        JDialogAboutUs sobreNos = new JDialogAboutUs(this, true);
+        sobreNos.setTitle("Acerca de Nosotros");
+        sobreNos.setLocationRelativeTo(null);
+        sobreNos.setVisible(true);
+    }//GEN-LAST:event_JMAboutUsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,18 +263,38 @@ public class JFrameMain extends javax.swing.JFrame {
         });
     }
 
+    @Override
+    public Image getIconImage() {
+        String ruta = "images/logoSimple.png";
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource(ruta));
+        return retValue;
+    }
+
+    private void personalizarMenu() {
+        String titulo = "Menú Principal - SoftSalud.inc | LP 2023 - ADES - UART - UNPA";
+        this.setTitle(titulo);
+
+        // Define el tamaño del borde (en píxeles)
+        int tamañoBorde = 5;
+        // Crea un borde negro sólido con el tamaño especificado
+        Border borde = BorderFactory.createLineBorder(Color.PINK, tamañoBorde);
+        // Establece el borde al JLabel
+        labelImagenFondo.setBorder(borde);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem JMAboutUs;
+    private javax.swing.JMenuItem JMImportarDatosPersona;
+    private javax.swing.JMenuItem JMManualUsuario;
     private javax.swing.JMenuItem JMPersonaMenu;
     private javax.swing.JMenuItem JMReporteMenu;
     private javax.swing.JMenuItem JMVacunaMenu;
     private javax.swing.JMenuItem JMVacunacionMenu;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel labelImage;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenu jMenuPrincipal;
+    private javax.swing.JLabel labelImagenFondo;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,7 +1,9 @@
 package com.softsalud.software.reporte;
 
 import com.softsalud.software.connection.ConnectionDB;
+import com.softsalud.software.persistence.model.Persona;
 import com.softsalud.software.persistence.model.Vacuna;
+import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -25,38 +27,58 @@ import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
  */
 public class GeneradorReporte {
 
+    private final IPersonaRepository personaRepos;
     private final IVacunaRepository vacunaRepos;
-//    private IDoseHistoryRepository doseRepos;
 
-    public GeneradorReporte(IVacunaRepository vacunaRepos) {
+    public GeneradorReporte(IPersonaRepository personaRepos, IVacunaRepository vacunaRepos) {
+        this.personaRepos = personaRepos;
         this.vacunaRepos = vacunaRepos;
     }
 
-    public void generarListaVacunasPDF(String jrxml, String outputName) {
+    public boolean generarListaPersonasPDF(String jrxml, String outputName){
+        try {
+            List<Persona> listaPersonas = personaRepos.listarPersonas();
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaPersonas);
+            JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
+            JasperExportManager.exportReportToPdfFile(jasperPrint,outputName);
+            return true;
+        } catch (JRException ex) {
+            Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, "Error al generar el informe PDF.",  ex);
+            return false;
+        }
+    }
+    
+    
+    public boolean generarListaVacunasPDF(String jrxml, String outputName) {
         try {
             List<Vacuna> listaVacunas = vacunaRepos.listarVacunas();
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaVacunas);
             JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
             JasperExportManager.exportReportToPdfFile(jasperPrint, outputName);
+            return true;
         } catch (JRException ex) {
             Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, "Error al generar el informe PDF.", ex);
+            return false;
         }
     }
 
-    public void generarListaVacunasHTML(String jrxml, String outputName) {
+    public boolean generarListaVacunasHTML(String jrxml, String outputName) {
         try {
             List<Vacuna> listaVacunas = vacunaRepos.listarVacunas();
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaVacunas);
             JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
             JasperExportManager.exportReportToHtmlFile(jasperPrint, outputName);
+            return true;
         } catch (JRException ex) {
             Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, "Error al generar el informe HTML.", ex);
+            return false;
         }
     }
 
-    public void generarListaVacunasXLS(String jrxml, String outputName) {
+    public boolean generarListaVacunasXLS(String jrxml, String outputName) {
         try {
             List<Vacuna> listaVacunas = vacunaRepos.listarVacunas();
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaVacunas);
@@ -75,8 +97,10 @@ public class GeneradorReporte {
             exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
             exporterXLS.setParameter(JRXlsExporterParameter.IS_IGNORE_GRAPHICS, Boolean.FALSE);
             exporterXLS.exportReport();
+            return true;
         } catch (JRException ex) {
             Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, "Error al generar el informe XLS.", ex);
+            return false;
         }
     }
 

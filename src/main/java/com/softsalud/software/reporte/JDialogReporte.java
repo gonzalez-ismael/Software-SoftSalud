@@ -1,6 +1,5 @@
 package com.softsalud.software.reporte;
 
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
 /**
@@ -36,17 +35,21 @@ public class JDialogReporte extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        btnListarPersonasPorVacuna = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jtfNombreListaVacunacion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btnListarVacunas = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
         jtfNombreListaVacunas = new javax.swing.JTextField();
         jtfNombreVacuna = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea = new javax.swing.JTextArea();
+        jLabel8 = new javax.swing.JLabel();
+        btnListarPersonas = new javax.swing.JButton();
+        jtfNombreListaPersonas = new javax.swing.JTextField();
+        btnListarPersonasPorVacuna = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBoxExtensiones = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -98,20 +101,13 @@ public class JDialogReporte extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnListarPersonasPorVacuna.setText("Generar");
-        btnListarPersonasPorVacuna.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListarPersonasPorVacunaActionPerformed(evt);
-            }
-        });
-
         jLabel4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(44, 62, 80));
         jLabel4.setText("Reporte de todas las personas por vacuna (param) : ");
 
         jLabel5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(44, 62, 80));
-        jLabel5.setText("Reporte de todas las vacunas (simple) : ");
+        jLabel5.setText("Reporte con todas las vacunas registradas: ");
 
         btnListarVacunas.setText("Generar");
         btnListarVacunas.addActionListener(new java.awt.event.ActionListener() {
@@ -120,50 +116,83 @@ public class JDialogReporte extends javax.swing.JDialog {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(44, 62, 80));
-        jLabel8.setText("<html><div style='text-align: center;'>  Ingrese el nombre de su archivo y a continuación,<br>presionar en el botón al costado para generar el documento.  </div></html>");
-
         jLabel7.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(44, 62, 80));
         jLabel7.setText("Nombre Vacuna : ");
+
+        jTextArea.setEditable(false);
+        jTextArea.setBackground(new java.awt.Color(255, 255, 255));
+        jTextArea.setColumns(20);
+        jTextArea.setFont(new java.awt.Font("Roboto", 2, 12)); // NOI18N
+        jTextArea.setForeground(new java.awt.Color(0, 0, 0));
+        jTextArea.setLineWrap(true);
+        jTextArea.setRows(1);
+        jTextArea.setTabSize(1);
+        jTextArea.setText("\n        Ingrese el nombre de su archivo y a continuación, presionar en\n                      botón al costado para generar el documento.");
+        jTextArea.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(jTextArea);
+
+        jLabel8.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(44, 62, 80));
+        jLabel8.setText("Reporte con todas las personas registradas: ");
+
+        btnListarPersonas.setText("Generar");
+        btnListarPersonas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarPersonasActionPerformed(evt);
+            }
+        });
+
+        btnListarPersonasPorVacuna.setText("Generar");
+        btnListarPersonasPorVacuna.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarPersonasPorVacunaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jtfNombreVacuna))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(jtfNombreListaVacunacion)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnListarPersonasPorVacuna))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addGap(63, 63, 63)))
+                    .addComponent(jLabel8)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jtfNombreListaPersonas, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnListarPersonas))
+                    .addComponent(jLabel5)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtfNombreVacuna))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jtfNombreListaVacunacion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnListarPersonasPorVacuna))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jtfNombreListaVacunas, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnListarVacunas)))
-                        .addContainerGap(53, Short.MAX_VALUE))))
+                        .addComponent(jtfNombreListaVacunas, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnListarVacunas))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtfNombreListaPersonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnListarPersonas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -180,14 +209,12 @@ public class JDialogReporte extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfNombreListaVacunacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnListarPersonasPorVacuna))
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
-
-        jLabel8.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pdf", "html", "xls" }));
+        jComboBoxExtensiones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pdf", "html", "xls" }));
 
         jLabel6.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(44, 62, 80));
@@ -201,7 +228,7 @@ public class JDialogReporte extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBoxExtensiones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -210,7 +237,7 @@ public class JDialogReporte extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxExtensiones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -246,18 +273,36 @@ public class JDialogReporte extends javax.swing.JDialog {
 
     private void btnListarVacunasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarVacunasActionPerformed
         String nombreArchivo = jtfNombreListaVacunas.getText();
-        String seleccionExtension = jComboBox1.getSelectedItem().toString();
+        String seleccionExtension = jComboBoxExtensiones.getSelectedItem().toString();
         if (nombreArchivo != null) {
-            controller.generarReporteVacunas(nombreArchivo, seleccionExtension);
+            if(controller.generarReporteVacunas(nombreArchivo, seleccionExtension)){
+                JOptionPane.showMessageDialog(null, "Archivo creado exitosamente.", "Todo Correcto", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                mostrarMensajeDatosInvalidos("Error inesperado.");
+            }
         } else {
             mostrarMensajeDatosInvalidos();
         }
     }//GEN-LAST:event_btnListarVacunasActionPerformed
 
+    private void btnListarPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarPersonasActionPerformed
+        String nombreArchivo = jtfNombreListaPersonas.getText();
+        String seleccionExtension = jComboBoxExtensiones.getSelectedItem().toString();
+        if (nombreArchivo != null) {
+            if(controller.generarReportePersonas(nombreArchivo, seleccionExtension)){
+                JOptionPane.showMessageDialog(null, "Archivo creado exitosamente.", "Todo Correcto", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                mostrarMensajeDatosInvalidos("Error inesperado.");
+            }
+        } else {
+            mostrarMensajeDatosInvalidos();
+        }
+    }//GEN-LAST:event_btnListarPersonasActionPerformed
+
     private void btnListarPersonasPorVacunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarPersonasPorVacunaActionPerformed
         String nombreArchivo = jtfNombreListaVacunacion.getText();
         String nombreVacuna = jtfNombreVacuna.getText();
-        String seleccionExtension = jComboBox1.getSelectedItem().toString();
+        String seleccionExtension = jComboBoxExtensiones.getSelectedItem().toString();
         if (sonDatosValidos(nombreArchivo, nombreVacuna)) {
             controller.generarReportePersonasPorVacuna(nombreVacuna, nombreArchivo, seleccionExtension);
         } else {
@@ -267,6 +312,12 @@ public class JDialogReporte extends javax.swing.JDialog {
 
     private void mostrarMensajeDatosInvalidos() {
         String mensaje = "Faltan ingresar datos. Revise e intente de nuevo.";
+        String titulo = "Error";
+        int tipoMensaje = JOptionPane.ERROR_MESSAGE;
+        JOptionPane.showMessageDialog(rootPane, mensaje, titulo, tipoMensaje);
+    }
+    
+    private void mostrarMensajeDatosInvalidos(String mensaje){
         String titulo = "Error";
         int tipoMensaje = JOptionPane.ERROR_MESSAGE;
         JOptionPane.showMessageDialog(rootPane, mensaje, titulo, tipoMensaje);
@@ -282,9 +333,10 @@ public class JDialogReporte extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnListarPersonas;
     private javax.swing.JButton btnListarPersonasPorVacuna;
     private javax.swing.JButton btnListarVacunas;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBoxExtensiones;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -296,6 +348,9 @@ public class JDialogReporte extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea;
+    private javax.swing.JTextField jtfNombreListaPersonas;
     private javax.swing.JTextField jtfNombreListaVacunacion;
     private javax.swing.JTextField jtfNombreListaVacunas;
     private javax.swing.JTextField jtfNombreVacuna;

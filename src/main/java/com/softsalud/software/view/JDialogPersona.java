@@ -634,7 +634,7 @@ public class JDialogPersona extends javax.swing.JDialog {
             jtfOpcionalTelCel.setText(p.getNumero_tel_opcional().toString());
             jtfBarrio.setText(p.getDireccion());
             jcbCovid.setSelected(p.isTuvo_covid());
-            jcbTrasplantes.setSelected(p.isTuvo_trasplantes());
+            jcbTrasplantes.setSelected(p.isTiene_trasplantes());
             jtfFactoresRiesgo.setText(p.getFactores_riesgo());
             jtfCalle.setEnabled(false);
             jtfNumCasa.setEnabled(false);

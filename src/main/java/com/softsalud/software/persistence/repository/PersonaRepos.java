@@ -42,7 +42,7 @@ public class PersonaRepos implements IPersonaRepository {
             pstmt.setString(7, persona.getLocalidad());
             pstmt.setString(8, persona.getDireccion());
             pstmt.setBoolean(9, persona.isTuvo_covid());
-            pstmt.setBoolean(10, persona.isTuvo_trasplantes());
+            pstmt.setBoolean(10, persona.isTiene_trasplantes());
             pstmt.setString(11, persona.getFactores_riesgo());
             if (pstmt.executeUpdate() == EXITO) {
                 resultadoOperacion = EXITO;
@@ -71,7 +71,7 @@ public class PersonaRepos implements IPersonaRepository {
             pstmt.setString(7, persona.getLocalidad());
             pstmt.setString(8, persona.getDireccion());
             pstmt.setBoolean(9, persona.isTuvo_covid());
-            pstmt.setBoolean(10, persona.isTuvo_trasplantes());
+            pstmt.setBoolean(10, persona.isTiene_trasplantes());
             pstmt.setString(11, persona.getFactores_riesgo());
             pstmt.setLong(12, buscado);
             if (pstmt.executeUpdate() == EXITO) {
@@ -144,7 +144,7 @@ public class PersonaRepos implements IPersonaRepository {
                 p.setLocalidad(rs.getString("localidad"));
                 p.setDireccion(rs.getString("direccion"));
                 p.setTuvo_covid(rs.getBoolean("tuvo_covid"));
-                p.setTuvo_trasplantes(rs.getBoolean("tiene_trasplantes"));
+                p.setTiene_trasplantes(rs.getBoolean("tiene_trasplantes"));
                 p.setFactores_riesgo(rs.getString("factores_riesgo"));
                 personas.add(p);
             }
@@ -180,7 +180,7 @@ public class PersonaRepos implements IPersonaRepository {
                 persona.setLocalidad(rs.getString("localidad"));
                 persona.setDireccion(rs.getString("direccion"));
                 persona.setTuvo_covid(rs.getBoolean("tuvo_covid"));
-                persona.setTuvo_trasplantes(rs.getBoolean("tiene_trasplantes"));
+                persona.setTiene_trasplantes(rs.getBoolean("tiene_trasplantes"));
                 persona.setFactores_riesgo(rs.getString("factores_riesgo"));
             }
             rs.close();
@@ -216,7 +216,7 @@ public class PersonaRepos implements IPersonaRepository {
                 p.setLocalidad(rs.getString("localidad"));
                 p.setDireccion(rs.getString("direccion"));
                 p.setTuvo_covid(rs.getBoolean("tuvo_covid"));
-                p.setTuvo_trasplantes(rs.getBoolean("tiene_trasplantes"));
+                p.setTiene_trasplantes(rs.getBoolean("tiene_trasplantes"));
                 p.setFactores_riesgo(rs.getString("factores_riesgo"));
                 personas.add(p);
             }
@@ -254,7 +254,7 @@ public class PersonaRepos implements IPersonaRepository {
                 p.setLocalidad(rs.getString("localidad"));
                 p.setDireccion(rs.getString("direccion"));
                 p.setTuvo_covid(rs.getBoolean("tuvo_covid"));
-                p.setTuvo_trasplantes(rs.getBoolean("tiene_trasplantes"));
+                p.setTiene_trasplantes(rs.getBoolean("tiene_trasplantes"));
                 p.setFactores_riesgo(rs.getString("factores_riesgo"));
                 personas.add(p);
             }

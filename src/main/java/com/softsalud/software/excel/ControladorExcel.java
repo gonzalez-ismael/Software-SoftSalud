@@ -9,8 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
@@ -112,62 +111,42 @@ public class ControladorExcel {
         return respuesta;
     }
 
-    public void mostrarTabla(String[][] datos, JProgressBar carga) {
+    public int[] insertarPersonas(String[][] datos, JProgressBar carga, int[] resultados) {
+        AtomicInteger cantIngresados = new AtomicInteger(0);
+        AtomicInteger cantRepetidos = new AtomicInteger(0);
+        AtomicInteger cantFallidos = new AtomicInteger(0);
+        AtomicInteger totalRegistros = new AtomicInteger(datos.length);
+        
         Thread hilo = new Thread() {
             @Override
             public void run() {
-                int totalRegistros = datos.length * datos[0].length;
                 int progreso = 0;
-
-                for (int i = 0; i < datos.length; i++) {
-                    for (int j = 0; j < datos[i].length; j++) {
-                        // Realizar aquí la instrucción para cada registro
-                        // Por ejemplo, puedes actualizar una tabla o cualquier otro componente de la interfaz de usuario
-                        System.out.print(datos[i][j] + " ");
-                        // Simulación de procesamiento
-                        try {
-                            Thread.sleep(1); // Simulación de un proceso que tarda un tiempo
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(ControladorExcel.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                        progreso++;
-                        int valor = (int) (((double) progreso / totalRegistros) * 100);
-                        carga.setValue(valor);
+                for (String[] registro : datos) {
+                    String fecha = registro[10] + "-" + agregarCero(Integer.parseInt(registro[9])) + "-" + agregarCero(Integer.parseInt(obtenerDia(registro[8])));
+                    int resultadoOperacion = personaController.agregarPersona(registro[3], registro[1], registro[2], fecha,
+                            registro[6], validarNumero(registro[7]), registro[5], registro[4],
+                            convertirBooleano(registro[11]), convertirBooleano(registro[12]), registro[13]);
+                    switch (resultadoOperacion) {
+                        case 1 -> cantIngresados.incrementAndGet();
+                        case 2 -> cantRepetidos.incrementAndGet();
+                        case -1 -> cantFallidos.incrementAndGet();
                     }
-                    System.out.println("");
+                    
+                    progreso++;
+                    int valor = (int) (((double) progreso / totalRegistros.get()) * 100);
+                    carga.setValue(valor);
                 }
-                JOptionPane.showMessageDialog(null, "Operación Finalizada");
             }
         };
         hilo.start();
-    }
-
-    public void insertarPersonas(String[][] datos, JProgressBar carga) {
-        int cantIngresados = 0, cantRepetidos = 0, cantFallidos = 0, cantTotal = 0;
-        int resultadoOperacion;
-        cantTotal = (datos.length * datos[0].length);
-        for (String[] registro : datos) {
-
-            String fecha = registro[10] + "-" + agregarCero(Integer.parseInt(registro[9])) + "-" + agregarCero(Integer.parseInt(obtenerDia(registro[8])));
-            resultadoOperacion = personaController.agregarPersona(registro[3], registro[1], registro[2], fecha,
-                    registro[6], validarNumero(registro[7]), registro[5], registro[4],
-                    convertirBooleano(registro[11]), convertirBooleano(registro[12]), registro[13]);
-//            System.out.println("Registro 1: " + registro[3] + ", " + registro[1] + ", " + registro[2] + ", " + fecha + ", " +
-//                    registro[6] + ", " + registro[7] + ", " + registro[5] + ", " + registro[4] + ", " + 
-//                    Boolean.parseBoolean(registro[8]) + ", " + Boolean.parseBoolean(registro[9]) + ", " + registro[10]);
-            switch (resultadoOperacion) {
-                case 1 ->
-                    cantIngresados++;
-                case 2 ->
-                    cantRepetidos++;
-                case -1 ->
-                    cantFallidos++;
-            }
-        }
-        System.out.println("\nCantidad de personas ingresadas: " + cantIngresados);
-        System.out.println("\nCantidad de personas repetidas: " + cantRepetidos);
-        System.out.println("\nCantidad de personas fallidas: " + cantFallidos);
+        
+        JOptionPane.showMessageDialog(null, "Operación Finalizada");
+        
+        resultados[0] = cantIngresados.get();
+        resultados[1] = cantRepetidos.get();
+        resultados[2] = cantFallidos.get();
+        resultados[3] = totalRegistros.get();
+        return resultados;
     }
 
     private boolean convertirBooleano(String texto) {

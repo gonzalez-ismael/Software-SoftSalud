@@ -1,6 +1,5 @@
 package com.softsalud.software.excel;
 
-import com.softsalud.software.controller.logic.PersonaController;
 import java.io.File;
 import java.util.Arrays;
 import javax.swing.JFileChooser;
@@ -29,7 +28,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         super(parent, modal);
         this.controlador = controlador;
         initComponents();
-        AgregarFiltro();
+        agregarFiltro();
     }
 
     /**
@@ -49,6 +48,8 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaResultados = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -87,15 +88,24 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 43, 45)), "Resultados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Roboto", 1, 12), new java.awt.Color(0, 51, 51))); // NOI18N
         jPanel2.setForeground(new java.awt.Color(0, 0, 0));
 
+        jTextAreaResultados.setColumns(20);
+        jTextAreaResultados.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaResultados);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 189, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -182,6 +192,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
                 datos = controlador.Importar(archivo);
                 jTextField1.setText(archivo.getName());
                 ProgressBarCarga.setValue(0);
+                jTextAreaResultados.setText(" ");
                 JOptionPane.showMessageDialog(null, "Archivo selccionado exitosamente");
             } else {
                 JOptionPane.showConfirmDialog(null, "Elija un formato válido.");
@@ -194,15 +205,24 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         int opcion = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
             String[][] datosSincabecera = Arrays.copyOfRange(datos, 1, datos.length);
-            controlador.insertarPersonas(datosSincabecera, ProgressBarCarga);
+            int[] resultados = new int[4];
+            resultados = controlador.insertarPersonas(datosSincabecera, ProgressBarCarga, resultados);
+            insertarResultadosTextArea(resultados);
         } else {
             JOptionPane.showMessageDialog(null, "Inserción cancelada");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void AgregarFiltro() {
+    private void agregarFiltro() {
         seleccionArchivo.setFileFilter(new FileNameExtensionFilter("Excel (*.xls)", "xls"));
         seleccionArchivo.setFileFilter(new FileNameExtensionFilter("Excel (*.xlsx)", "xlsx"));
+    }
+
+    private void insertarResultadosTextArea(int[] resultados) {
+        jTextAreaResultados.setText("Cantidad de personas ingresadas: " + resultados[0] + "\n");
+        jTextAreaResultados.append("Cantidad de personas repetidas - no ingresadas: " + resultados[1] + "\n");
+        jTextAreaResultados.append("Cantidad de personas fallidas - no ingresadas: " + resultados[2] + "\n");
+        jTextAreaResultados.append("Cantidad de Total de personas: " + resultados[3] + "\n");
     }
 
     public JFileChooser getSeleccionArchivo() {
@@ -220,8 +240,10 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextArea jTextAreaResultados;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel jlTittle;
     // End of variables declaration//GEN-END:variables

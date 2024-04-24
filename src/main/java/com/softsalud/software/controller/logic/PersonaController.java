@@ -80,7 +80,7 @@ public class PersonaController implements ActionListener, TableModelListener {
             p.setLocalidad(localidad);
             p.setDireccion(direccion);
             p.setTuvo_covid(tuvo_covid);
-            p.setTuvo_trasplantes(tiene_trasplantes);
+            p.setTiene_trasplantes(tiene_trasplantes);
             p.setFactores_riesgo(factores_riesgo);
             resultadoOperacion = personaRepos.insertar(p);
         } else {
@@ -120,7 +120,7 @@ public class PersonaController implements ActionListener, TableModelListener {
             p.setLocalidad(localidad);
             p.setDireccion(direccion);
             p.setTuvo_covid(tuvo_covid);
-            p.setTuvo_trasplantes(tiene_trasplantes);
+            p.setTiene_trasplantes(tiene_trasplantes);
             p.setFactores_riesgo(factores_riesgo);
             resultadoOperacion = personaRepos.modificar(p, dniBuscado);
         } else {
