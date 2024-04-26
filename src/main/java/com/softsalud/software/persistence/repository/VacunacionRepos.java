@@ -7,7 +7,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +99,6 @@ public class VacunacionRepos implements IVacunacionRepository {
     public List<Vacunacion> listarVacunaciones() {
         List<Vacunacion> listado = null;
         try {
-//            String query = "Select * from historial_vacunacion";
             String query = """
                            Select p.dni, CONCAT(p.nombre, ' ', p.apellido) as nombre, v.nombre_vacuna, hp.lote_vacuna, hp.numero_dosis, hp.fecha_vacunacion, hp.lugar_vacunacion
                            from historial_vacunacion as hp
@@ -115,6 +113,32 @@ public class VacunacionRepos implements IVacunacionRepository {
                 v.setPersona_dni(rs.getLong("dni"));
                 v.setNombre_completo(rs.getString("nombre"));
                 v.setNombre_vacuna(rs.getString("nombre_vacuna"));
+                v.setLote_vacuna(rs.getString("lote_vacuna"));
+                v.setNumero_dosis(rs.getInt("numero_dosis"));
+                v.setFecha_vacunacion(rs.getDate("fecha_vacunacion").toLocalDate());
+                v.setLugar_vacunacion(rs.getString("lugar_vacunacion"));
+                listado.add(v);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
+    }
+    
+    @Override
+    public List<Vacunacion> listarVacunacionesCrudo() {
+        List<Vacunacion> listado = null;
+        try {
+            String query = "Select * from historial_vacunacion";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            listado = new ArrayList();
+            while (rs.next()) {
+                Vacunacion v = new Vacunacion();
+                v.setPersona_dni(rs.getLong("persona_dni"));
+                v.setVacuna_codigo(rs.getLong("vacuna_codigo"));
                 v.setLote_vacuna(rs.getString("lote_vacuna"));
                 v.setNumero_dosis(rs.getInt("numero_dosis"));
                 v.setFecha_vacunacion(rs.getDate("fecha_vacunacion").toLocalDate());

@@ -21,10 +21,12 @@ import javax.swing.event.TableModelListener;
  */
 public class PersonaController implements ActionListener, TableModelListener {
 
+    //CONSTANTES
+    private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3;
+    private final IPersonaRepository personaRepos;
+    //VARIABLES
     private JDialogPersona ventanaPersona;
     private PaginarTabla pag;
-    private final IPersonaRepository personaRepos;
-    private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3;
 
     public PersonaController(IPersonaRepository personaRepos) {
         this.personaRepos = personaRepos;

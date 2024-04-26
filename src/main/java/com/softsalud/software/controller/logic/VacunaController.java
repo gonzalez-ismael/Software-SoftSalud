@@ -18,10 +18,12 @@ import javax.swing.event.TableModelListener;
  */
 public class VacunaController implements ActionListener, TableModelListener {
 
+    //CONSTANTES
     private final IVacunaRepository vacunaRepos;
+    private final int EMPTY = -1;
+    //VARIABLES
     private JDialogVacuna ventanaVacuna;
     private PaginarTabla pag;
-    private final int EMPTY = -1;
 
     public VacunaController(IVacunaRepository vacunaRepos) {
         this.vacunaRepos = vacunaRepos;

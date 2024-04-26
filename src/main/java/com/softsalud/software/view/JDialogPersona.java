@@ -2,12 +2,8 @@ package com.softsalud.software.view;
 
 import com.softsalud.software.controller.logic.PersonaController;
 import com.softsalud.software.persistence.model.Persona;
+import static com.softsalud.software.view.validation.VistaValidacion.*;
 import java.awt.Color;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -24,7 +20,6 @@ public class JDialogPersona extends javax.swing.JDialog {
     private final PersonaController controller;
     private Long dniBuscado;
     private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3;
-    private final int DATETOSTRING = 4, STRINGTODATE = 5;
 
     /**
      * Creates new form JDialogPerson
@@ -807,7 +802,7 @@ public class JDialogPersona extends javax.swing.JDialog {
     }
 
     private void eventoBusquedaNomYApe() {
-// Agregamos un DocumentListener al dni
+        // Agregamos un DocumentListener al dni
         jtfSearchName.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -846,7 +841,7 @@ public class JDialogPersona extends javax.swing.JDialog {
             jtfTelCel.requestFocus();
             camposValidos = false;
         }
-        if (jtfFechaNac.getText().isEmpty() || !esFechaValida() || jtfFechaNac.getText().equals("Formato: DD-MM-AAAA, ej : 12-09-1998")) {
+        if (jtfFechaNac.getText().isEmpty() || !(esFechaValida(jtfFechaNac.getText())) || jtfFechaNac.getText().equals("Formato: DD-MM-AAAA, ej : 12-09-1998")) {
             jlErrorFechaNac.setText("Ingrese una fecha de nacimiento válida");
             jtfFechaNac.requestFocus();
             camposValidos = false;
@@ -861,92 +856,12 @@ public class JDialogPersona extends javax.swing.JDialog {
             jtfApellido.requestFocus();
             camposValidos = false;
         }
-        if (jtfDNI.getText().isEmpty() || !esDNIMayorMillon()) {
+        if (jtfDNI.getText().isEmpty() || !(esDNIMayorMillon(jtfDNI.getText()))) {
             jlErrorDni.setText("Ingresar un número de DNI válido");
             jtfDNI.requestFocus();
             camposValidos = false;
         }
         return camposValidos;
-    }
-
-    private boolean esFechaValida() {
-        return (esEstructuraFechaValido() && esFormatoFechaValido()
-                && esFechaMenorHoy() && esFechaMayor1900());
-    }
-
-    private boolean esEstructuraFechaValido() {
-        String textoIngresado = jtfFechaNac.getText();
-        return textoIngresado.matches("\\d{2}-\\d{2}-\\d{4}"); // Fecha en formato incorrecto
-    }
-
-    private boolean esFormatoFechaValido() {
-        String[] partesFecha = jtfFechaNac.getText().split("-");
-        int dia = Integer.parseInt(partesFecha[0]);
-        int mes = Integer.parseInt(partesFecha[1]);
-        int anio = Integer.parseInt(partesFecha[2]);
-
-        // Verificar si la fecha es válida según el calendario gregoriano
-        try {
-            LocalDate fechaIngresada = LocalDate.of(anio, mes, dia);
-            return true;
-        } catch (DateTimeException e) {
-            return false; // Fecha inválida
-        }
-    }
-
-    private boolean esFechaMenorHoy() {
-        String fechaFormateada = formatearFecha(jtfFechaNac.getText(), STRINGTODATE); // Convertir la fecha ingresada a un objeto LocalDate
-        LocalDate fechaIngresada = LocalDate.parse(fechaFormateada);
-        LocalDate fechaActual = LocalDate.now(); // Obtener la fecha actual
-        return fechaIngresada.isBefore(fechaActual) || fechaIngresada.equals(fechaActual);
-    }
-
-    private boolean esFechaMayor1900() {
-        String fechaFormateada = formatearFecha(jtfFechaNac.getText(), STRINGTODATE);
-        LocalDate fechaIngresada = LocalDate.parse(fechaFormateada); // Convertir la fecha ingresada a un objeto LocalDate
-        LocalDate fecha1900 = LocalDate.of(1900, 1, 1); // Crear una fecha para el año 1900
-        return fechaIngresada.isAfter(fecha1900) || fechaIngresada.equals(fecha1900);
-    }
-
-    private boolean esDNIMayorMillon() {
-        return (Long.parseLong(jtfDNI.getText()) > 1000000);
-    }
-
-    private void validarNumero(java.awt.event.KeyEvent evt) {
-        int ascii = evt.getKeyChar();
-        if (!(ascii >= 48 && ascii <= 57)) {
-            evt.consume();
-        }
-    }
-
-    private void validarLongitudCadena(java.awt.event.KeyEvent evt, javax.swing.JTextField array, int max) {
-        if (array.getText().length() >= max) {
-            evt.consume();
-        }
-    }
-
-    private String formatearFecha(String fechaOriginal, int modo) {
-        DateTimeFormatter formatoString = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate nuevaFecha;
-        try {
-            switch (modo) {
-                case STRINGTODATE -> {
-                    nuevaFecha = LocalDate.parse(fechaOriginal, formatoString);
-                    return nuevaFecha.format(formatoDate);
-                }
-                case DATETOSTRING -> {
-                    nuevaFecha = LocalDate.parse(fechaOriginal, formatoDate);
-                    return nuevaFecha.format(formatoString);
-                }
-                default -> {
-                    return fechaOriginal;
-                }
-            }
-        } catch (java.time.format.DateTimeParseException ex) {
-            Logger.getLogger(JDialogPersona.class.getName()).log(Level.SEVERE, null, ex);
-            return fechaOriginal;
-        }
     }
 
     private void mostrarMensajesError(int resultadoOperacion) {

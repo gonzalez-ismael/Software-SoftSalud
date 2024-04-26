@@ -11,7 +11,6 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>8.3.0</version>
         </dependency>
-        
         <dependency>
             <groupId>br.com.damsete</groupId>
             <artifactId>ireport</artifactId>
@@ -22,17 +21,11 @@
             <artifactId>log4j-core</artifactId>
             <version>2.20.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.5</version>
             <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>5.2.5</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jasperreports</groupId>

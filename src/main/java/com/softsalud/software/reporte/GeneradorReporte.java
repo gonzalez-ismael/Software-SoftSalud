@@ -5,7 +5,6 @@ import com.softsalud.software.persistence.model.Persona;
 import com.softsalud.software.persistence.model.Vacuna;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +26,8 @@ import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
  */
 public class GeneradorReporte {
 
+    //CONSTANTES
+    public static final int PDF = 1, HTML = 2, XLS = 3;
     private final IPersonaRepository personaRepos;
     private final IVacunaRepository vacunaRepos;
 
@@ -35,71 +36,48 @@ public class GeneradorReporte {
         this.vacunaRepos = vacunaRepos;
     }
 
-    public boolean generarListaPersonasPDF(String jrxml, String outputName){
-        try {
-            List<Persona> listaPersonas = personaRepos.listarPersonas();
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaPersonas);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
-            JasperExportManager.exportReportToPdfFile(jasperPrint,outputName);
-            return true;
-        } catch (JRException ex) {
-            Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, "Error al generar el informe PDF.",  ex);
-            return false;
-        }
+    public boolean generarListaPersonasMultiformato(String jrxml, String outputName, int tipoExtension) {
+        List<Persona> listaPersonas = personaRepos.listarPersonas();
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaPersonas);
+        return generarReporteMultiformato(jrxml, outputName, tipoExtension, dataSource);
     }
-    
-    
-    public boolean generarListaVacunasPDF(String jrxml, String outputName) {
+
+    public boolean generarListaVacunasMultiformato(String jrxml, String outputName, int tipoExtension) {
+        List<Vacuna> listaVacunas = vacunaRepos.listarVacunas();
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaVacunas);
+        return generarReporteMultiformato(jrxml, outputName, tipoExtension, dataSource);
+    }
+
+    private boolean generarReporteMultiformato(String jrxml, String outputName, int tipoExtension, JRBeanCollectionDataSource dataSource) {
         try {
-            List<Vacuna> listaVacunas = vacunaRepos.listarVacunas();
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaVacunas);
+            //Compilar el archivo jrxml a traves del compilador
             JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);
+            //Creamos el objeto a imprimir
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
-            JasperExportManager.exportReportToPdfFile(jasperPrint, outputName);
+            //Salida a formato
+            switch (tipoExtension) {
+                case PDF ->
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, outputName);
+                case HTML ->
+                    JasperExportManager.exportReportToHtmlFile(jasperPrint, outputName);
+                case XLS -> {
+                    JRXlsExporter exporterXLS = new JRXlsExporter();
+                    exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
+                    exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, outputName);
+                    exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.FALSE);
+                    exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+                    exporterXLS.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+                    exporterXLS.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+                    exporterXLS.setParameter(JRXlsExporterParameter.IS_IGNORE_CELL_BORDER, Boolean.FALSE);
+                    exporterXLS.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.FALSE);
+                    exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+                    exporterXLS.setParameter(JRXlsExporterParameter.IS_IGNORE_GRAPHICS, Boolean.FALSE);
+                    exporterXLS.exportReport();
+                }
+            }
             return true;
         } catch (JRException ex) {
             Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, "Error al generar el informe PDF.", ex);
-            return false;
-        }
-    }
-
-    public boolean generarListaVacunasHTML(String jrxml, String outputName) {
-        try {
-            List<Vacuna> listaVacunas = vacunaRepos.listarVacunas();
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaVacunas);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
-            JasperExportManager.exportReportToHtmlFile(jasperPrint, outputName);
-            return true;
-        } catch (JRException ex) {
-            Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, "Error al generar el informe HTML.", ex);
-            return false;
-        }
-    }
-
-    public boolean generarListaVacunasXLS(String jrxml, String outputName) {
-        try {
-            List<Vacuna> listaVacunas = vacunaRepos.listarVacunas();
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaVacunas);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
-
-            JRXlsExporter exporterXLS = new JRXlsExporter();
-            exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
-            exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, outputName);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.FALSE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_IGNORE_CELL_BORDER, Boolean.FALSE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.FALSE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_IGNORE_GRAPHICS, Boolean.FALSE);
-            exporterXLS.exportReport();
-            return true;
-        } catch (JRException ex) {
-            Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, "Error al generar el informe XLS.", ex);
             return false;
         }
     }
@@ -108,23 +86,17 @@ public class GeneradorReporte {
         try {
             //Se obtiene la conexion
             ConnectionDB conn = new ConnectionDB();
-            System.out.println("Conexion a: " + conn.getConnection().getCatalog());
-
             //MAP TIENE DOS COMPONENTES, UN STRING NOMBRE Y UN OBJETC (DATO)
             Map<String, Object> param = new HashMap();
             //CARGAR LOS PARAMETROS DE PARAM
             param.put("paramVaccineName", vaccineName);
 
-            //Compilar el archivo jrxml a traves del compilador
             JasperReport jr = JasperCompileManager.compileReport(jrxml);
-            //Creamos el objeto a imprimir
             JasperPrint jprint = JasperFillManager.fillReport(jr, param, conn.getConnection());
-            //Salida a formato
             JasperExportManager.exportReportToPdfFile(jprint, outputName);
 
             conn.closeConnection();
-
-        } catch (JRException | SQLException ex) {
+        } catch (JRException ex) {
             Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

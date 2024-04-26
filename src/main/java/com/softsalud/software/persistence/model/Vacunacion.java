@@ -30,6 +30,23 @@ public class Vacunacion {
         this.lugar_vacunacion = lugar_vacunacion;
     }
 
+    public String[] toStringPersonalizado() {
+        String[] vacunacion = {String.valueOf(persona_dni), String.valueOf(vacuna_codigo), lote_vacuna,
+            String.valueOf(numero_dosis), String.valueOf(fecha_vacunacion), lugar_vacunacion};
+        return vacunacion;
+    }
+
+    public String[] toStringTitulos() {
+        String[] vacunacion = {"persona_dni", "vacuna_codigo", "lote_vacuna",
+            "numero_dosis", "fecha_vacunacion", "lugar_vacunacion"};
+        return vacunacion;
+    }
+
+    @Override
+    public String toString() {
+        return "Vacunacion{" + "persona_dni=" + persona_dni + ", vacuna_codigo=" + vacuna_codigo + ", lote_vacuna=" + lote_vacuna + ", numero_dosis=" + numero_dosis + ", fecha_vacunacion=" + fecha_vacunacion + ", lugar_vacunacion=" + lugar_vacunacion + ", nombre_completo=" + nombre_completo + ", nombre_vacuna=" + nombre_vacuna + '}';
+    }
+
     public Long getPersona_dni() {
         return persona_dni;
     }

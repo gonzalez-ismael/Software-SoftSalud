@@ -14,6 +14,21 @@ public class Vacuna {
     public Vacuna(String nombreVacuna) {
         this.nombre_vacuna = nombreVacuna;
     }
+    
+    public String[] toStringPersonalizado() {
+        String[] vacuna = {String.valueOf(codigo),nombre_vacuna};
+        return vacuna;
+    }
+
+    public String[] toStringTitulos() {
+        String[] vacuna = {"codig","nombre_vacuna"};
+        return vacuna;
+    }
+
+    @Override
+    public String toString() {
+        return "Vacuna{" + "codigo=" + codigo + ", nombre_vacuna=" + nombre_vacuna + '}';
+    }
 
     public Long getCodigo() {
         return codigo;

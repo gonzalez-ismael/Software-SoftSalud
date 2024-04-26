@@ -22,10 +22,12 @@ import javax.swing.event.TableModelListener;
  */
 public class VacunacionController implements ActionListener, TableModelListener {
 
+    //CONSTANTES
     private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3, NOEXISTEPERSONA = 4, NOEXISTEVACUNA = 5;
     private final IVacunacionRepository vacunacionRepos;
     private final IPersonaRepository personaRepos;
     private final IVacunaRepository vacunaRepos;
+    //VARIABLES
     private JDialogVacunacion ventanaVacunacion;
     private PaginarTabla pag;
 

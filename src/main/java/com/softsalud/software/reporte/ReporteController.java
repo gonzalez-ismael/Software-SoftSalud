@@ -2,6 +2,7 @@ package com.softsalud.software.reporte;
 
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
+import static com.softsalud.software.reporte.GeneradorReporte.*;
 
 /**
  *
@@ -26,11 +27,11 @@ public class ReporteController {
         String jrxml = pathJrxml + "listaPersonas.jrxml";
         switch (extension) {
             case "pdf" ->
-                seGeneroReporte = generator.generarListaPersonasPDF(jrxml, outputName);
+                seGeneroReporte = generator.generarListaPersonasMultiformato(jrxml, outputName, PDF);
             case "html" ->
-                generator.generarListaVacunasHTML(jrxml, outputName);
+                seGeneroReporte = generator.generarListaPersonasMultiformato(jrxml, outputName, HTML);
             case "xls" ->
-                generator.generarListaVacunasXLS(jrxml, outputName);
+                seGeneroReporte = generator.generarListaPersonasMultiformato(jrxml, outputName, XLS);
             default ->
                 throw new AssertionError();
         }
@@ -44,11 +45,11 @@ public class ReporteController {
         String jrxml = pathJrxml + "listaVacunas.jrxml";
         switch (extension) {
             case "pdf" ->
-                seGeneroReporte = generator.generarListaVacunasPDF(jrxml, outputName);
+                seGeneroReporte = generator.generarListaVacunasMultiformato(jrxml, outputName,PDF);
             case "html" ->
-                seGeneroReporte = generator.generarListaVacunasHTML(jrxml, outputName);
+                seGeneroReporte = generator.generarListaVacunasMultiformato(jrxml, outputName,HTML);
             case "xls" ->
-                seGeneroReporte = generator.generarListaVacunasXLS(jrxml, outputName);
+                seGeneroReporte = generator.generarListaVacunasMultiformato(jrxml, outputName,XLS);
             default ->
                 throw new AssertionError();
         }

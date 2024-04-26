@@ -2,11 +2,8 @@ package com.softsalud.software.view;
 
 import com.softsalud.software.controller.logic.VacunacionController;
 import com.softsalud.software.persistence.model.Vacunacion;
-import java.time.DateTimeException;
+import static com.softsalud.software.view.validation.VistaValidacion.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -20,7 +17,6 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     private final VacunacionController controller;
     public JComboBox<Integer> paginaComboBox;
     private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3, NOEXISTEPERSONA = 4, NOEXISTEVACUNA = 5;
-    private final int DATETOSTRING = 4, STRINGTODATE = 5;
     private Long dniBuscado;
     private String marcaVacuna, loteVacuna;
 
@@ -617,7 +613,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     private boolean estanCamposCompletosYValidos() {
         boolean camposValidos = true;
         clearLabelError();
-        if (!jcbFechaActual.isSelected() && !esFechaValida() || jtfFechaVac.getText().equals("Formato: DD-MM-AAAA. Ej: 09-12-2018")) {
+        if (!jcbFechaActual.isSelected() && !(esFechaValida(jtfFechaVac.getText())) || jtfFechaVac.getText().equals("Formato: DD-MM-AAAA. Ej: 09-12-2018")) {
             jtfFechaVac.requestFocus();
             camposValidos = false;
         }
@@ -641,82 +637,6 @@ public class JDialogVacunacion extends javax.swing.JDialog {
 
     private void mostrarMensajeError(String mensaje, String titulo, int tipoMensaje) {
         JOptionPane.showMessageDialog(rootPane, mensaje, titulo, tipoMensaje);
-    }
-
-    private void validarNumero(java.awt.event.KeyEvent evt) {
-        int ascii = evt.getKeyChar();
-        if (!(ascii >= 48 && ascii <= 57)) {
-            evt.consume();
-        }
-    }
-
-    private void validarLongitudCadena(java.awt.event.KeyEvent evt, javax.swing.JTextField array, int max) {
-        if (array.getText().length() >= max) {
-            evt.consume();
-        }
-    }
-
-    private boolean esFechaValida() {
-        return (esEstructuraFechaValido() && esFormatoFechaValido()
-                && esFechaMenorHoy() && esFechaMayor1900());
-    }
-
-    private boolean esEstructuraFechaValido() {
-        String textoIngresado = jtfFechaVac.getText();
-        return textoIngresado.matches("\\d{2}-\\d{2}-\\d{4}"); // Fecha en formato incorrecto
-    }
-
-    private boolean esFormatoFechaValido() {
-        String[] partesFecha = jtfFechaVac.getText().split("-");
-        int dia = Integer.parseInt(partesFecha[0]);
-        int mes = Integer.parseInt(partesFecha[1]);
-        int anio = Integer.parseInt(partesFecha[2]);
-
-        // Verificar si la fecha es válida según el calendario gregoriano
-        try {
-            LocalDate fechaIngresada = LocalDate.of(anio, mes, dia);
-            return true;
-        } catch (DateTimeException e) {
-            return false; // Fecha inválida
-        }
-    }
-
-    private boolean esFechaMenorHoy() {
-        String fechaFormateada = formatearFecha(jtfFechaVac.getText(), STRINGTODATE); // Convertir la fecha ingresada a un objeto LocalDate
-        LocalDate fechaIngresada = LocalDate.parse(fechaFormateada);
-        LocalDate fechaActual = LocalDate.now(); // Obtener la fecha actual
-        return fechaIngresada.isBefore(fechaActual) || fechaIngresada.equals(fechaActual);
-    }
-
-    private boolean esFechaMayor1900() {
-        String fechaFormateada = formatearFecha(jtfFechaVac.getText(), STRINGTODATE);
-        LocalDate fechaIngresada = LocalDate.parse(fechaFormateada); // Convertir la fecha ingresada a un objeto LocalDate
-        LocalDate fecha1900 = LocalDate.of(1900, 1, 1); // Crear una fecha para el año 1900
-        return fechaIngresada.isAfter(fecha1900) || fechaIngresada.equals(fecha1900);
-    }
-
-    private String formatearFecha(String fechaOriginal, int modo) {
-        DateTimeFormatter formatoString = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate nuevaFecha;
-        try {
-            switch (modo) {
-                case STRINGTODATE -> {
-                    nuevaFecha = LocalDate.parse(fechaOriginal, formatoString);
-                    return nuevaFecha.format(formatoDate);
-                }
-                case DATETOSTRING -> {
-                    nuevaFecha = LocalDate.parse(fechaOriginal, formatoDate);
-                    return nuevaFecha.format(formatoString);
-                }
-                default -> {
-                    return fechaOriginal;
-                }
-            }
-        } catch (java.time.format.DateTimeParseException ex) {
-            Logger.getLogger(JDialogPersona.class.getName()).log(Level.SEVERE, null, ex);
-            return fechaOriginal;
-        }
     }
 
     private void ingresarFechaActual() {

@@ -16,22 +16,32 @@ import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Esta clase se encarga de subdividir la tabla de datos en distintos botones de navegacion
  *
  * @author Gonzalez Ismael
  */
 public class PaginarTabla {
 
+    //CONSTANTES PÚBLICAS
+    public static final int MODO_PERSONA = 99, MODO_VACUNA = 98, MODO_VACUNACION = 97;
+    //CONSTANTES PRIVADAS
+    private final int[] opcionesFilasPermitidas = {5, 10, 15, 25, 50, 75, 100};
+    private final int limiteSup = 7, modo;
     private final DefaultTableModel table;
     private final List listaDatos;
-    private final int[] opcionesFilasPermitidas = {5, 10, 15, 25, 50, 75, 100};
+    //VARIABLES
+    private JComboBox<Integer> jcbCantidadRegistros;
+    private JPanel panelBotones;
     private int cantFilasPermitidas;
     private int paginaActual = 1;
-    private final int limiteSup = 7, modo;
-    public static final int MODO_PERSONA = 99, MODO_VACUNA = 98, MODO_VACUNACION = 97;
 
-    private JPanel panelBotones;
-    private JComboBox<Integer> jcbCantidadRegistros;
-
+    /**
+     * Constructor de la clase
+     *
+     * @param tabla
+     * @param listaDatos
+     * @param modo
+     */
     public PaginarTabla(JTable tabla, List listaDatos, int modo) {
         this.table = (DefaultTableModel) tabla.getModel();
         this.listaDatos = listaDatos;
@@ -39,6 +49,9 @@ public class PaginarTabla {
         dividirTabla();
     }
 
+    /**
+     * Este método se encarga de dividir la tablas de datos segun su tipo de datos.
+     */
     private void dividirTabla() {
         limpiarTabla();
         int inicio = (paginaActual - 1) * this.cantFilasPermitidas, fin;
@@ -96,6 +109,11 @@ public class PaginarTabla {
         }
     }
 
+    /**
+     * Este método crea el panel contenedor de los botones, ademas de crear la dispercion y cantidad máxima de estos.
+     *
+     * @param panelPrincipal
+     */
     public void crearListadoFilasPermitidas(JPanel panelPrincipal) {
         this.panelBotones = new JPanel(new GridLayout(1, limiteSup, 3, 3));
         panelPrincipal.removeAll();
@@ -124,6 +142,9 @@ public class PaginarTabla {
         dividirTabla();
     }
 
+    /**
+     * Este método actualiza la cantidad de botones segun la cantidad de registros a mostrar.
+     */
     public void actualizarBotones() {
         panelBotones.removeAll();
         int totalFilas = listaDatos.size();
@@ -152,12 +173,24 @@ public class PaginarTabla {
         panelBotones.getParent().repaint();
     }
 
+    /**
+     * Este método crea los botones adicionales, en el caso de que se exceda el límite de botonoes.
+     *
+     * @return
+     */
     private JLabel crearElipses() {
         JLabel label = new JLabel("...");
         label.setHorizontalAlignment(JLabel.CENTER); // Centrar el texto horizontalmente
         return label;
     }
 
+    /**
+     * Este metodo crea una serie de botones con sus correspondientes números.
+     *
+     * @param panelPadre
+     * @param inicio
+     * @param fin
+     */
     private void agregarRangoBotones(JPanel panelPadre, int inicio, int fin) {
         int init = inicio;
         for (inicio = init; inicio <= fin; inicio++) {
@@ -165,6 +198,12 @@ public class PaginarTabla {
         }
     }
 
+    /**
+     * Este método es el responsable de crear botones individuales.
+     *
+     * @param panelPadre
+     * @param numeroPagina
+     */
     private void agregarBoton(JPanel panelPadre, int numeroPagina) {
         JToggleButton toggleButton = new JToggleButton(Integer.toString(numeroPagina));
         toggleButton.setMargin(new Insets(1, 3, 1, 3));
@@ -178,6 +217,9 @@ public class PaginarTabla {
         });
     }
 
+    /**
+     * Este método limpia la tabla de datos dejandola vacía.
+     */
     private void limpiarTabla() {
         this.table.setRowCount(0);
     }

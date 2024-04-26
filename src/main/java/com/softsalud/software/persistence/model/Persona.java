@@ -42,10 +42,25 @@ public class Persona {
         this.factores_riesgo = factores_riesgo;
     }
 
+    public String[] toStringPersonalizado() {
+        String[] persona = {String.valueOf(dni), apellido, nombre, String.valueOf(edad), fecha_nac.toString(),
+            String.valueOf(numero_tel), String.valueOf(numero_tel_opcional), localidad, direccion,
+            String.valueOf(tuvo_covid), String.valueOf(tiene_trasplantes), factores_riesgo};
+        return persona;
+    }
+
+    public String[] toStringTitulos() {
+        String[] persona = {"dni", "apellido", "nombre", "edad", "fecha_nac", "numero_tel", "numero_tel_opcional",
+            "localidad", "direccion", "tuvo_covid", "tiene_trasplantes", "factores_riesgo"};
+        return persona;
+    }
+
     @Override
     public String toString() {
-        return "Persona{" + "dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + ", edad=" + edad + ", fecha_nac=" + fecha_nac + ", numero_tel=" + numero_tel + ", numero_tel_opcional=" + numero_tel_opcional + ", localidad=" + localidad + ", direccion=" + direccion + ", tuvo_covid=" + tuvo_covid + ", tiene_trasplantes=" + tiene_trasplantes + ", factores_riesgo=" + factores_riesgo + '}';
+        return "Persona{" + "dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + ", edad=" + edad + ", fecha_nac=" + fecha_nac + ", numero_tel=" + numero_tel + ", numero_tel_opcional=" + numero_tel_opcional + ", localidad=" + localidad + ", direccion=" + direccion + ", tuvo_covid=" + tuvo_covid + ", tiene_trasplantes=" + tiene_trasplantes + ", factores_riesgo=" + factores_riesgo + ", visible=" + visible + '}';
     }
+    
+    
 
     public Long getDni() {
         return dni;

@@ -1,9 +1,8 @@
-package com.softsalud.software.excel;
+package com.softsalud.software.sheet;
 
 import com.softsalud.software.controller.logic.PersonaController;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,22 +11,19 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
-import javax.swing.JTable;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.xssf.usermodel.*;
 
 /**
  *
  * @author Gonzalez Ismael
  */
-public class ControladorExcel {
+public class ControladorImportarSheet {
 
-    private PersonaController personaController;
+    private final PersonaController personaController;
     private Workbook wb;
 
-    public ControladorExcel(PersonaController personaController) {
+    public ControladorImportarSheet(PersonaController personaController) {
         this.personaController = personaController;
     }
 
@@ -77,38 +73,6 @@ public class ControladorExcel {
             System.out.println("Clase: " + e.getClass());
             return null;
         }
-    }
-
-    public String Exportar(File archivo, JTable tablaD) {
-        String respuesta = "No se realizo correctamente la exportacion";
-        int numFila = tablaD.getRowCount(), numColum = tablaD.getColumnCount();
-
-        if (archivo.getName().endsWith("xls")) {
-            wb = new HSSFWorkbook();
-        } else {
-            wb = new XSSFWorkbook();
-        }
-
-        Sheet hoja = wb.createSheet("Pruebita");
-        try {
-            for (int i = -1; i < numFila; i++) {
-                Row fila = hoja.createRow(i + 1);
-                for (int j = 0; j < numColum; j++) {
-                    Cell celda = fila.createCell(j);
-                    if (i == -1) {
-                        celda.setCellValue(String.valueOf(tablaD.getColumnName(j)));
-                    } else {
-                        celda.setCellValue(String.valueOf(tablaD.getValueAt(i, j)));
-                    }
-                    wb.write(new FileOutputStream(archivo));
-                }
-            }
-            respuesta = "Exportacion Exitosa.";
-        } catch (IOException e) {
-            System.out.println("Excepcion General: " + e.getMessage());
-            System.out.println("Clase: " + e.getClass());
-        }
-        return respuesta;
     }
 
     public int[] insertarPersonas(String[][] datos, JProgressBar carga, int[] resultados) {
@@ -205,13 +169,5 @@ public class ControladorExcel {
         // Si ninguno de los patrones coincide, lanza una excepción
 //    throw new IllegalArgumentException("El formato de fecha no es válido");
         return "1";
-    }
-
-    public PersonaController getPersonaController() {
-        return personaController;
-    }
-
-    public void setPersonaController(PersonaController personaController) {
-        this.personaController = personaController;
     }
 }

@@ -1,4 +1,4 @@
-package com.softsalud.software.excel;
+package com.softsalud.software.sheet;
 
 import java.io.File;
 import java.util.Arrays;
@@ -12,21 +12,23 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class JDialogImportarPersonas extends javax.swing.JDialog {
 
+    //CONSTANTES
+    private final ControladorImportarSheet controladorImp;
+    //VARIABLES
     private JFileChooser seleccionArchivo = new JFileChooser();
-    private final ControladorExcel controlador;
-    private File archivo;
     private String[][] datos;
+    private File archivo;
 
     /**
      * Creates new form JDialogImportarPersonas
      *
      * @param parent
      * @param modal
-     * @param controlador
+     * @param controladorImp
      */
-    public JDialogImportarPersonas(java.awt.Frame parent, boolean modal, ControladorExcel controlador) {
+    public JDialogImportarPersonas(java.awt.Frame parent, boolean modal, ControladorImportarSheet controladorImp) {
         super(parent, modal);
-        this.controlador = controlador;
+        this.controladorImp = controladorImp;
         initComponents();
         agregarFiltro();
     }
@@ -43,7 +45,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         btnImportar = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         ProgressBarCarga = new javax.swing.JProgressBar();
-        jButton1 = new javax.swing.JButton();
+        btnIniciarProceso = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -73,10 +75,10 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
 
         ProgressBarCarga.setStringPainted(true);
 
-        jButton1.setText("Iniciar Proceso");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnIniciarProceso.setText("Iniciar Proceso");
+        btnIniciarProceso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnIniciarProcesoActionPerformed(evt);
             }
         });
 
@@ -129,7 +131,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(btnIniciarProceso))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -157,7 +159,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ProgressBarCarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnIniciarProceso)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -189,29 +191,29 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         if (seleccionArchivo.showDialog(null, "Seleccionar archivo") == JFileChooser.APPROVE_OPTION) {
             archivo = seleccionArchivo.getSelectedFile();
             if (archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")) {
-                datos = controlador.Importar(archivo);
+                datos = controladorImp.Importar(archivo);
                 jTextField1.setText(archivo.getName());
                 ProgressBarCarga.setValue(0);
                 jTextAreaResultados.setText(" ");
-                JOptionPane.showMessageDialog(null, "Archivo selccionado exitosamente");
+                JOptionPane.showMessageDialog(null, "Archivo seleccionado exitosamente");
             } else {
                 JOptionPane.showConfirmDialog(null, "Elija un formato válido.");
             }
         }
     }//GEN-LAST:event_btnImportarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnIniciarProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarProcesoActionPerformed
         String mensaje = "¿Estás seguro de querer cargar el archivo?";
         int opcion = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
             String[][] datosSincabecera = Arrays.copyOfRange(datos, 1, datos.length);
             int[] resultados = new int[4];
-            resultados = controlador.insertarPersonas(datosSincabecera, ProgressBarCarga, resultados);
+            resultados = controladorImp.insertarPersonas(datosSincabecera, ProgressBarCarga, resultados);
             insertarResultadosTextArea(resultados);
         } else {
             JOptionPane.showMessageDialog(null, "Inserción cancelada");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnIniciarProcesoActionPerformed
 
     private void agregarFiltro() {
         seleccionArchivo.setFileFilter(new FileNameExtensionFilter("Excel (*.xls)", "xls"));
@@ -236,7 +238,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar ProgressBarCarga;
     private javax.swing.JButton btnImportar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnIniciarProceso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

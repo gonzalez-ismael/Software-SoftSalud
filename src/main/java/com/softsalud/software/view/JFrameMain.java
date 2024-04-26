@@ -1,28 +1,25 @@
 package com.softsalud.software.view;
 
-import com.softsalud.software.excel.JDialogImportarPersonas;
+import com.softsalud.software.sheet.JDialogImportarPersonas;
 import com.softsalud.software.reporte.JDialogReporte;
 import com.softsalud.software.connection.ConnectionDB;
 import com.softsalud.software.controller.logic.PersonaController;
 import com.softsalud.software.reporte.ReporteController;
 import com.softsalud.software.controller.logic.VacunaController;
 import com.softsalud.software.controller.logic.VacunacionController;
-import com.softsalud.software.excel.ControladorExcel;
 import com.softsalud.software.persistence.repository.PersonaRepos;
 import com.softsalud.software.persistence.repository.VacunaRepos;
 import com.softsalud.software.persistence.repository.VacunacionRepos;
+import com.softsalud.software.sheet.ControladorImportarSheet;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository;
-import java.awt.Color;
+import com.softsalud.software.sheet.ControladorExportarSheet;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.border.Border;
 
 /**
  *
@@ -33,9 +30,12 @@ public class JFrameMain extends javax.swing.JFrame {
     private final IVacunaRepository iVacunaRepos;
     private final IPersonaRepository iPersonaRepos;
     private final IVacunacionRepository iVacunacionRepos;
-    private PersonaController personaController;
-    private VacunaController vacunaController;
-    private VacunacionController vacunacionController;
+    private final PersonaController personaController;
+    private final VacunaController vacunaController;
+    private final VacunacionController vacunacionController;
+    private final ReporteController reporteController;
+    private final ControladorImportarSheet importController;
+
     private final ConnectionDB connection;
 
     public JFrameMain(ConnectionDB connection) {
@@ -43,17 +43,20 @@ public class JFrameMain extends javax.swing.JFrame {
         personalizarMenu();
 
         this.connection = connection;
-        iVacunaRepos = new VacunaRepos(this.connection.getConnection());
+
         iPersonaRepos = new PersonaRepos(this.connection.getConnection());
+        iVacunaRepos = new VacunaRepos(this.connection.getConnection());
         iVacunacionRepos = new VacunacionRepos(this.connection.getConnection());
 
-        // Agregar un WindowListener para escuchar el evento de cierre del JFrame
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                connection.closeConnection(); // Cerrar la conexión cuando se cierre el JFrame
-            }
-        });
+        personaController = new PersonaController(iPersonaRepos);
+        vacunaController = new VacunaController(iVacunaRepos);
+        vacunacionController = new VacunacionController(iVacunacionRepos, iPersonaRepos, iVacunaRepos);
+
+        reporteController = new ReporteController(iPersonaRepos, iVacunaRepos);
+        importController = new ControladorImportarSheet(personaController);
+
+        cerrarConexion();
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -65,20 +68,31 @@ public class JFrameMain extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         labelImagenFondo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuPrincipal = new javax.swing.JMenu();
         JMPersonaMenu = new javax.swing.JMenuItem();
         JMVacunaMenu = new javax.swing.JMenuItem();
         JMVacunacionMenu = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
         JMReporteMenu = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
         JMImportarDatosPersona = new javax.swing.JMenuItem();
+        jMExportarTodosDatos = new javax.swing.JMenuItem();
+        jMenuRestaurarCopiaSeguridad = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMConfiguracion = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         JMManualUsuario = new javax.swing.JMenuItem();
         JMAboutUs = new javax.swing.JMenuItem();
 
         jMenuItem2.setText("jMenuItem2");
+
+        jMenuItem1.setText("jMenuItem1");
+
+        jMenuItem3.setText("jMenuItem3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FINAL LP 2023");
@@ -86,6 +100,7 @@ public class JFrameMain extends javax.swing.JFrame {
         setResizable(false);
 
         labelImagenFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/HOSPITAL RIO TURBIO.png"))); // NOI18N
+        labelImagenFondo.setBorder(new javax.swing.border.LineBorder(java.awt.Color.pink, 10, true));
 
         jMenuPrincipal.setText("Administración");
 
@@ -118,16 +133,20 @@ public class JFrameMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuPrincipal);
 
-        jMenu2.setText("Opciones Adicionales");
+        jMenu4.setText("Reportes");
 
         JMReporteMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
-        JMReporteMenu.setText("Reportes");
+        JMReporteMenu.setText("Generar reportes");
         JMReporteMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JMReporteMenuActionPerformed(evt);
             }
         });
-        jMenu2.add(JMReporteMenu);
+        jMenu4.add(JMReporteMenu);
+
+        jMenuBar1.add(jMenu4);
+
+        jMenu2.setText("Gestion de datos");
 
         JMImportarDatosPersona.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         JMImportarDatosPersona.setText("Importar datos de personas");
@@ -138,9 +157,36 @@ public class JFrameMain extends javax.swing.JFrame {
         });
         jMenu2.add(JMImportarDatosPersona);
 
+        jMExportarTodosDatos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        jMExportarTodosDatos.setText("Guardar Copia de Seguridad");
+        jMExportarTodosDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMExportarTodosDatosActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMExportarTodosDatos);
+
+        jMenuRestaurarCopiaSeguridad.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        jMenuRestaurarCopiaSeguridad.setText("Restaurar Copia de Seguridad");
+        jMenuRestaurarCopiaSeguridad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuRestaurarCopiaSeguridadActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuRestaurarCopiaSeguridad);
+
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Asistencia y Apoyo");
+        jMenu1.setText("Configuración");
+
+        jMConfiguracion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, 0));
+        jMConfiguracion.setText("Configuracion");
+        jMenu1.add(jMConfiguracion);
+
+        jMenuBar1.add(jMenu1);
+        jMenu1.getAccessibleContext().setAccessibleName("Gestión de datos");
+
+        jMenu3.setText("Ayuda");
 
         JMManualUsuario.setText("Manual de usuario");
         jMenu3.add(JMManualUsuario);
@@ -161,23 +207,23 @@ public class JFrameMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelImagenFondo)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(labelImagenFondo)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void JMVacunaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMVacunaMenuActionPerformed
-        vacunaController = new VacunaController(iVacunaRepos);
         JDialogVacuna JDialogVacuna = new JDialogVacuna(this, true, vacunaController);
         JDialogVacuna.setTitle("Menú de las Vacunas");
         JDialogVacuna.setLocationRelativeTo(null);
@@ -185,7 +231,6 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMVacunaMenuActionPerformed
 
     private void JMPersonaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMPersonaMenuActionPerformed
-        personaController = new PersonaController(iPersonaRepos);
         JDialogPersona personDialog = new JDialogPersona(this, true, personaController);
         personDialog.setTitle("Menú de las Personas");
         personDialog.setLocationRelativeTo(null);
@@ -193,7 +238,6 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMPersonaMenuActionPerformed
 
     private void JMVacunacionMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMVacunacionMenuActionPerformed
-        vacunacionController = new VacunacionController(iVacunacionRepos, iPersonaRepos, iVacunaRepos);
         JDialogVacunacion vacunacionDialog = new JDialogVacunacion(this, true, vacunacionController);
         vacunacionDialog.setTitle("Menú de las Vacunaciones");
         vacunacionDialog.setLocationRelativeTo(null);
@@ -201,7 +245,6 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMVacunacionMenuActionPerformed
 
     private void JMReporteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMReporteMenuActionPerformed
-        ReporteController reporteController = new ReporteController(iPersonaRepos, iVacunaRepos);
         JDialogReporte reportDialog = new JDialogReporte(this, true, reporteController);
         reportDialog.setTitle("Menú de Reportes");
         reportDialog.setLocationRelativeTo(null);
@@ -209,9 +252,7 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMReporteMenuActionPerformed
 
     private void JMImportarDatosPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMImportarDatosPersonaActionPerformed
-        personaController = new PersonaController(iPersonaRepos);
-        ControladorExcel excelController = new ControladorExcel(personaController);
-        JDialogImportarPersonas importarDialog = new JDialogImportarPersonas(this, true, excelController);
+        JDialogImportarPersonas importarDialog = new JDialogImportarPersonas(this, true, importController);
         importarDialog.setTitle("Menú para Importar Personas");
         importarDialog.setLocationRelativeTo(null);
         importarDialog.setVisible(true);
@@ -224,44 +265,14 @@ public class JFrameMain extends javax.swing.JFrame {
         sobreNos.setVisible(true);
     }//GEN-LAST:event_JMAboutUsActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold> 
+    private void jMExportarTodosDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMExportarTodosDatosActionPerformed
+        ControladorExportarSheet exportarController = new ControladorExportarSheet(iPersonaRepos, iVacunaRepos, iVacunacionRepos);
+        exportarController.GuardarCopiaSeguridadExcel();
+    }//GEN-LAST:event_jMExportarTodosDatosActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            try {
-                ConnectionDB conexion = new ConnectionDB();
-                System.out.println("\n\n");
-                System.out.println("Conexion a: " + conexion.getConnection().getCatalog());
-                System.out.println("\n\n");
-
-                JFrameMain main = new JFrameMain(conexion);
-                System.setProperty("java.awt.headless", "false");
-                main.setLocationRelativeTo(null);
-                main.setVisible(true);
-            } catch (SQLException ex) {
-                System.out.println("ERROR: " + ex.getMessage());
-            }
-        });
-    }
+    private void jMenuRestaurarCopiaSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRestaurarCopiaSeguridadActionPerformed
+//        fsd
+    }//GEN-LAST:event_jMenuRestaurarCopiaSeguridadActionPerformed
 
     @Override
     public Image getIconImage() {
@@ -273,13 +284,16 @@ public class JFrameMain extends javax.swing.JFrame {
     private void personalizarMenu() {
         String titulo = "Menú Principal - SoftSalud.inc | LP 2023 - ADES - UART - UNPA";
         this.setTitle(titulo);
+    }
 
-        // Define el tamaño del borde (en píxeles)
-        int tamañoBorde = 5;
-        // Crea un borde negro sólido con el tamaño especificado
-        Border borde = BorderFactory.createLineBorder(Color.PINK, tamañoBorde);
-        // Establece el borde al JLabel
-        labelImagenFondo.setBorder(borde);
+    private void cerrarConexion() {
+        // Agregar un WindowListener para escuchar el evento de cierre del JFrame
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                connection.closeConnection(); // Cerrar la conexión cuando se cierre el JFrame
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -290,11 +304,18 @@ public class JFrameMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem JMReporteMenu;
     private javax.swing.JMenuItem JMVacunaMenu;
     private javax.swing.JMenuItem JMVacunacionMenu;
+    private javax.swing.JMenuItem jMConfiguracion;
+    private javax.swing.JMenuItem jMExportarTodosDatos;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenu jMenuPrincipal;
+    private javax.swing.JMenuItem jMenuRestaurarCopiaSeguridad;
     private javax.swing.JLabel labelImagenFondo;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,68 +1,52 @@
 package com.softsalud.software;
 
 import com.softsalud.software.connection.ConnectionDB;
-import com.softsalud.software.persistence.model.Vacuna;
-import com.softsalud.software.persistence.repository.VacunaRepos;
-import java.util.List;
+import com.softsalud.software.view.JFrameMain;
+import java.sql.SQLException;
 
 /**
  *
- * @author Ismael
+ * @author Gonzalez Ismael
  */
 public class SoftSaludSoftware {
 
-//    public static void main(String[] args) {
-//        try {
-//            ConnectionDB conexion = new ConnectionDB();
-//            System.out.println("\n\n");
-//            System.out.println("Conexion a: " + conexion.getConnection().getCatalog());
-//            System.out.println("\n\n");
-//
-////            main2(conexion);
-//            
-//            JFrameMain main = new JFrameMain(conexion.getConnection());
-//            System.setProperty("java.awt.headless", "false");
-//            main.setLocationRelativeTo(null);
-//            main.setVisible(true);
-//            
-//            conexion.closeConnection();
-//        } catch (SQLException ex) {
-//            System.out.println("ERROR: " + ex.getMessage());
-//        }
-//    }
-    
-    public static void main2(ConnectionDB conexion){
-         VacunaRepos logica = new VacunaRepos(conexion.getConnection());
-
-            boolean sepudo = false;
-//            sepudo = logica.insertar("Sputnik");
-//            sepudo = logica.modificar(7, "Sputnik 2");
-//            sepudo = logica.eliminar(5);
-//            System.out.println("Insercion: " + sepudo);
-
-            // Obtenemos el conjunto de vacunas utilizando el método getVacunas()
-            List<Vacuna> vacunas = logica.listarVacunas();
-
-            // Verificamos si el conjunto de vacunas no es nulo
-            if (vacunas != null) {
-                // Iteramos sobre el conjunto de vacunas e imprimimos cada vacuna
-                System.out.println("Lista de Vacunas:");
-                for (Vacuna vacuna : vacunas) {
-                    System.out.println("Código: " + vacuna.getCodigo() + ", Nombre: " + vacuna.getNombre_vacuna());
+    /**
+     * MENÚ PRINCIPAL
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
                 }
-            } else {
-                System.out.println("No se pudo obtener la lista de vacunas.");
             }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(JFrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold> 
 
-            Vacuna find = logica.buscarVacuna(4);
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                ConnectionDB conexion = new ConnectionDB();
+                System.out.println("\n\n");
+                System.out.println("Conexion a: " + conexion.getConnection().getCatalog());
+                System.out.println("\n\n");
 
-            if (find != null) {
-                // Iteramos sobre el conjunto de vacunas e imprimimos cada vacuna
-                System.out.println("\n\nVacuna:");
-                System.out.println("Código: " + find.getCodigo() + ", Nombre: " + find.getNombre_vacuna());
-
-            } else {
-                System.out.println("No se pudo obtener la vacuna buscada.\n\n");
+                JFrameMain main = new JFrameMain(conexion);
+                System.setProperty("java.awt.headless", "false");
+                main.setLocationRelativeTo(null);
+                main.setVisible(true);
+            } catch (SQLException ex) {
+                System.out.println("ERROR: " + ex.getMessage());
             }
+        });
     }
 }
