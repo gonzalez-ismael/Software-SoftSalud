@@ -49,7 +49,7 @@ public class Persona {
         return persona;
     }
 
-    public String[] toStringTitulos() {
+    public static String[] toStringTitulos() {
         String[] persona = {"dni", "apellido", "nombre", "edad", "fecha_nac", "numero_tel", "numero_tel_opcional",
             "localidad", "direccion", "tuvo_covid", "tiene_trasplantes", "factores_riesgo"};
         return persona;

@@ -20,7 +20,7 @@ public class Vacuna {
         return vacuna;
     }
 
-    public String[] toStringTitulos() {
+    public static String[] toStringTitulos() {
         String[] vacuna = {"codig","nombre_vacuna"};
         return vacuna;
     }

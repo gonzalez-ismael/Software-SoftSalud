@@ -162,6 +162,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jlErrorNombreVacuna" pref="223" max="32767" attributes="0"/>
                               <Component id="jTextFieldSearchVaccine" pref="223" max="32767" attributes="0"/>
                               <Component id="jTextFieldNameVaccine" max="32767" attributes="0"/>
                               <Component id="jTextFieldID" alignment="0" max="32767" attributes="0"/>
@@ -193,7 +194,9 @@
                           <Component id="btnEdit" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="40" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jlErrorNombreVacuna" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="jTextFieldSearchVaccine" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelSearchVaccine" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -303,6 +306,14 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldSearchVaccine">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jlErrorNombreVacuna">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="32" green="0" red="af" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value=" "/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

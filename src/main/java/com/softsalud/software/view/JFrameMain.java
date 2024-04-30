@@ -1,6 +1,6 @@
 package com.softsalud.software.view;
 
-import com.softsalud.software.sheet.JDialogImportarPersonas;
+import com.softsalud.software.workbok.JDialogImportarPersonas;
 import com.softsalud.software.reporte.JDialogReporte;
 import com.softsalud.software.connection.ConnectionDB;
 import com.softsalud.software.controller.logic.PersonaController;
@@ -10,16 +10,20 @@ import com.softsalud.software.controller.logic.VacunacionController;
 import com.softsalud.software.persistence.repository.PersonaRepos;
 import com.softsalud.software.persistence.repository.VacunaRepos;
 import com.softsalud.software.persistence.repository.VacunacionRepos;
-import com.softsalud.software.sheet.ControladorImportarSheet;
+import com.softsalud.software.workbok.ControladorImportarPersonas;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository;
-import com.softsalud.software.sheet.ControladorExportarSheet;
+import com.softsalud.software.workbok.ControladorBackup;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -34,7 +38,7 @@ public class JFrameMain extends javax.swing.JFrame {
     private final VacunaController vacunaController;
     private final VacunacionController vacunacionController;
     private final ReporteController reporteController;
-    private final ControladorImportarSheet importController;
+    private final ControladorImportarPersonas importController;
 
     private final ConnectionDB connection;
 
@@ -53,7 +57,7 @@ public class JFrameMain extends javax.swing.JFrame {
         vacunacionController = new VacunacionController(iVacunacionRepos, iPersonaRepos, iVacunaRepos);
 
         reporteController = new ReporteController(iPersonaRepos, iVacunaRepos);
-        importController = new ControladorImportarSheet(personaController);
+        importController = new ControladorImportarPersonas(personaController);
 
         cerrarConexion();
 
@@ -266,12 +270,48 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMAboutUsActionPerformed
 
     private void jMExportarTodosDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMExportarTodosDatosActionPerformed
-        ControladorExportarSheet exportarController = new ControladorExportarSheet(iPersonaRepos, iVacunaRepos, iVacunacionRepos);
-        exportarController.GuardarCopiaSeguridadExcel();
+        ControladorBackup backupConrtoller = new ControladorBackup(personaController, vacunaController, vacunacionController);
+        backupConrtoller.guardarCopiaSeguridadExcel();
     }//GEN-LAST:event_jMExportarTodosDatosActionPerformed
 
     private void jMenuRestaurarCopiaSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRestaurarCopiaSeguridadActionPerformed
-//        fsd
+        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea continuar?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            System.out.println("Se ha seleccionado 'Sí'.");
+
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Seleccione un archivo");
+
+            // Filtro para mostrar solo archivos de texto (.txt)
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos excel (.xlsx)", "xlsx");
+            fileChooser.setFileFilter(filter);
+
+            int userSelection = fileChooser.showOpenDialog(null);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File archivoBackup = fileChooser.getSelectedFile();
+                System.out.println("Archivo seleccionado: " + archivoBackup.getAbsolutePath());
+                // Aquí puedes hacer lo que quieras con el archivo seleccionado
+                ControladorBackup backupConrtoller = new ControladorBackup(personaController, vacunaController, vacunacionController);
+
+                if (backupConrtoller.esArchivoExcelValidoParaImportar(archivoBackup)) {
+//                    int[] resultados = backupConrtoller.sobrescribirCopiaSeguridad(archivoBackup);
+//                    for (int i = 0; i < resultados.length; i++) {
+//                        System.out.println("RESULTADO NÚMERO " + i + ": " + resultados[i]);
+//                    }
+                    System.out.println("VALIDO");
+                } else {
+                    System.out.println("ARCHIVO NO VALIDO PARA IMPORTAR COPIA DE SEGURIDAD");
+                }
+            } else {
+                System.out.println("No se seleccionó ningún archivo.");
+            }
+
+        } else {
+            // Acciones si se selecciona "No" o se cierra el diálogo
+            System.out.println("Se ha seleccionado 'No' o se ha cerrado el diálogo.");
+        }
     }//GEN-LAST:event_jMenuRestaurarCopiaSeguridadActionPerformed
 
     @Override

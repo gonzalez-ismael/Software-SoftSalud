@@ -56,7 +56,7 @@ public class VacunacionController implements ActionListener, TableModelListener 
         pag.actualizarBotones();
     }
 
-    public void ListarVacunacion(JTable tableFrame, JPanel panelBotones) {
+    public void listarVacunaciones(JTable tableFrame, JPanel panelBotones) {
         List<Vacunacion> listaDatos = vacunacionRepos.listarVacunaciones();
 
         pag = new PaginarTabla(tableFrame, listaDatos, PaginarTabla.MODO_VACUNACION);
@@ -66,6 +66,10 @@ public class VacunacionController implements ActionListener, TableModelListener 
         ventanaVacunacion.setPaginaComboBox(pag.getJcbCantidadRegistros());
         events();
         ventanaVacunacion.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
+    }
+
+    public List<Vacunacion> listarVacunaciones() {
+        return vacunacionRepos.listarVacunacionesCrudo();
     }
 
     public int agregarVacunacion(String dni, String marcaVacuna, String loteVacuna,

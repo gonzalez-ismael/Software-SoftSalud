@@ -131,14 +131,15 @@ public class VacunacionRepos implements IVacunacionRepository {
     public List<Vacunacion> listarVacunacionesCrudo() {
         List<Vacunacion> listado = null;
         try {
-            String query = "Select * from historial_vacunacion";
+            String query = "Select hp.persona_dni, v.nombre_vacuna, hp.lote_vacuna, hp.numero_dosis, hp.fecha_vacunacion, hp.lugar_vacunacion "
+                    + "from historial_vacunacion as hp inner join vacuna as v on hp.vacuna_codigo = v.codigo";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             listado = new ArrayList();
             while (rs.next()) {
                 Vacunacion v = new Vacunacion();
                 v.setPersona_dni(rs.getLong("persona_dni"));
-                v.setVacuna_codigo(rs.getLong("vacuna_codigo"));
+                v.setNombre_vacuna(rs.getString("nombre_vacuna"));
                 v.setLote_vacuna(rs.getString("lote_vacuna"));
                 v.setNumero_dosis(rs.getInt("numero_dosis"));
                 v.setFecha_vacunacion(rs.getDate("fecha_vacunacion").toLocalDate());

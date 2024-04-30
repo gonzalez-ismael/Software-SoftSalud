@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class VacunaRepos implements IVacunaRepository {
 
     private final Connection conn;
-    private final int EXITO = 1;
+    private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3;
 
     /**
      * Metodo constructor desarrollado por el programador este metodo obtiene la conexion con la bd.
@@ -37,18 +37,21 @@ public class VacunaRepos implements IVacunaRepository {
      * @return boolean
      */
     @Override
-    public boolean insertar(String nombreVacuna) {
-        boolean operacionExitosa = false;
-        String query = "INSERT INTO vacuna (nombre_vacuna) VALUES (?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, nombreVacuna);
-            if (pstmt.executeUpdate() == EXITO) {
-                operacionExitosa = true;
+    public int insertar(String nombreVacuna) {
+        int resultadoOperacion;
+        if (buscarVacunaPorNombre(nombreVacuna) == null) {
+            String query = "INSERT INTO vacuna (nombre_vacuna) VALUES (?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, nombreVacuna);
+                resultadoOperacion = pstmt.executeUpdate();
+            } catch (SQLException ex) {
+                resultadoOperacion = UNKNOWNFAIL;
+                Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            resultadoOperacion = CLAVEREPETIDA;
         }
-        return operacionExitosa;
+        return resultadoOperacion;
     }
 
     /**
@@ -58,19 +61,22 @@ public class VacunaRepos implements IVacunaRepository {
      * @return boolean
      */
     @Override
-    public boolean modificar(int codigo, String nombreVacuna) {
-        boolean operacionExitosa = false;
-        String query = "UPDATE vacuna SET nombre_vacuna = ? WHERE codigo = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, nombreVacuna);
-            pstmt.setInt(2, codigo);
-            if (pstmt.executeUpdate() == EXITO) {
-                operacionExitosa = true;
+    public int modificar(int codigo, String nombreVacuna) {
+        int resultadoOperacion;
+        if (buscarVacunaPorNombre(nombreVacuna) == null) {
+            String query = "UPDATE vacuna SET nombre_vacuna = ? WHERE codigo = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, nombreVacuna);
+                pstmt.setInt(2, codigo);
+                resultadoOperacion = pstmt.executeUpdate();
+            } catch (SQLException ex) {
+                resultadoOperacion = UNKNOWNFAIL;
+                Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            resultadoOperacion = CLAVEREPETIDA;
         }
-        return operacionExitosa;
+        return resultadoOperacion;
     }
 
     /**
@@ -166,7 +172,7 @@ public class VacunaRepos implements IVacunaRepository {
         }
         return vacunas;
     }
-    
+
     @Override
     public Vacuna buscarVacunaPorNombre(String nombre) {
         Vacuna vacuna = null;

@@ -1,78 +1,23 @@
-package com.softsalud.software.sheet;
+package com.softsalud.software.workbok;
 
 import com.softsalud.software.controller.logic.PersonaController;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.ss.usermodel.*;
 
 /**
  *
  * @author Gonzalez Ismael
  */
-public class ControladorImportarSheet {
+public class ControladorImportarPersonas {
 
     private final PersonaController personaController;
-    private Workbook wb;
 
-    public ControladorImportarSheet(PersonaController personaController) {
+    public ControladorImportarPersonas(PersonaController personaController) {
         this.personaController = personaController;
-    }
-
-    public String[][] Importar(File archivo) {
-        String datos[][];
-        try {
-            wb = WorkbookFactory.create(new FileInputStream(archivo));
-            Sheet hoja = wb.getSheetAt(0);
-            Iterator filaIterator = hoja.rowIterator();
-            int indiceFila = -1;
-            int cantFilas = hoja.getPhysicalNumberOfRows(); // Obtener el número máximo de filas
-            int cantColumnas = hoja.getRow(0).getLastCellNum(); // Obtener el número máximo de columnas
-            datos = new String[cantFilas][cantColumnas];
-            while (filaIterator.hasNext()) {
-                indiceFila++;
-                Row fila = (Row) filaIterator.next();
-                Iterator columnaIterator = fila.cellIterator();
-                int indiceColumna = -1;
-                while (columnaIterator.hasNext()) {
-                    indiceColumna++;
-                    Cell celda = (Cell) columnaIterator.next();
-                    if (indiceFila == 0) {
-                        datos[indiceFila][indiceColumna] = celda.getStringCellValue();
-                    } else {
-                        if (celda != null) {
-                            if (null != celda.getCellType()) {
-                                switch (celda.getCellType()) {
-                                    case BLANK ->
-                                        datos[indiceFila][indiceColumna] = " ";
-                                    case NUMERIC ->
-                                        datos[indiceFila][indiceColumna] = String.valueOf(Math.round(celda.getNumericCellValue()));
-                                    case STRING ->
-                                        datos[indiceFila][indiceColumna] = celda.getStringCellValue();
-                                    case BOOLEAN ->
-                                        datos[indiceFila][indiceColumna] = String.valueOf(celda.getBooleanCellValue());
-                                    case FORMULA ->
-                                        datos[indiceFila][indiceColumna] = celda.getCellFormula();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return datos;
-        } catch (IOException | EncryptedDocumentException e) {
-            System.out.println("Excepcion General: " + e.getMessage());
-            System.out.println("Clase: " + e.getClass());
-            return null;
-        }
     }
 
     public int[] insertarPersonas(String[][] datos, JProgressBar carga, int[] resultados) {

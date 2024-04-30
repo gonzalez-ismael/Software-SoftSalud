@@ -60,9 +60,15 @@ public class VacunaController implements ActionListener, TableModelListener {
         ventanaVacuna.getPaginaComboBox().setSelectedIndex(Integer.parseInt("2"));
     }
 
-    public void agregarVacuna(String nameFrame) {
+    public List<Vacuna> listarVacunas() {
+        return vacunaRepos.listarVacunas();
+    }
+
+    public int agregarVacuna(String nameFrame) {
         if (!nameFrame.isEmpty()) {
-            vacunaRepos.insertar(nameFrame);
+            return vacunaRepos.insertar(nameFrame);
+        } else {
+            return -1;
         }
     }
 
@@ -76,9 +82,11 @@ public class VacunaController implements ActionListener, TableModelListener {
         return data;
     }
 
-    public void modificarVacuna(String idFrame, String nameFrame) {
+    public int modificarVacuna(String idFrame, String nameFrame) {
         if (!nameFrame.isEmpty()) {
-            vacunaRepos.modificar(Integer.parseInt(idFrame), nameFrame);
+            return vacunaRepos.modificar(Integer.parseInt(idFrame), nameFrame);
+        } else {
+            return -1;
         }
     }
 

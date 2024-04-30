@@ -16,6 +16,7 @@ public class JDialogVacuna extends javax.swing.JDialog {
 
     public JComboBox<Integer> paginaComboBox;
     private final VacunaController controller;
+    private final int EXITO = 1, CLAVEREPETIDA = 2;
 
     public JDialogVacuna(java.awt.Frame parent, boolean modal, VacunaController controller) {
         super(parent, modal);
@@ -51,6 +52,7 @@ public class JDialogVacuna extends javax.swing.JDialog {
         btnReloader = new javax.swing.JButton();
         jLabelSearchVaccine = new javax.swing.JLabel();
         jTextFieldSearchVaccine = new javax.swing.JTextField();
+        jlErrorNombreVacuna = new javax.swing.JLabel();
         jPanelBotonesPagina = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -147,6 +149,9 @@ public class JDialogVacuna extends javax.swing.JDialog {
         jLabelSearchVaccine.setForeground(new java.awt.Color(0, 0, 0));
         jLabelSearchVaccine.setText("Buscar Vacuna : ");
 
+        jlErrorNombreVacuna.setForeground(new java.awt.Color(175, 0, 50));
+        jlErrorNombreVacuna.setText(" ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -170,9 +175,11 @@ public class JDialogVacuna extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldSearchVaccine, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                            .addComponent(jTextFieldNameVaccine)
-                            .addComponent(jTextFieldID))
+                            .addComponent(jlErrorNombreVacuna, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextFieldSearchVaccine, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                .addComponent(jTextFieldNameVaccine)
+                                .addComponent(jTextFieldID)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -193,7 +200,9 @@ public class JDialogVacuna extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnCancel)
                         .addComponent(btnEdit)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlErrorNombreVacuna)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jTextFieldSearchVaccine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelSearchVaccine))
@@ -238,9 +247,21 @@ public class JDialogVacuna extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (!jTextFieldNameVaccine.getText().isEmpty()) {
-            controller.agregarVacuna(jTextFieldNameVaccine.getText());
-            controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
-            clearCells();
+            int resultado = controller.agregarVacuna(jTextFieldNameVaccine.getText());
+            switch (resultado) {
+                case EXITO -> {
+                    controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
+                    clearCells();
+                }
+                case CLAVEREPETIDA -> {
+                    String mensaje = "Ingresar un nombre de Vacuna que no este en uso.";
+                    String titulo = "Nombre vacuna repetido";
+                    int modo = JOptionPane.ERROR_MESSAGE;
+                    mostrarMensaje(mensaje, titulo, modo);
+                    jlErrorNombreVacuna.setText("Ingresar un nombre válido.");
+                    jTextFieldNameVaccine.requestFocus();
+                }
+            }
         } else {
             String mensaje = "Complete el nombre de la vacuna para poder ingresarla.";
             String titulo = "El nombre de la vacuna esta vacio";
@@ -281,10 +302,22 @@ public class JDialogVacuna extends javax.swing.JDialog {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         if (!jTextFieldNameVaccine.getText().isEmpty()) {
-            controller.modificarVacuna(jTextFieldID.getText(), jTextFieldNameVaccine.getText());
-            controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
-            clearCells();
-            clearBtns();
+            int resultado = controller.modificarVacuna(jTextFieldID.getText(), jTextFieldNameVaccine.getText());
+            switch (resultado) {
+                case EXITO -> {
+                    controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
+                    clearCells();
+                    clearBtns();
+                }
+                case CLAVEREPETIDA -> {
+                    String mensaje = "Ingresar un nombre de Vacuna que no este en uso.";
+                    String titulo = "Nombre vacuna repetido";
+                    int modo = JOptionPane.ERROR_MESSAGE;
+                    mostrarMensaje(mensaje, titulo, modo);
+                    jlErrorNombreVacuna.setText("Ingresar un nombre válido.");
+                    jTextFieldNameVaccine.requestFocus();
+                }
+            }
         } else {
             String mensaje = "Complete el nombre de la vacuna para poder ingresarla.";
             String titulo = "El nombre de la vacuna esta vacio";
@@ -338,6 +371,7 @@ public class JDialogVacuna extends javax.swing.JDialog {
     private void clearCells() {
         jTextFieldID.setText("");
         jTextFieldNameVaccine.setText("");
+        jlErrorNombreVacuna.setText(" ");
     }
 
     private void mostrarMensaje(String mensaje, String titulo, int modo) {
@@ -378,6 +412,7 @@ public class JDialogVacuna extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldID;
     private javax.swing.JTextField jTextFieldNameVaccine;
     private javax.swing.JTextField jTextFieldSearchVaccine;
+    private javax.swing.JLabel jlErrorNombreVacuna;
     private javax.swing.JTable tableVaccine;
     // End of variables declaration//GEN-END:variables
 }

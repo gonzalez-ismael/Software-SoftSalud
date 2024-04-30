@@ -31,13 +31,13 @@ public class Vacunacion {
     }
 
     public String[] toStringPersonalizado() {
-        String[] vacunacion = {String.valueOf(persona_dni), String.valueOf(vacuna_codigo), lote_vacuna,
+        String[] vacunacion = {String.valueOf(persona_dni), nombre_vacuna, lote_vacuna,
             String.valueOf(numero_dosis), String.valueOf(fecha_vacunacion), lugar_vacunacion};
         return vacunacion;
     }
 
-    public String[] toStringTitulos() {
-        String[] vacunacion = {"persona_dni", "vacuna_codigo", "lote_vacuna",
+    public static String[] toStringTitulos() {
+        String[] vacunacion = {"persona_dni", "nombre_vacuna", "lote_vacuna",
             "numero_dosis", "fecha_vacunacion", "lugar_vacunacion"};
         return vacunacion;
     }

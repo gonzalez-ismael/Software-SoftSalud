@@ -58,6 +58,39 @@ public class PersonaRepos implements IPersonaRepository {
     }
 
     @Override
+    public int[] insertar(List<Persona> listadoPersonas) {
+        int cantInscriptos = 0, cantRepetidos = 0, cantFallidos = 0;
+        String query = "INSERT INTO persona (dni, apellido, nombre, fecha_nac, numero_tel, numero_tel_opcional, localidad, direccion, tuvo_covid, tiene_trasplantes, factores_riesgo) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            for (Persona persona : listadoPersonas) {
+                pstmt.setLong(1, persona.getDni());
+                pstmt.setString(2, persona.getApellido());
+                pstmt.setString(3, persona.getNombre());
+                pstmt.setDate(4, Date.valueOf(persona.getFecha_nac()));
+                pstmt.setLong(5, persona.getNumero_tel());
+                pstmt.setLong(6, persona.getNumero_tel_opcional());
+                pstmt.setString(7, persona.getLocalidad());
+                pstmt.setString(8, persona.getDireccion());
+                pstmt.setBoolean(9, persona.isTuvo_covid());
+                pstmt.setBoolean(10, persona.isTiene_trasplantes());
+                pstmt.setString(11, persona.getFactores_riesgo());
+                if (pstmt.executeUpdate() == EXITO) {
+                    cantInscriptos++;
+                }
+            }
+        } catch (SQLIntegrityConstraintViolationException ex) {
+            cantRepetidos++;
+            Logger.getLogger(PersonaRepos.class.getName()).log(Level.SEVERE, "Clave Repetida", ex);
+        } catch (SQLException ex) {
+            cantFallidos++;
+            Logger.getLogger(PersonaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int[] resultados = {cantInscriptos, cantRepetidos, cantFallidos};
+        return resultados;
+    }
+
+    @Override
     public int modificar(Persona persona, Long buscado) {
         int resultadoOperacion = EMPTY;
         String query = "UPDATE persona SET dni = ?, apellido = ?, nombre = ?, fecha_nac = ?, numero_tel = ?, numero_tel_opcional = ?, localidad = ?, direccion = ?, tuvo_covid = ?, tiene_trasplantes = ?, factores_riesgo = ? WHERE (dni = ?)";

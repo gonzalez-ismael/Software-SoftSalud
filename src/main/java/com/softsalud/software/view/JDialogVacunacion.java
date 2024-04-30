@@ -32,7 +32,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         initComponents();
         this.controller = controller;
         this.controller.setVentanaVacunacion(this);
-        this.controller.ListarVacunacion(TableVacunacion, jPanelBotonesPagina);
+        this.controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
     }
 
     /**
@@ -448,7 +448,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         Vacunacion v = controller.editarVacunacion(TableVacunacion);
         if (v != null) {
             controller.eliminarVacunacion(v);
-            controller.ListarVacunacion(TableVacunacion, jPanelBotonesPagina);
+            controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
             clearBtns();
             clearCells();
         } else {
@@ -460,7 +460,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnReloaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloaderActionPerformed
-        controller.ListarVacunacion(TableVacunacion, jPanelBotonesPagina);
+        controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
         clearBtns();
         clearCells();
     }//GEN-LAST:event_btnReloaderActionPerformed
@@ -505,7 +505,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
                     jcbLugarVacunacion.getSelectedItem().toString());
             switch (resultado) {
                 case EXITO -> {
-                    controller.ListarVacunacion(TableVacunacion, jPanelBotonesPagina);
+                    controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
                     dniBuscado = null;
                     marcaVacuna = null;
                     loteVacuna = null;
@@ -564,7 +564,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
                     jcbLugarVacunacion.getSelectedItem().toString());
             switch (resultado) {
                 case EXITO -> {
-                    controller.ListarVacunacion(TableVacunacion, jPanelBotonesPagina);
+                    controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
                     clearCells();
                 }
                 case CLAVEREPETIDA -> {

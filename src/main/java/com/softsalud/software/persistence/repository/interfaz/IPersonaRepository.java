@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface IPersonaRepository {
     public int insertar(Persona persona);
+    public int[] insertar(List<Persona> listadoPersonas);
     public int modificar(Persona persona, Long buscado);
     public int eliminar(Long dni);
     public int eliminarLogico(Long dni);

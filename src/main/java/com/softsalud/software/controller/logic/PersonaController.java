@@ -62,6 +62,10 @@ public class PersonaController implements ActionListener, TableModelListener {
         events();
         ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("3"));
     }
+    
+    public List<Persona> listarPersonas(){
+        return personaRepos.listarPersonas();
+    }
 
     public int agregarPersona(String dni, String apellido, String nombre, String fecha_nac,
             String numero_tel, String numero_tel_opcional, String localidad, String direccion,

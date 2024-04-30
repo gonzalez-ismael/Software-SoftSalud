@@ -1,4 +1,4 @@
-package com.softsalud.software.sheet;
+package com.softsalud.software.workbok;
 
 import java.io.File;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class JDialogImportarPersonas extends javax.swing.JDialog {
 
     //CONSTANTES
-    private final ControladorImportarSheet controladorImp;
+    private final ControladorImportarPersonas controladorImp;
     //VARIABLES
     private JFileChooser seleccionArchivo = new JFileChooser();
     private String[][] datos;
@@ -26,7 +26,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
      * @param modal
      * @param controladorImp
      */
-    public JDialogImportarPersonas(java.awt.Frame parent, boolean modal, ControladorImportarSheet controladorImp) {
+    public JDialogImportarPersonas(java.awt.Frame parent, boolean modal, ControladorImportarPersonas controladorImp) {
         super(parent, modal);
         this.controladorImp = controladorImp;
         initComponents();
@@ -191,7 +191,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         if (seleccionArchivo.showDialog(null, "Seleccionar archivo") == JFileChooser.APPROVE_OPTION) {
             archivo = seleccionArchivo.getSelectedFile();
             if (archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")) {
-                datos = controladorImp.Importar(archivo);
+                datos = Workbok.procesarArchivoExcel(archivo);
                 jTextField1.setText(archivo.getName());
                 ProgressBarCarga.setValue(0);
                 jTextAreaResultados.setText(" ");

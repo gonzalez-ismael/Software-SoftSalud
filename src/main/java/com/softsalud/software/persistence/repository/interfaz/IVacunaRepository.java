@@ -5,11 +5,11 @@ import java.util.List;
 
 /**
  *
- * @author Ismael
+ * @author Gonzalez Ismael
  */
 public interface IVacunaRepository {
-    public boolean insertar(String nombreVacuna);
-    public boolean modificar(int codigo, String nombreVacuna);
+    public int insertar(String nombreVacuna);
+    public int modificar(int codigo, String nombreVacuna);
     public boolean eliminar(int codigo);
     public List<Vacuna> listarVacunas();
     public Vacuna buscarVacuna(int codigo);
