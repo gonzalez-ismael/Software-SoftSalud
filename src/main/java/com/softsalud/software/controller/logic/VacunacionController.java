@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -143,9 +144,66 @@ public class VacunacionController implements ActionListener, TableModelListener 
     public int eliminarVacunacion(Vacunacion vacunacion) {
         return vacunacionRepos.eliminar(vacunacion);
     }
-    
-    public int eliminarTodosRegistros(){
+
+    public int eliminarTodosRegistros() {
         return vacunacionRepos.eliminarTodo();
+    }
+
+    public void buscarVacunacionDni(JTable tableFrame, JPanel panelBotones, JTextField jtfSearchDni) {
+        if (jtfSearchDni != null) {
+            List<Vacunacion> listaDatos = vacunacionRepos.buscarVacunacionesPorDni(jtfSearchDni.getText());
+
+            pag = new PaginarTabla(tableFrame, listaDatos, PaginarTabla.MODO_VACUNACION);
+
+            pag.crearListadoFilasPermitidas(panelBotones);
+
+            ventanaVacunacion.setPaginaComboBox(pag.getJcbCantidadRegistros());
+            events();
+            ventanaVacunacion.getPaginaComboBox().setSelectedIndex(Integer.parseInt("3"));
+        }
+    }
+
+    public void buscarVacunacionNomYApe(JTable tableFrame, JPanel panelBotones, JTextField jtfSearchNombre) {
+        if (jtfSearchNombre != null) {
+            List<Vacunacion> listaDatos = vacunacionRepos.buscarVacunacionesPorNomYApe(jtfSearchNombre.getText());
+
+            pag = new PaginarTabla(tableFrame, listaDatos, PaginarTabla.MODO_VACUNACION);
+
+            pag.crearListadoFilasPermitidas(panelBotones);
+
+            ventanaVacunacion.setPaginaComboBox(pag.getJcbCantidadRegistros());
+            events();
+            ventanaVacunacion.getPaginaComboBox().setSelectedIndex(Integer.parseInt("3"));
+        }
+    }
+
+    public void buscarVacunacionNombreVacuna(JTable tableFrame, JPanel panelBotones, JTextField jtfSearchNombreVacuna) {
+        if (jtfSearchNombreVacuna != null) {
+            List<Vacunacion> listaDatos = vacunacionRepos.buscarVacunacionesPorNombreVacuna(jtfSearchNombreVacuna.getText());
+
+            pag = new PaginarTabla(tableFrame, listaDatos, PaginarTabla.MODO_VACUNACION);
+
+            pag.crearListadoFilasPermitidas(panelBotones);
+
+            ventanaVacunacion.setPaginaComboBox(pag.getJcbCantidadRegistros());
+            events();
+            ventanaVacunacion.getPaginaComboBox().setSelectedIndex(Integer.parseInt("3"));
+        }
+    }
+
+    public void buscarVacunacionDosis(JTable tableFrame, JPanel panelBotones, String dosis) {
+        if (dosis != null) {
+            dosis = dosis.equals("Anual") ? "0" : dosis;
+            List<Vacunacion> listaDatos = vacunacionRepos.buscarVacunacionesPorDosis(dosis);
+
+            pag = new PaginarTabla(tableFrame, listaDatos, PaginarTabla.MODO_VACUNACION);
+
+            pag.crearListadoFilasPermitidas(panelBotones);
+
+            ventanaVacunacion.setPaginaComboBox(pag.getJcbCantidadRegistros());
+            events();
+            ventanaVacunacion.getPaginaComboBox().setSelectedIndex(Integer.parseInt("3"));
+        }
     }
 
     private boolean esMismaVacunacion(Long dniBuscado, String marcaVacunaBuscada, String loteVacunaBuscada,

@@ -94,7 +94,7 @@ public class VacunacionRepos implements IVacunacionRepository {
         }
         return resultadoOperacion;
     }
-    
+
     @Override
     public int eliminarTodo() {
         int resultadoOperacion;
@@ -139,7 +139,7 @@ public class VacunacionRepos implements IVacunacionRepository {
         }
         return listado;
     }
-    
+
     @Override
     public List<Vacunacion> listarVacunacionesCrudo() {
         List<Vacunacion> listado = null;
@@ -190,5 +190,134 @@ public class VacunacionRepos implements IVacunacionRepository {
             Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return vacunacion;
+    }
+
+    @Override
+    public List<Vacunacion> buscarVacunacionesPorDni(String dni) {
+        List<Vacunacion> listado = null;
+        String query = """
+                       Select p.dni, CONCAT(p.nombre, ' ', p.apellido) as nombre, v.nombre_vacuna, hp.lote_vacuna, hp.numero_dosis, hp.fecha_vacunacion, hp.lugar_vacunacion
+                       from historial_vacunacion as hp
+                       inner join persona as p on hp.persona_dni = p.dni
+                       inner join vacuna as v on hp.vacuna_codigo = v.codigo
+                       where p.dni LIKE ?
+                       """;
+        try (PreparedStatement pstmt = conn.prepareCall(query)) {
+            pstmt.setString(1, dni + "%");
+            ResultSet rs = pstmt.executeQuery();
+            listado = new ArrayList();
+            while (rs.next()) {
+                Vacunacion v = new Vacunacion();
+                v.setPersona_dni(rs.getLong("dni"));
+                v.setNombre_completo(rs.getString("nombre"));
+                v.setNombre_vacuna(rs.getString("nombre_vacuna"));
+                v.setLote_vacuna(rs.getString("lote_vacuna"));
+                v.setNumero_dosis(rs.getInt("numero_dosis"));
+                v.setFecha_vacunacion(rs.getDate("fecha_vacunacion").toLocalDate());
+                v.setLugar_vacunacion(rs.getString("lugar_vacunacion"));
+                listado.add(v);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
+    }
+
+    @Override
+    public List<Vacunacion> buscarVacunacionesPorNomYApe(String nomYApe) {
+        List<Vacunacion> listado = null;
+        String query = """
+                       Select p.dni, CONCAT(p.nombre, ' ', p.apellido) as nombre, v.nombre_vacuna, hp.lote_vacuna, hp.numero_dosis, hp.fecha_vacunacion, hp.lugar_vacunacion
+                       from historial_vacunacion as hp
+                       inner join persona as p on hp.persona_dni = p.dni
+                       inner join vacuna as v on hp.vacuna_codigo = v.codigo
+                       where nombre LIKE ? OR apellido LIKE ?
+                       """;
+        try (PreparedStatement pstmt = conn.prepareCall(query)) {
+            pstmt.setString(1, nomYApe + "%");
+            pstmt.setString(2, nomYApe + "%");
+            ResultSet rs = pstmt.executeQuery();
+            listado = new ArrayList();
+            while (rs.next()) {
+                Vacunacion v = new Vacunacion();
+                v.setPersona_dni(rs.getLong("dni"));
+                v.setNombre_completo(rs.getString("nombre"));
+                v.setNombre_vacuna(rs.getString("nombre_vacuna"));
+                v.setLote_vacuna(rs.getString("lote_vacuna"));
+                v.setNumero_dosis(rs.getInt("numero_dosis"));
+                v.setFecha_vacunacion(rs.getDate("fecha_vacunacion").toLocalDate());
+                v.setLugar_vacunacion(rs.getString("lugar_vacunacion"));
+                listado.add(v);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
+    }
+
+    @Override
+    public List<Vacunacion> buscarVacunacionesPorNombreVacuna(String nombreVacuna) {
+        List<Vacunacion> listado = null;
+        String query = """
+                       Select p.dni, CONCAT(p.nombre, ' ', p.apellido) as nombre, v.nombre_vacuna, hp.lote_vacuna, hp.numero_dosis, hp.fecha_vacunacion, hp.lugar_vacunacion
+                       from historial_vacunacion as hp
+                       inner join persona as p on hp.persona_dni = p.dni
+                       inner join vacuna as v on hp.vacuna_codigo = v.codigo
+                       where v.nombre_vacuna LIKE ?
+                       """;
+        try (PreparedStatement pstmt = conn.prepareCall(query)) {
+            pstmt.setString(1, nombreVacuna + "%");
+            ResultSet rs = pstmt.executeQuery();
+            listado = new ArrayList();
+            while (rs.next()) {
+                Vacunacion v = new Vacunacion();
+                v.setPersona_dni(rs.getLong("dni"));
+                v.setNombre_completo(rs.getString("nombre"));
+                v.setNombre_vacuna(rs.getString("nombre_vacuna"));
+                v.setLote_vacuna(rs.getString("lote_vacuna"));
+                v.setNumero_dosis(rs.getInt("numero_dosis"));
+                v.setFecha_vacunacion(rs.getDate("fecha_vacunacion").toLocalDate());
+                v.setLugar_vacunacion(rs.getString("lugar_vacunacion"));
+                listado.add(v);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
+    }
+    
+    @Override
+    public List<Vacunacion> buscarVacunacionesPorDosis(String dosis) {
+        List<Vacunacion> listado = null;
+        String query = """
+                       Select p.dni, CONCAT(p.nombre, ' ', p.apellido) as nombre, v.nombre_vacuna, hp.lote_vacuna, hp.numero_dosis, hp.fecha_vacunacion, hp.lugar_vacunacion
+                       from historial_vacunacion as hp
+                       inner join persona as p on hp.persona_dni = p.dni
+                       inner join vacuna as v on hp.vacuna_codigo = v.codigo
+                       where hp.numero_dosis = ?
+                       """;
+        try (PreparedStatement pstmt = conn.prepareCall(query)) {
+            pstmt.setString(1, dosis);
+            ResultSet rs = pstmt.executeQuery();
+            listado = new ArrayList();
+            while (rs.next()) {
+                Vacunacion v = new Vacunacion();
+                v.setPersona_dni(rs.getLong("dni"));
+                v.setNombre_completo(rs.getString("nombre"));
+                v.setNombre_vacuna(rs.getString("nombre_vacuna"));
+                v.setLote_vacuna(rs.getString("lote_vacuna"));
+                v.setNumero_dosis(rs.getInt("numero_dosis"));
+                v.setFecha_vacunacion(rs.getDate("fecha_vacunacion").toLocalDate());
+                v.setLugar_vacunacion(rs.getString("lugar_vacunacion"));
+                listado.add(v);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
     }
 }

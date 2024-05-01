@@ -802,23 +802,19 @@ public class JDialogPersona extends javax.swing.JDialog {
     }
 
     private void eventoBusquedaNomYApe() {
-        // Agregamos un DocumentListener al dni
         jtfSearchName.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                // Llamamos a la función cada vez que se inserta un carácter
                 controller.buscarPersonaNomYApe(TablePerson, jPanelBotonesPagina, jtfSearchName);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                // Llamamos a la función cada vez que se elimina un carácter
                 controller.buscarPersonaNomYApe(TablePerson, jPanelBotonesPagina, jtfSearchName);
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // No es relevante para JTextFields sin formato
             }
         });
     }

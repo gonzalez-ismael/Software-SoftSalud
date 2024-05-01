@@ -15,4 +15,8 @@ public interface IVacunacionRepository {
     public List<Vacunacion> listarVacunaciones();
     public List<Vacunacion> listarVacunacionesCrudo();
     public Vacunacion buscarVacunacion(Long dniPersona, Long codigoVacuna, String loteVacuna);
+    public List<Vacunacion> buscarVacunacionesPorDni(String dni);
+    public List<Vacunacion> buscarVacunacionesPorNomYApe(String nomYApe);
+    public List<Vacunacion> buscarVacunacionesPorNombreVacuna(String nombreVacuna);
+    public List<Vacunacion> buscarVacunacionesPorDosis(String dosis);
 }

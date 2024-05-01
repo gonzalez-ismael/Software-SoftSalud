@@ -3,10 +3,13 @@ package com.softsalud.software.view;
 import com.softsalud.software.controller.logic.VacunacionController;
 import com.softsalud.software.persistence.model.Vacunacion;
 import static com.softsalud.software.view.validation.VistaValidacion.*;
+import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -32,7 +35,12 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         initComponents();
         this.controller = controller;
         this.controller.setVentanaVacunacion(this);
-        this.controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
+        this.controller.listarVacunaciones(tableVacunacion, jPanelBotonesPagina);
+
+        eventoBusquedaDni();
+        eventoBusquedaNomYApe();
+        eventoBusquedaNombreVacuna();
+        eventoBusquedaDosis();
     }
 
     /**
@@ -45,7 +53,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jlTittle1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TableVacunacion = new javax.swing.JTable();
+        tableVacunacion = new javax.swing.JTable();
         btnDelete = new javax.swing.JButton();
         btnReloader = new javax.swing.JButton();
         jPanelBotonesPagina = new javax.swing.JPanel();
@@ -78,6 +86,10 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         btnSearchName = new javax.swing.JButton();
         btnSearchDNI = new javax.swing.JButton();
         jtfSearchDni = new javax.swing.JTextField();
+        btnSearchVaccineName = new javax.swing.JButton();
+        jtfSearchVaccineName = new javax.swing.JTextField();
+        btnSearchDoses = new javax.swing.JButton();
+        jcbSearchDoses = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -88,7 +100,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         jlTittle1.setForeground(new java.awt.Color(0, 0, 0));
         jlTittle1.setText("LISTADO DE PERSONAS : ");
 
-        TableVacunacion.setModel(new javax.swing.table.DefaultTableModel(
+        tableVacunacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -96,22 +108,22 @@ public class JDialogVacunacion extends javax.swing.JDialog {
                 "DNI", "Nombre Completo", "Marca Vacuna", "Lote Vacuna", "Dosis", "Fecha", "Lugar"
             }
         ));
-        jScrollPane1.setViewportView(TableVacunacion);
-        if (TableVacunacion.getColumnModel().getColumnCount() > 0) {
-            TableVacunacion.getColumnModel().getColumn(0).setResizable(false);
-            TableVacunacion.getColumnModel().getColumn(0).setPreferredWidth(45);
-            TableVacunacion.getColumnModel().getColumn(1).setResizable(false);
-            TableVacunacion.getColumnModel().getColumn(1).setPreferredWidth(135);
-            TableVacunacion.getColumnModel().getColumn(2).setResizable(false);
-            TableVacunacion.getColumnModel().getColumn(2).setPreferredWidth(60);
-            TableVacunacion.getColumnModel().getColumn(3).setResizable(false);
-            TableVacunacion.getColumnModel().getColumn(3).setPreferredWidth(45);
-            TableVacunacion.getColumnModel().getColumn(4).setResizable(false);
-            TableVacunacion.getColumnModel().getColumn(4).setPreferredWidth(20);
-            TableVacunacion.getColumnModel().getColumn(5).setResizable(false);
-            TableVacunacion.getColumnModel().getColumn(5).setPreferredWidth(40);
-            TableVacunacion.getColumnModel().getColumn(6).setResizable(false);
-            TableVacunacion.getColumnModel().getColumn(6).setPreferredWidth(75);
+        jScrollPane1.setViewportView(tableVacunacion);
+        if (tableVacunacion.getColumnModel().getColumnCount() > 0) {
+            tableVacunacion.getColumnModel().getColumn(0).setResizable(false);
+            tableVacunacion.getColumnModel().getColumn(0).setPreferredWidth(45);
+            tableVacunacion.getColumnModel().getColumn(1).setResizable(false);
+            tableVacunacion.getColumnModel().getColumn(1).setPreferredWidth(135);
+            tableVacunacion.getColumnModel().getColumn(2).setResizable(false);
+            tableVacunacion.getColumnModel().getColumn(2).setPreferredWidth(60);
+            tableVacunacion.getColumnModel().getColumn(3).setResizable(false);
+            tableVacunacion.getColumnModel().getColumn(3).setPreferredWidth(45);
+            tableVacunacion.getColumnModel().getColumn(4).setResizable(false);
+            tableVacunacion.getColumnModel().getColumn(4).setPreferredWidth(20);
+            tableVacunacion.getColumnModel().getColumn(5).setResizable(false);
+            tableVacunacion.getColumnModel().getColumn(5).setPreferredWidth(40);
+            tableVacunacion.getColumnModel().getColumn(6).setResizable(false);
+            tableVacunacion.getColumnModel().getColumn(6).setPreferredWidth(75);
         }
 
         btnDelete.setText("Eliminar");
@@ -381,25 +393,68 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         jtfSearchName.setEnabled(false);
 
         btnSearchName.setText("Por Nombre y Apellido : ");
+        btnSearchName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchNameActionPerformed(evt);
+            }
+        });
 
         btnSearchDNI.setText("Por DNI : ");
+        btnSearchDNI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchDNIActionPerformed(evt);
+            }
+        });
+
+        jtfSearchDni.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfSearchDniKeyTyped(evt);
+            }
+        });
+
+        btnSearchVaccineName.setText("Por Nombre Vacuna : ");
+        btnSearchVaccineName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchVaccineNameActionPerformed(evt);
+            }
+        });
+
+        jtfSearchVaccineName.setEnabled(false);
+
+        btnSearchDoses.setText("Por dosis :");
+        btnSearchDoses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchDosesActionPerformed(evt);
+            }
+        });
+
+        jcbSearchDoses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Anual", "1", "2", "3", "4", "5", "6", "7", "8" }));
+        jcbSearchDoses.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(126, 126, 126)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnSearchName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfSearchName, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnSearchDNI)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfSearchDni)))
-                .addGap(126, 126, 126))
+                        .addComponent(jtfSearchDni)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSearchVaccineName))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnSearchName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfSearchName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSearchDoses)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jcbSearchDoses, 0, 200, Short.MAX_VALUE)
+                    .addComponent(jtfSearchVaccineName))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,12 +462,16 @@ public class JDialogVacunacion extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSearchDNI)
-                    .addComponent(jtfSearchDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtfSearchDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfSearchVaccineName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearchVaccineName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfSearchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearchName))
-                .addContainerGap())
+                    .addComponent(btnSearchName)
+                    .addComponent(btnSearchDoses)
+                    .addComponent(jcbSearchDoses, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -430,9 +489,9 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -445,10 +504,10 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        Vacunacion v = controller.editarVacunacion(TableVacunacion);
+        Vacunacion v = controller.editarVacunacion(tableVacunacion);
         if (v != null) {
             controller.eliminarVacunacion(v);
-            controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
+            controller.listarVacunaciones(tableVacunacion, jPanelBotonesPagina);
             clearBtns();
             clearCells();
         } else {
@@ -460,13 +519,13 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnReloaderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloaderActionPerformed
-        controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
         clearBtns();
         clearCells();
+        controller.listarVacunaciones(tableVacunacion, jPanelBotonesPagina);
     }//GEN-LAST:event_btnReloaderActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        Vacunacion v = controller.editarVacunacion(TableVacunacion);
+        Vacunacion v = controller.editarVacunacion(tableVacunacion);
         if (v != null) {
             dniBuscado = Long.valueOf(v.getPersona_dni().toString());
             marcaVacuna = v.getNombre_vacuna();
@@ -505,7 +564,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
                     jcbLugarVacunacion.getSelectedItem().toString());
             switch (resultado) {
                 case EXITO -> {
-                    controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
+                    controller.listarVacunaciones(tableVacunacion, jPanelBotonesPagina);
                     dniBuscado = null;
                     marcaVacuna = null;
                     loteVacuna = null;
@@ -549,7 +608,9 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }//GEN-LAST:event_jtfFechaVacFocusGained
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-//        dniBuscado = null;
+        dniBuscado = null;
+        marcaVacuna = null;
+        loteVacuna = null;
         clearCells();
         clearBtns();
     }//GEN-LAST:event_btnCancelActionPerformed
@@ -564,7 +625,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
                     jcbLugarVacunacion.getSelectedItem().toString());
             switch (resultado) {
                 case EXITO -> {
-                    controller.listarVacunaciones(TableVacunacion, jPanelBotonesPagina);
+                    controller.listarVacunaciones(tableVacunacion, jPanelBotonesPagina);
                     clearCells();
                 }
                 case CLAVEREPETIDA -> {
@@ -610,6 +671,109 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jcbFechaActualActionPerformed
 
+    private void jtfSearchDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfSearchDniKeyTyped
+        validarNumero(evt);
+        validarLongitudCadena(evt, jtfDNI, 8);
+    }//GEN-LAST:event_jtfSearchDniKeyTyped
+
+    private void btnSearchDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDNIActionPerformed
+        jtfSearchDni.setEnabled(true);
+        jtfSearchVaccineName.setEnabled(false);
+        jtfSearchName.setEnabled(false);
+        jcbSearchDoses.setEnabled(false);
+        jtfSearchDni.requestFocus();
+    }//GEN-LAST:event_btnSearchDNIActionPerformed
+
+    private void btnSearchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchNameActionPerformed
+        jtfSearchDni.setEnabled(false);
+        jtfSearchVaccineName.setEnabled(false);
+        jtfSearchName.setEnabled(true);
+        jcbSearchDoses.setEnabled(false);
+        jtfSearchName.requestFocus();
+    }//GEN-LAST:event_btnSearchNameActionPerformed
+
+    private void btnSearchVaccineNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchVaccineNameActionPerformed
+        jtfSearchDni.setEnabled(false);
+        jtfSearchVaccineName.setEnabled(true);
+        jtfSearchName.setEnabled(false);
+        jcbSearchDoses.setEnabled(false);
+        jtfSearchVaccineName.requestFocus();
+    }//GEN-LAST:event_btnSearchVaccineNameActionPerformed
+
+    private void btnSearchDosesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDosesActionPerformed
+        jtfSearchDni.setEnabled(false);
+        jtfSearchVaccineName.setEnabled(false);
+        jtfSearchName.setEnabled(false);
+        jcbSearchDoses.setEnabled(true);
+    }//GEN-LAST:event_btnSearchDosesActionPerformed
+
+    private void eventoBusquedaDni() {
+        // Agregamos un DocumentListener al dni
+        jtfSearchDni.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                // Llamamos a la función cada vez que se inserta un carácter
+                controller.buscarVacunacionDni(tableVacunacion, jPanelBotonesPagina, jtfSearchDni);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                // Llamamos a la función cada vez que se elimina un carácter
+                controller.buscarVacunacionDni(tableVacunacion, jPanelBotonesPagina, jtfSearchDni);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // No es relevante para JTextFields sin formato
+            }
+        });
+    }
+
+    private void eventoBusquedaNomYApe() {
+        jtfSearchName.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                controller.buscarVacunacionNomYApe(tableVacunacion, jPanelBotonesPagina, jtfSearchName);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                controller.buscarVacunacionNomYApe(tableVacunacion, jPanelBotonesPagina, jtfSearchName);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
+    }
+
+    private void eventoBusquedaNombreVacuna() {
+        jtfSearchVaccineName.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                controller.buscarVacunacionNombreVacuna(tableVacunacion, jPanelBotonesPagina, jtfSearchVaccineName);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                controller.buscarVacunacionNombreVacuna(tableVacunacion, jPanelBotonesPagina, jtfSearchVaccineName);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
+    }
+
+    private void eventoBusquedaDosis() {
+        jcbSearchDoses.addActionListener((ActionEvent e) -> {
+            // Llama a la función de búsqueda con el ítem seleccionado
+            if (jcbSearchDoses.isEnabled()) {
+                controller.buscarVacunacionDosis(tableVacunacion, jPanelBotonesPagina, jcbSearchDoses.getSelectedItem().toString());
+            }
+        });
+    }
+
     private boolean estanCamposCompletosYValidos() {
         boolean camposValidos = true;
         clearLabelError();
@@ -654,6 +818,14 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }
 
     private void clearCells() {
+        jtfSearchDni.setEnabled(true);
+        jtfSearchVaccineName.setEnabled(false);
+        jtfSearchName.setEnabled(false);
+        jcbSearchDoses.setEnabled(false);
+        jtfSearchDni.setText("");
+        jtfSearchName.setText("");
+        jtfSearchVaccineName.setText("");
+        jcbSearchDoses.setSelectedIndex(0);
         jtfDNI.setText("");
         jtfMarcaVacuna.setText("");
         jtfLoteVacuna.setText("");
@@ -680,22 +852,23 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }
 
     public JTable getTableVacunacion() {
-        return TableVacunacion;
+        return tableVacunacion;
     }
 
     public void setTableVacunacion(JTable TableVacunacion) {
-        this.TableVacunacion = TableVacunacion;
+        this.tableVacunacion = TableVacunacion;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TableVacunacion;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnReloader;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearchDNI;
+    private javax.swing.JButton btnSearchDoses;
     private javax.swing.JButton btnSearchName;
+    private javax.swing.JButton btnSearchVaccineName;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -705,6 +878,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     private javax.swing.JCheckBox jcbFechaActual;
     private javax.swing.JComboBox<String> jcbLugarVacunacion;
     private javax.swing.JComboBox<String> jcbNumeroDosis;
+    private javax.swing.JComboBox<String> jcbSearchDoses;
     private javax.swing.JLabel jlDni;
     private javax.swing.JLabel jlErrorDNI;
     private javax.swing.JLabel jlErrorLoteVacuna;
@@ -724,5 +898,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     private javax.swing.JTextField jtfMarcaVacuna;
     private javax.swing.JTextField jtfSearchDni;
     private javax.swing.JTextField jtfSearchName;
+    private javax.swing.JTextField jtfSearchVaccineName;
+    private javax.swing.JTable tableVacunacion;
     // End of variables declaration//GEN-END:variables
 }

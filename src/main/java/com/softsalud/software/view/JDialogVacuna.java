@@ -339,7 +339,6 @@ public class JDialogVacuna extends javax.swing.JDialog {
     }//GEN-LAST:event_btnReloaderActionPerformed
 
     private void eventoBuscarVacuna() {
-        // Agregamos un DocumentListener al dni
         jTextFieldSearchVaccine.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
