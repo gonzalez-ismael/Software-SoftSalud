@@ -730,7 +730,7 @@ public class JDialogPersona extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (estanCamposCompletosYValidos()) {
-            int resultado = controller.agregarPersona(jtfDNI.getText(),
+            int resultado = controller.agregarRegistro(jtfDNI.getText(),
                     jtfApellido.getText(),
                     jtfNombre.getText(),
                     formatearFecha(jtfFechaNac.getText(), STRINGTODATE),

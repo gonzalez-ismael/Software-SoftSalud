@@ -72,7 +72,7 @@ public class VacunacionController implements ActionListener, TableModelListener 
         return vacunacionRepos.listarVacunacionesCrudo();
     }
 
-    public int agregarVacunacion(String dni, String marcaVacuna, String loteVacuna,
+    public int agregarRegistro(String dni, String marcaVacuna, String loteVacuna,
             String dosis, String fechaVac, String lugarVacunacion) {
         Persona p = personaRepos.buscarPersona(Long.valueOf(dni));
         if (p == null) {
@@ -142,6 +142,10 @@ public class VacunacionController implements ActionListener, TableModelListener 
 
     public int eliminarVacunacion(Vacunacion vacunacion) {
         return vacunacionRepos.eliminar(vacunacion);
+    }
+    
+    public int eliminarTodosRegistros(){
+        return vacunacionRepos.eliminarTodo();
     }
 
     private boolean esMismaVacunacion(Long dniBuscado, String marcaVacunaBuscada, String loteVacunaBuscada,

@@ -32,6 +32,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ControladorBackup<E> {
 
+    //ETIQUETAS
+    private static final int PERSONA = 0, VACUNA = 1, VACUNACION = 2;
     //Constantes
     private final PersonaController personaController;
     private final VacunaController vacunaController;
@@ -188,7 +190,7 @@ public class ControladorBackup<E> {
      * @param archivoBackup
      * @return Retorna un valor booleano indicando si es o no válido.
      */
-    public boolean esArchivoExcelValidoParaImportar(File archivoBackup) {
+    public static boolean esArchivoExcelValidoParaImportar(File archivoBackup) {
         try (Workbook wb = WorkbookFactory.create(new FileInputStream(archivoBackup))) {
             if (wb.getNumberOfSheets() != 3) {
                 return false;
@@ -222,7 +224,7 @@ public class ControladorBackup<E> {
      * @param terceraHoja
      * @return devuelve verdadero o falso según la válidez de las hojas.
      */
-    private boolean sonHojasValidas(String primeraHoja, String segundaHoja, String terceraHoja) {
+    private static boolean sonHojasValidas(String primeraHoja, String segundaHoja, String terceraHoja) {
         boolean condicion1 = (primeraHoja.equals("Listado de Personas"));
         boolean condicion2 = (segundaHoja.equals("Listado de Vacunas"));
         boolean condicion3 = (terceraHoja.equals("Listado de Vacunaciones"));
@@ -237,30 +239,11 @@ public class ControladorBackup<E> {
      * @param terceraHoja
      * @return devuelve verdadero o falso según la válidez de los encabezados.
      */
-    private boolean sonValidosEncabezados(Sheet primeraHoja, Sheet segundaHoja, Sheet terceraHoja) {
-        boolean condicion1 = Arrays.equals(Persona.toStringTitulos(), obtenerEncabezadosHojas(primeraHoja));
-        boolean condicion2 = Arrays.equals(Vacuna.toStringTitulos(), obtenerEncabezadosHojas(segundaHoja));
-        boolean condicion3 = Arrays.equals(Vacunacion.toStringTitulos(), obtenerEncabezadosHojas(terceraHoja));
+    private static boolean sonValidosEncabezados(Sheet primeraHoja, Sheet segundaHoja, Sheet terceraHoja) {
+        boolean condicion1 = Arrays.equals(Persona.toStringTitulos(), Workbok.obtenerEncabezadosHojas(primeraHoja));
+        boolean condicion2 = Arrays.equals(Vacuna.toStringTitulos(), Workbok.obtenerEncabezadosHojas(segundaHoja));
+        boolean condicion3 = Arrays.equals(Vacunacion.toStringTitulos(), Workbok.obtenerEncabezadosHojas(terceraHoja));
         return (condicion1 && condicion2 && condicion3);
-    }
-
-    /**
-     * Este método se encargar de obtener la primer fila de una hoja, los encabezados.
-     *
-     * @param hoja
-     * @return devuelve un arreglo de String con los datos de la primer fila de la hoja.
-     */
-    private String[] obtenerEncabezadosHojas(Sheet hoja) {
-        Row primeraFila = hoja.getRow(0);
-        int totalCeldas = primeraFila.getLastCellNum(); // Obtener el número total de celdas en la fila
-
-        String[] encabezados = new String[totalCeldas];
-
-        for (int i = 0; i < totalCeldas; i++) {
-            Cell celda = primeraFila.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-            encabezados[i] = celda.getStringCellValue();
-        }
-        return encabezados;
     }
 
     /**
@@ -270,8 +253,8 @@ public class ControladorBackup<E> {
      * @return
      */
     public int[] sobrescribirCopiaSeguridad(File archivoBackup) {
+        borrarTodosDatos();
         int[] resultados = new int[9];
-        int cantInscriptos = 0, cantRepetidos = 0, cantFallidos = 0;
         try {
             Workbook wb = WorkbookFactory.create(new FileInputStream(archivoBackup));
 
@@ -279,66 +262,9 @@ public class ControladorBackup<E> {
             String[][] listadoVacunas = Workbok.procesarArchivoExcel(wb.getSheetAt(1));
             String[][] listadoVacunacion = Workbok.procesarArchivoExcel(wb.getSheetAt(2));
 
-            for (int i = 1; i < listadoPersonas.length; i++) {
-                String[] registro = listadoPersonas[i];
-                int resultadoOperacion = personaController.agregarPersona(registro[0], registro[1], registro[2],
-                        registro[4], registro[5], registro[6], registro[7], registro[8],
-                        Boolean.parseBoolean(registro[9]), Boolean.parseBoolean(registro[10]), registro[11]);
-                switch (resultadoOperacion) {
-                    case 1 ->
-                        cantInscriptos++;
-                    case 2 ->
-                        cantRepetidos++;
-                    default ->
-                        cantFallidos++;
-                }
-            }
-
-            resultados[0] = cantInscriptos;
-            cantInscriptos = 0;
-            resultados[1] = cantRepetidos;
-            cantRepetidos = 0;
-            resultados[2] = cantFallidos;
-            cantFallidos = 0;
-
-            for (int i = 1; i < listadoVacunas.length; i++) {
-                String[] registro = listadoVacunas[i];
-                int resultadoOperacion = vacunaController.agregarVacuna(registro[1]);
-                switch (resultadoOperacion) {
-                    case 1 ->
-                        cantInscriptos++;
-                    case 2 ->
-                        cantRepetidos++;
-                    default ->
-                        cantFallidos++;
-                }
-            }
-
-            resultados[3] = cantInscriptos;
-            cantInscriptos = 0;
-            resultados[4] = cantRepetidos;
-            cantRepetidos = 0;
-            resultados[5] = cantFallidos;
-            cantFallidos = 0;
-
-            for (int i = 1; i < listadoVacunacion.length; i++) {
-                String[] registro = listadoVacunacion[i];
-                int resultadoOperacion = vacunacionController.agregarVacunacion(registro[0], registro[1],
-                        registro[2], registro[3],
-                        registro[4], registro[5]);
-                switch (resultadoOperacion) {
-                    case 1 ->
-                        cantInscriptos++;
-                    case 2 ->
-                        cantRepetidos++;
-                    default ->
-                        cantFallidos++;
-                }
-            }
-
-            resultados[6] = cantInscriptos;
-            resultados[7] = cantRepetidos;
-            resultados[8] = cantFallidos;
+            insertarRegistros(listadoPersonas, resultados, PERSONA);
+            insertarRegistros(listadoVacunas, resultados, VACUNA);
+            insertarRegistros(listadoVacunacion, resultados, VACUNACION);
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ControladorBackup.class.getName()).log(Level.SEVERE, null, ex);
@@ -349,4 +275,77 @@ public class ControladorBackup<E> {
         return resultados;
     }
 
+    /**
+     * Este método elimina completamente todos los datos de la base de datos. Se recomienda precaucion con su implementación.
+     */
+    private void borrarTodosDatos() {
+        vacunacionController.eliminarTodosRegistros();
+        vacunaController.eliminarTodosRegistros();
+        personaController.eliminarTodosRegistros();
+    }
+
+    /**
+     * Este método inserta los registros de las personas, vacunas y vacunaciones.
+     *
+     * @param listado contiene los registros a insertar.
+     * @param resultados almacena la cantidad de personas, vacunas y vacunaciones ingresadas, repetidas y fallidas.
+     * @param modoController indica al algoritmo que tipo de dato esta trabajando.
+     */
+    private void insertarRegistros(String[][] listado, int[] resultados, int modoController) {
+        int cantInscriptos = 0, cantRepetidos = 0, cantFallidos = 0;
+        int resultadoOperacion = 0;
+        for (int i = 1; i < listado.length; i++) {
+            String[] registro = listado[i];
+            switch (modoController) {
+                case PERSONA ->
+                    resultadoOperacion = personaController.agregarRegistro(registro[0], registro[1], registro[2],
+                            registro[4], registro[5], registro[6], registro[7], registro[8],
+                            Boolean.parseBoolean(registro[9]), Boolean.parseBoolean(registro[10]), registro[11]);
+                case VACUNA ->
+                    resultadoOperacion = vacunaController.agregarRegistro(registro[1]);
+                case VACUNACION ->
+                    resultadoOperacion = vacunacionController.agregarRegistro(registro[0], registro[1],
+                            registro[2], registro[3],
+                            registro[4], registro[5]);
+            }
+            switch (resultadoOperacion) {
+                case 1 ->
+                    cantInscriptos++;
+                case 2 ->
+                    cantRepetidos++;
+                default ->
+                    cantFallidos++;
+            }
+        }
+        guardarResultados(resultados, modoController, cantInscriptos, cantRepetidos, cantFallidos);
+    }
+
+    /**
+     * Este método solo almacena los resultados segun el tipo de registro insertado.
+     *
+     * @param resultados
+     * @param modoController
+     * @param cantInscriptos
+     * @param cantRepetidos
+     * @param cantFallidos
+     */
+    private void guardarResultados(int[] resultados, int modoController, int cantInscriptos, int cantRepetidos, int cantFallidos) {
+        switch (modoController) {
+            case PERSONA -> {
+                resultados[0] = cantInscriptos;
+                resultados[1] = cantRepetidos;
+                resultados[2] = cantFallidos;
+            }
+            case VACUNA -> {
+                resultados[3] = cantInscriptos;
+                resultados[4] = cantRepetidos;
+                resultados[5] = cantFallidos;
+            }
+            case VACUNACION -> {
+                resultados[6] = cantInscriptos;
+                resultados[7] = cantRepetidos;
+                resultados[8] = cantFallidos;
+            }
+        }
+    }
 }

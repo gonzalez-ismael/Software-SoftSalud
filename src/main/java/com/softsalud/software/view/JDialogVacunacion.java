@@ -556,7 +556,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (estanCamposCompletosYValidos()) {
-            int resultado = controller.agregarVacunacion(jtfDNI.getText(),
+            int resultado = controller.agregarRegistro(jtfDNI.getText(),
                     jtfMarcaVacuna.getText(),
                     jtfLoteVacuna.getText(),
                     jcbNumeroDosis.getSelectedItem().toString(),

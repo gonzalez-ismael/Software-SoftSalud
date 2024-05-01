@@ -247,7 +247,7 @@ public class JDialogVacuna extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (!jTextFieldNameVaccine.getText().isEmpty()) {
-            int resultado = controller.agregarVacuna(jTextFieldNameVaccine.getText());
+            int resultado = controller.agregarRegistro(jTextFieldNameVaccine.getText());
             switch (resultado) {
                 case EXITO -> {
                     controller.listarVacunas(tableVaccine, jPanelBotonesPagina);

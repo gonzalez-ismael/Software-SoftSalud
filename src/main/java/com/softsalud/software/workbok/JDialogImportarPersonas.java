@@ -191,11 +191,15 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         if (seleccionArchivo.showDialog(null, "Seleccionar archivo") == JFileChooser.APPROVE_OPTION) {
             archivo = seleccionArchivo.getSelectedFile();
             if (archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")) {
-                datos = Workbok.procesarArchivoExcel(archivo);
-                jTextField1.setText(archivo.getName());
-                ProgressBarCarga.setValue(0);
-                jTextAreaResultados.setText(" ");
-                JOptionPane.showMessageDialog(null, "Archivo seleccionado exitosamente");
+                if (ControladorImportarPersonas.esArchivoExcelValidoParaImportar(archivo)) {
+                    datos = Workbok.procesarArchivoExcel(archivo);
+                    jTextField1.setText(archivo.getName());
+                    ProgressBarCarga.setValue(0);
+                    jTextAreaResultados.setText(" ");
+                    JOptionPane.showMessageDialog(null, "Archivo seleccionado exitosamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Elija una archivo válido para importar.");
+                }
             } else {
                 JOptionPane.showConfirmDialog(null, "Elija un formato válido.");
             }

@@ -137,6 +137,19 @@ public class PersonaRepos implements IPersonaRepository {
     }
 
     @Override
+    public int eliminarTodo() {
+        int resultadoOperacion;
+        String query = "DELETE FROM persona";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            resultadoOperacion = pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            resultadoOperacion = UNKNOWNFAIL;
+            Logger.getLogger(PersonaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultadoOperacion;
+    }
+
+    @Override
     public int eliminarLogico(Long dni) {
         int resultadoOperacion = EMPTY;
         String query = "UPDATE persona SET visible = 0 WHERE (dni = ?)";

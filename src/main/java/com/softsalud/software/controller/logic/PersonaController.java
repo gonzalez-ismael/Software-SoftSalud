@@ -67,7 +67,7 @@ public class PersonaController implements ActionListener, TableModelListener {
         return personaRepos.listarPersonas();
     }
 
-    public int agregarPersona(String dni, String apellido, String nombre, String fecha_nac,
+    public int agregarRegistro(String dni, String apellido, String nombre, String fecha_nac,
             String numero_tel, String numero_tel_opcional, String localidad, String direccion,
             boolean tuvo_covid, boolean tiene_trasplantes, String factores_riesgo) {
         int resultadoOperacion;
@@ -145,6 +145,10 @@ public class PersonaController implements ActionListener, TableModelListener {
             }
         }
         return operacionExitosa;
+    }
+    
+    public int eliminarTodosRegistros(){
+        return personaRepos.eliminarTodo();
     }
 
     public void buscarPersonaDni(JTable tableFrame, JPanel panelBotones, JTextField jtfSearchDni) {

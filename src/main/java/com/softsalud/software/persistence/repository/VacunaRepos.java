@@ -101,6 +101,23 @@ public class VacunaRepos implements IVacunaRepository {
         }
         return operacionExitosa;
     }
+    
+    /**
+     *
+     * @return 
+     */
+    @Override
+    public int eliminarTodo() {
+        int resultadoOperacion;
+        String query = "DELETE FROM vacuna";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            resultadoOperacion = pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            resultadoOperacion = UNKNOWNFAIL;
+            Logger.getLogger(PersonaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultadoOperacion;
+    }
 
     /**
      *

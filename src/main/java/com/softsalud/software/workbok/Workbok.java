@@ -74,4 +74,23 @@ public class Workbok {
             return null;
         }
     }
+    
+    /**
+     * Este método se encargar de obtener la primer fila de una hoja, los encabezados.
+     *
+     * @param hoja
+     * @return devuelve un arreglo de String con los datos de la primer fila de la hoja.
+     */
+    public static String[] obtenerEncabezadosHojas(Sheet hoja) {
+        Row primeraFila = hoja.getRow(0);
+        int totalCeldas = primeraFila.getLastCellNum(); // Obtener el número total de celdas en la fila
+
+        String[] encabezados = new String[totalCeldas];
+
+        for (int i = 0; i < totalCeldas; i++) {
+            Cell celda = primeraFila.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+            encabezados[i] = celda.getStringCellValue();
+        }
+        return encabezados;
+    }
 }

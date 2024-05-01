@@ -64,7 +64,7 @@ public class VacunaController implements ActionListener, TableModelListener {
         return vacunaRepos.listarVacunas();
     }
 
-    public int agregarVacuna(String nameFrame) {
+    public int agregarRegistro(String nameFrame) {
         if (!nameFrame.isEmpty()) {
             return vacunaRepos.insertar(nameFrame);
         } else {
@@ -98,6 +98,10 @@ public class VacunaController implements ActionListener, TableModelListener {
             vacunaEliminada = vacunaRepos.eliminar(id);
         }
         return vacunaEliminada;
+    }
+    
+    public int eliminarTodosRegistros(){
+        return vacunaRepos.eliminarTodo();
     }
 
     public void buscarVacunaPorNombre(JTable tableFrame, JPanel panelBotones, JTextField jtfSearchDni) {

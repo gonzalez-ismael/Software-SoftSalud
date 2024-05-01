@@ -94,6 +94,19 @@ public class VacunacionRepos implements IVacunacionRepository {
         }
         return resultadoOperacion;
     }
+    
+    @Override
+    public int eliminarTodo() {
+        int resultadoOperacion;
+        String query = "DELETE FROM historial_vacunacion";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            resultadoOperacion = pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            resultadoOperacion = 3;
+            Logger.getLogger(PersonaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultadoOperacion;
+    }
 
     @Override
     public List<Vacunacion> listarVacunaciones() {

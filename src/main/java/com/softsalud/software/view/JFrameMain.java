@@ -15,6 +15,7 @@ import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository;
 import com.softsalud.software.workbok.ControladorBackup;
+import static com.softsalud.software.workbok.ControladorBackup.esArchivoExcelValidoParaImportar;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -271,48 +272,76 @@ public class JFrameMain extends javax.swing.JFrame {
 
     private void jMExportarTodosDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMExportarTodosDatosActionPerformed
         ControladorBackup backupConrtoller = new ControladorBackup(personaController, vacunaController, vacunacionController);
-        backupConrtoller.guardarCopiaSeguridadExcel();
+        if (backupConrtoller.guardarCopiaSeguridadExcel()) {
+            JOptionPane.showMessageDialog(null, "Copia guardada correctamente.", "Todo Correcto", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ups, intente nuevamente en unos minutos.", "Algo ocurrio", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jMExportarTodosDatosActionPerformed
 
     private void jMenuRestaurarCopiaSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRestaurarCopiaSeguridadActionPerformed
-        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea continuar?", "Confirmación", JOptionPane.YES_NO_OPTION);
-
+        int confirmacion = mostrarConfirmacion();
         if (confirmacion == JOptionPane.YES_OPTION) {
-            System.out.println("Se ha seleccionado 'Sí'.");
-
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Seleccione un archivo");
-
-            // Filtro para mostrar solo archivos de texto (.txt)
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos excel (.xlsx)", "xlsx");
-            fileChooser.setFileFilter(filter);
-
-            int userSelection = fileChooser.showOpenDialog(null);
-
-            if (userSelection == JFileChooser.APPROVE_OPTION) {
-                File archivoBackup = fileChooser.getSelectedFile();
-                System.out.println("Archivo seleccionado: " + archivoBackup.getAbsolutePath());
-                // Aquí puedes hacer lo que quieras con el archivo seleccionado
-                ControladorBackup backupConrtoller = new ControladorBackup(personaController, vacunaController, vacunacionController);
-
-                if (backupConrtoller.esArchivoExcelValidoParaImportar(archivoBackup)) {
-//                    int[] resultados = backupConrtoller.sobrescribirCopiaSeguridad(archivoBackup);
-//                    for (int i = 0; i < resultados.length; i++) {
-//                        System.out.println("RESULTADO NÚMERO " + i + ": " + resultados[i]);
-//                    }
-                    System.out.println("VALIDO");
-                } else {
-                    System.out.println("ARCHIVO NO VALIDO PARA IMPORTAR COPIA DE SEGURIDAD");
-                }
-            } else {
-                System.out.println("No se seleccionó ningún archivo.");
+            File archivoBackup = seleccionarArchivo();
+            if (archivoBackup != null) {
+                procesarCopiaSeguridad(archivoBackup);
             }
-
-        } else {
-            // Acciones si se selecciona "No" o se cierra el diálogo
-            System.out.println("Se ha seleccionado 'No' o se ha cerrado el diálogo.");
         }
     }//GEN-LAST:event_jMenuRestaurarCopiaSeguridadActionPerformed
+
+    private int mostrarConfirmacion() {
+        String mensaje = "¿Está seguro que desea continuar?\nEsto elimina y reemplaza todos los datos actuales.\nSe recomienda guardar una copia de seguridad antes.";
+        return JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
+    }
+
+    private File seleccionarArchivo() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccione un archivo");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos excel (.xlsx)", "xlsx");
+        fileChooser.setFileFilter(filter);
+        int userSelection = fileChooser.showOpenDialog(null);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        }
+        return null;
+    }
+
+    private void procesarCopiaSeguridad(File archivoBackup) {
+        if (esArchivoValido(archivoBackup)) {
+            ControladorBackup backupController = new ControladorBackup(personaController, vacunaController, vacunacionController);
+            int[] resultados = backupController.sobrescribirCopiaSeguridad(archivoBackup);
+            mostrarResultados(resultados);
+        } else {
+            mostrarError("Archivo no válido para importar copia de seguridad.");
+        }
+    }
+
+    private boolean esArchivoValido(File archivo) {
+        return ((archivo != null) && 
+                (archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")) && 
+                (esArchivoExcelValidoParaImportar(archivo)));
+    }
+
+    private void mostrarError(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void mostrarResultados(int[] resultados) {
+        String mensaje = "Resultados de la operación:\n\n"
+                + "Personas:\n"
+                + "  Inscriptos: " + resultados[0] + "\n"
+                + "  Repetidos: " + resultados[1] + "\n"
+                + "  Fallidos: " + resultados[2] + "\n\n"
+                + "Vacunas:\n"
+                + "  Inscriptos: " + resultados[3] + "\n"
+                + "  Repetidos: " + resultados[4] + "\n"
+                + "  Fallidos: " + resultados[5] + "\n\n"
+                + "Vacunaciones:\n"
+                + "  Inscriptos: " + resultados[6] + "\n"
+                + "  Repetidos: " + resultados[7] + "\n"
+                + "  Fallidos: " + resultados[8];
+        JOptionPane.showMessageDialog(null, mensaje, "Resultados de la operación", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     @Override
     public Image getIconImage() {
