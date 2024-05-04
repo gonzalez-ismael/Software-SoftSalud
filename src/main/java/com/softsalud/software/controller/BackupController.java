@@ -1,11 +1,13 @@
-package com.softsalud.software.workbok;
+package com.softsalud.software.controller;
 
-import com.softsalud.software.controller.logic.PersonaController;
-import com.softsalud.software.controller.logic.VacunaController;
-import com.softsalud.software.controller.logic.VacunacionController;
+import com.softsalud.software.controller.resource.FileProperties;
+import com.softsalud.software.controller.PersonaController;
+import com.softsalud.software.controller.VacunaController;
+import com.softsalud.software.controller.VacunacionController;
 import com.softsalud.software.persistence.model.Persona;
 import com.softsalud.software.persistence.model.Vacuna;
 import com.softsalud.software.persistence.model.Vacunacion;
+import com.softsalud.software.controller.resource.Workbok;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,7 +32,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author Gonzalez Ismael
  * @param <E> Objeto Genérico para poder trabajar con la Clase Persona, Vacuna y Vacunación.
  */
-public class ControladorBackup<E> {
+public class BackupController<E> {
 
     //ETIQUETAS
     private static final int PERSONA = 0, VACUNA = 1, VACUNACION = 2;
@@ -38,7 +40,7 @@ public class ControladorBackup<E> {
     private final PersonaController personaController;
     private final VacunaController vacunaController;
     private final VacunacionController vacunacionController;
-    private final String outputPath = "src/main/resources/report/outputfile/";
+    private final String outputPath;
 
     /**
      * Constructor creado por el programodor.
@@ -47,10 +49,11 @@ public class ControladorBackup<E> {
      * @param vacunaController
      * @param vacunacionController
      */
-    public ControladorBackup(PersonaController personaController, VacunaController vacunaController, VacunacionController vacunacionController) {
+    public BackupController(PersonaController personaController, VacunaController vacunaController, VacunacionController vacunacionController) {
         this.personaController = personaController;
         this.vacunaController = vacunaController;
         this.vacunacionController = vacunacionController;
+        this.outputPath = obtenerRutaOutpath();
     }
 
     /**
@@ -71,13 +74,13 @@ public class ControladorBackup<E> {
             crearHojaDeDatos(workbook, listaVacunacion, "Listado de Vacunaciones");
 
             // Guardar el archivo Excel
-            String fileName = outputPath + "Copia de Seguridad de Fecha " + String.valueOf(LocalDate.now()) + " .xlsx";
+            String fileName = outputPath + "/Copia de Seguridad de Fecha " + String.valueOf(LocalDate.now()) + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(fileName);
             workbook.write(fileOut);
             fileOut.close();
             seGuardoCorrectamente = true;
         } catch (IOException ex) {
-            Logger.getLogger(ControladorBackup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BackupController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return seGuardoCorrectamente;
     }
@@ -211,7 +214,7 @@ public class ControladorBackup<E> {
             return sonValidosEncabezados(primeraHoja, segundaHoja, terceraHoja);
 
         } catch (IOException | EncryptedDocumentException ex) {
-            Logger.getLogger(ControladorBackup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BackupController.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -267,9 +270,9 @@ public class ControladorBackup<E> {
             insertarRegistros(listadoVacunacion, resultados, VACUNACION);
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ControladorBackup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BackupController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | EncryptedDocumentException ex) {
-            Logger.getLogger(ControladorBackup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BackupController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return resultados;
@@ -347,5 +350,10 @@ public class ControladorBackup<E> {
                 resultados[8] = cantFallidos;
             }
         }
+    }
+    
+    private String obtenerRutaOutpath(){
+        FileProperties fileProperties = new FileProperties();
+        return fileProperties.getFile().getProperty("urlBackupLocation");
     }
 }

@@ -1,5 +1,6 @@
-package com.softsalud.software.controller.logic;
+package com.softsalud.software.controller;
 
+import com.softsalud.software.controller.resource.PaginarTabla;
 import com.softsalud.software.persistence.model.Persona;
 import com.softsalud.software.persistence.model.Vacuna;
 import com.softsalud.software.persistence.model.Vacunacion;

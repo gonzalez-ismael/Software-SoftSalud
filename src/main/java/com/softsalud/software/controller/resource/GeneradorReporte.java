@@ -1,4 +1,4 @@
-package com.softsalud.software.reporte;
+package com.softsalud.software.controller.resource;
 
 import com.softsalud.software.connection.ConnectionDB;
 import com.softsalud.software.persistence.model.Persona;

@@ -1,25 +1,22 @@
 package com.softsalud.software.view;
 
-import com.softsalud.software.workbok.JDialogImportarPersonas;
-import com.softsalud.software.reporte.JDialogReporte;
 import com.softsalud.software.connection.ConnectionDB;
-import com.softsalud.software.controller.logic.PersonaController;
-import com.softsalud.software.reporte.ReporteController;
-import com.softsalud.software.controller.logic.VacunaController;
-import com.softsalud.software.controller.logic.VacunacionController;
+import com.softsalud.software.controller.resource.FileProperties;
+import com.softsalud.software.controller.PersonaController;
+import com.softsalud.software.controller.ReporteController;
+import com.softsalud.software.controller.VacunaController;
+import com.softsalud.software.controller.VacunacionController;
 import com.softsalud.software.persistence.repository.PersonaRepos;
 import com.softsalud.software.persistence.repository.VacunaRepos;
 import com.softsalud.software.persistence.repository.VacunacionRepos;
-import com.softsalud.software.workbok.ControladorImportarPersonas;
+import com.softsalud.software.controller.ImportarPersonasController;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository;
-import com.softsalud.software.workbok.ControladorBackup;
-import static com.softsalud.software.workbok.ControladorBackup.esArchivoExcelValidoParaImportar;
+import com.softsalud.software.controller.BackupController;
+import static com.softsalud.software.controller.BackupController.esArchivoExcelValidoParaImportar;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -39,7 +36,7 @@ public class JFrameMain extends javax.swing.JFrame {
     private final VacunaController vacunaController;
     private final VacunacionController vacunacionController;
     private final ReporteController reporteController;
-    private final ControladorImportarPersonas importController;
+    private final ImportarPersonasController importController;
 
     private final ConnectionDB connection;
 
@@ -58,9 +55,7 @@ public class JFrameMain extends javax.swing.JFrame {
         vacunacionController = new VacunacionController(iVacunacionRepos, iPersonaRepos, iVacunaRepos);
 
         reporteController = new ReporteController(iPersonaRepos, iVacunaRepos);
-        importController = new ControladorImportarPersonas(personaController);
-
-        cerrarConexion();
+        importController = new ImportarPersonasController(personaController);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -186,6 +181,11 @@ public class JFrameMain extends javax.swing.JFrame {
 
         jMConfiguracion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, 0));
         jMConfiguracion.setText("Configuracion");
+        jMConfiguracion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMConfiguracionActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMConfiguracion);
 
         jMenuBar1.add(jMenu1);
@@ -271,7 +271,7 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_JMAboutUsActionPerformed
 
     private void jMExportarTodosDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMExportarTodosDatosActionPerformed
-        ControladorBackup backupConrtoller = new ControladorBackup(personaController, vacunaController, vacunacionController);
+        BackupController backupConrtoller = new BackupController(personaController, vacunaController, vacunacionController);
         if (backupConrtoller.guardarCopiaSeguridadExcel()) {
             JOptionPane.showMessageDialog(null, "Copia guardada correctamente.", "Todo Correcto", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -289,13 +289,24 @@ public class JFrameMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuRestaurarCopiaSeguridadActionPerformed
 
+    private void jMConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMConfiguracionActionPerformed
+        JDialogConfig configuracionDialog = new JDialogConfig(this, true);
+        configuracionDialog.setTitle("Menú de Configuración");
+        configuracionDialog.setLocationRelativeTo(null);
+        configuracionDialog.setVisible(true);
+    }//GEN-LAST:event_jMConfiguracionActionPerformed
+
     private int mostrarConfirmacion() {
         String mensaje = "¿Está seguro que desea continuar?\nEsto elimina y reemplaza todos los datos actuales.\nSe recomienda guardar una copia de seguridad antes.";
         return JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
     }
 
     private File seleccionarArchivo() {
+        FileProperties fileProperties = new FileProperties();
+        String rutaDefault = fileProperties.getFile().getProperty("urlBackupLocation");
+        File directorioInicial = new File(rutaDefault);
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(directorioInicial);
         fileChooser.setDialogTitle("Seleccione un archivo");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos excel (.xlsx)", "xlsx");
         fileChooser.setFileFilter(filter);
@@ -308,7 +319,7 @@ public class JFrameMain extends javax.swing.JFrame {
 
     private void procesarCopiaSeguridad(File archivoBackup) {
         if (esArchivoValido(archivoBackup)) {
-            ControladorBackup backupController = new ControladorBackup(personaController, vacunaController, vacunacionController);
+            BackupController backupController = new BackupController(personaController, vacunaController, vacunacionController);
             int[] resultados = backupController.sobrescribirCopiaSeguridad(archivoBackup);
             mostrarResultados(resultados);
         } else {
@@ -317,9 +328,9 @@ public class JFrameMain extends javax.swing.JFrame {
     }
 
     private boolean esArchivoValido(File archivo) {
-        return ((archivo != null) && 
-                (archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")) && 
-                (esArchivoExcelValidoParaImportar(archivo)));
+        return ((archivo != null)
+                && (archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx"))
+                && (esArchivoExcelValidoParaImportar(archivo)));
     }
 
     private void mostrarError(String mensaje) {
@@ -353,16 +364,6 @@ public class JFrameMain extends javax.swing.JFrame {
     private void personalizarMenu() {
         String titulo = "Menú Principal - SoftSalud.inc | LP 2023 - ADES - UART - UNPA";
         this.setTitle(titulo);
-    }
-
-    private void cerrarConexion() {
-        // Agregar un WindowListener para escuchar el evento de cierre del JFrame
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                connection.closeConnection(); // Cerrar la conexión cuando se cierre el JFrame
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

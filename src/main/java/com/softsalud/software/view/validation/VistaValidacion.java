@@ -70,6 +70,13 @@ public class VistaValidacion {
         }
     }
 
+    public static void validarNombreArchivo(java.awt.event.KeyEvent evt) {
+        char tecla = evt.getKeyChar();
+        if (tecla == '/' || tecla == '\\' || tecla == ':' || tecla == '*' || tecla == '?' || tecla == '"' || tecla == '<' || tecla == '>' || tecla == '|') {
+            evt.consume();
+        }
+    }
+
     public static String formatearFecha(String fechaOriginal, int modo) {
         DateTimeFormatter formatoString = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");

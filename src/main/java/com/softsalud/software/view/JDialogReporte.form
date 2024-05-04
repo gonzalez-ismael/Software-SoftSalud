@@ -237,6 +237,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfNombreListaVacunacion">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfNombreListaVacunacionKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
@@ -258,6 +261,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfNombreListaVacunas">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfNombreListaVacunasKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfNombreVacuna">
         </Component>
@@ -321,6 +327,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfNombreListaPersonas">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfNombreListaPersonasKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnListarPersonasPorVacuna">
           <Properties>

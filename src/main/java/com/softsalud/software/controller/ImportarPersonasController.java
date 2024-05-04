@@ -1,6 +1,8 @@
-package com.softsalud.software.workbok;
+package com.softsalud.software.controller;
 
-import com.softsalud.software.controller.logic.PersonaController;
+import com.softsalud.software.controller.BackupController;
+import com.softsalud.software.controller.PersonaController;
+import com.softsalud.software.controller.resource.Workbok;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,7 +24,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  *
  * @author Gonzalez Ismael
  */
-public class ControladorImportarPersonas {
+public class ImportarPersonasController {
 
     //CONSTANTES
     private final PersonaController personaController;
@@ -32,7 +34,7 @@ public class ControladorImportarPersonas {
      *
      * @param personaController
      */
-    public ControladorImportarPersonas(PersonaController personaController) {
+    public ImportarPersonasController(PersonaController personaController) {
         this.personaController = personaController;
     }
 
@@ -78,7 +80,7 @@ public class ControladorImportarPersonas {
         try {
             hilo.join();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ControladorImportarPersonas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ImportarPersonasController.class.getName()).log(Level.SEVERE, null, ex);
         }
         JOptionPane.showMessageDialog(null, "Operación Finalizada");
 
@@ -111,7 +113,7 @@ public class ControladorImportarPersonas {
             }
 
         } catch (IOException | EncryptedDocumentException ex) {
-            Logger.getLogger(ControladorBackup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BackupController.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

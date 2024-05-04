@@ -1,5 +1,7 @@
-package com.softsalud.software.reporte;
+package com.softsalud.software.view;
 
+import com.softsalud.software.controller.ReporteController;
+import static com.softsalud.software.view.validation.VistaValidacion.validarNombreArchivo;
 import javax.swing.JOptionPane;
 
 /**
@@ -105,6 +107,12 @@ public class JDialogReporte extends javax.swing.JDialog {
         jLabel4.setForeground(new java.awt.Color(44, 62, 80));
         jLabel4.setText("Reporte de todas las personas por vacuna (param) : ");
 
+        jtfNombreListaVacunacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfNombreListaVacunacionKeyTyped(evt);
+            }
+        });
+
         jLabel5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(44, 62, 80));
         jLabel5.setText("Reporte con todas las vacunas registradas: ");
@@ -113,6 +121,12 @@ public class JDialogReporte extends javax.swing.JDialog {
         btnListarVacunas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnListarVacunasActionPerformed(evt);
+            }
+        });
+
+        jtfNombreListaVacunas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfNombreListaVacunasKeyTyped(evt);
             }
         });
 
@@ -140,6 +154,12 @@ public class JDialogReporte extends javax.swing.JDialog {
         btnListarPersonas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnListarPersonasActionPerformed(evt);
+            }
+        });
+
+        jtfNombreListaPersonas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfNombreListaPersonasKeyTyped(evt);
             }
         });
 
@@ -275,7 +295,7 @@ public class JDialogReporte extends javax.swing.JDialog {
         String nombreArchivo = jtfNombreListaVacunas.getText();
         String seleccionExtension = jComboBoxExtensiones.getSelectedItem().toString();
         if (nombreArchivo != null) {
-            if(controller.generarReporteVacunas(nombreArchivo, seleccionExtension)){
+            if (controller.generarReporteVacunas(nombreArchivo, seleccionExtension)) {
                 JOptionPane.showMessageDialog(null, "Archivo creado exitosamente.", "Todo Correcto", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 mostrarMensajeDatosInvalidos("Error inesperado.");
@@ -289,7 +309,7 @@ public class JDialogReporte extends javax.swing.JDialog {
         String nombreArchivo = jtfNombreListaPersonas.getText();
         String seleccionExtension = jComboBoxExtensiones.getSelectedItem().toString();
         if (nombreArchivo != null) {
-            if(controller.generarReportePersonas(nombreArchivo, seleccionExtension)){
+            if (controller.generarReportePersonas(nombreArchivo, seleccionExtension)) {
                 JOptionPane.showMessageDialog(null, "Archivo creado exitosamente.", "Todo Correcto", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 mostrarMensajeDatosInvalidos("Error inesperado.");
@@ -310,14 +330,26 @@ public class JDialogReporte extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnListarPersonasPorVacunaActionPerformed
 
+    private void jtfNombreListaPersonasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombreListaPersonasKeyTyped
+        validarNombreArchivo(evt);
+    }//GEN-LAST:event_jtfNombreListaPersonasKeyTyped
+
+    private void jtfNombreListaVacunasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombreListaVacunasKeyTyped
+        validarNombreArchivo(evt);
+    }//GEN-LAST:event_jtfNombreListaVacunasKeyTyped
+
+    private void jtfNombreListaVacunacionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNombreListaVacunacionKeyTyped
+        validarNombreArchivo(evt);
+    }//GEN-LAST:event_jtfNombreListaVacunacionKeyTyped
+
     private void mostrarMensajeDatosInvalidos() {
         String mensaje = "Faltan ingresar datos. Revise e intente de nuevo.";
         String titulo = "Error";
         int tipoMensaje = JOptionPane.ERROR_MESSAGE;
         JOptionPane.showMessageDialog(rootPane, mensaje, titulo, tipoMensaje);
     }
-    
-    private void mostrarMensajeDatosInvalidos(String mensaje){
+
+    private void mostrarMensajeDatosInvalidos(String mensaje) {
         String titulo = "Error";
         int tipoMensaje = JOptionPane.ERROR_MESSAGE;
         JOptionPane.showMessageDialog(rootPane, mensaje, titulo, tipoMensaje);

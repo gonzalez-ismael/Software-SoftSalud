@@ -1,4 +1,4 @@
-package com.softsalud.software.workbok;
+package com.softsalud.software.controller.resource;
 
 import java.io.File;
 import java.io.FileInputStream;

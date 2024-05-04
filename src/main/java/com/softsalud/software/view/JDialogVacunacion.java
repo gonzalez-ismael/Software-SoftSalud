@@ -1,6 +1,6 @@
 package com.softsalud.software.view;
 
-import com.softsalud.software.controller.logic.VacunacionController;
+import com.softsalud.software.controller.VacunacionController;
 import com.softsalud.software.persistence.model.Vacunacion;
 import static com.softsalud.software.view.validation.VistaValidacion.*;
 import java.awt.event.ActionEvent;

@@ -1,5 +1,6 @@
-package com.softsalud.software.controller.logic;
+package com.softsalud.software.controller;
 
+import com.softsalud.software.controller.resource.PaginarTabla;
 import com.softsalud.software.persistence.model.Vacuna;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
 import com.softsalud.software.view.JDialogVacuna;

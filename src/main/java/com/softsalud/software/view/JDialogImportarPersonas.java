@@ -1,5 +1,7 @@
-package com.softsalud.software.workbok;
+package com.softsalud.software.view;
 
+import com.softsalud.software.controller.ImportarPersonasController;
+import com.softsalud.software.controller.resource.Workbok;
 import java.io.File;
 import java.util.Arrays;
 import javax.swing.JFileChooser;
@@ -13,9 +15,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class JDialogImportarPersonas extends javax.swing.JDialog {
 
     //CONSTANTES
-    private final ControladorImportarPersonas controladorImp;
+    private final ImportarPersonasController controladorImp;
     //VARIABLES
-    private JFileChooser seleccionArchivo = new JFileChooser();
+    private JFileChooser seleccionArchivo;
     private String[][] datos;
     private File archivo;
 
@@ -26,10 +28,11 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
      * @param modal
      * @param controladorImp
      */
-    public JDialogImportarPersonas(java.awt.Frame parent, boolean modal, ControladorImportarPersonas controladorImp) {
+    public JDialogImportarPersonas(java.awt.Frame parent, boolean modal, ImportarPersonasController controladorImp) {
         super(parent, modal);
         this.controladorImp = controladorImp;
         initComponents();
+        iniciarExploradorArchivos();
         agregarFiltro();
     }
 
@@ -191,7 +194,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         if (seleccionArchivo.showDialog(null, "Seleccionar archivo") == JFileChooser.APPROVE_OPTION) {
             archivo = seleccionArchivo.getSelectedFile();
             if (archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")) {
-                if (ControladorImportarPersonas.esArchivoExcelValidoParaImportar(archivo)) {
+                if (ImportarPersonasController.esArchivoExcelValidoParaImportar(archivo)) {
                     datos = Workbok.procesarArchivoExcel(archivo);
                     jTextField1.setText(archivo.getName());
                     ProgressBarCarga.setValue(0);
@@ -229,6 +232,14 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         jTextAreaResultados.append("Cantidad de personas repetidas - no ingresadas: " + resultados[1] + "\n");
         jTextAreaResultados.append("Cantidad de personas fallidas - no ingresadas: " + resultados[2] + "\n");
         jTextAreaResultados.append("Cantidad de Total de personas: " + resultados[3] + "\n");
+    }
+
+    private void iniciarExploradorArchivos() {
+        seleccionArchivo = new JFileChooser();
+        String nombreDeUsuario = System.getProperty("user.name");
+        String rutaDefault = "C:\\Users\\" + nombreDeUsuario + "\\Downloads";
+        File directorioInicial = new File(rutaDefault);
+        seleccionArchivo.setCurrentDirectory(directorioInicial);
     }
 
     public JFileChooser getSeleccionArchivo() {

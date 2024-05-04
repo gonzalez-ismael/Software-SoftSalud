@@ -1,8 +1,10 @@
-package com.softsalud.software.reporte;
+package com.softsalud.software.controller;
 
+import com.softsalud.software.controller.resource.FileProperties;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
-import static com.softsalud.software.reporte.GeneradorReporte.*;
+import com.softsalud.software.controller.resource.GeneradorReporte;
+import static com.softsalud.software.controller.resource.GeneradorReporte.*;
 
 /**
  *
@@ -13,17 +15,19 @@ public class ReporteController {
     private final IPersonaRepository personaRepos;
     private final IVacunaRepository vacunaRepos;
     private final String pathJrxml = "src/main/resources/report/jrxmlfile/";
-    private final String outputPath = "src/main/resources/report/outputfile/";
+    private final String outputPath;
 
     public ReporteController(IPersonaRepository personaRepos, IVacunaRepository vacunaRepos) {
         this.personaRepos = personaRepos;
         this.vacunaRepos = vacunaRepos;
+        FileProperties fileProperties = new FileProperties();
+        this.outputPath = fileProperties.getFile().getProperty("urlOutputLocation");
     }
 
     public boolean generarReportePersonas(String nombreArchivo, String extension) {
         boolean seGeneroReporte = false;
         GeneradorReporte generator = new GeneradorReporte(personaRepos, vacunaRepos);
-        String outputName = outputPath + nombreArchivo + "." + extension;
+        String outputName = outputPath + "\\" + nombreArchivo + "." + extension;
         String jrxml = pathJrxml + "listaPersonas.jrxml";
         switch (extension) {
             case "pdf" ->
@@ -41,15 +45,15 @@ public class ReporteController {
     public boolean generarReporteVacunas(String nombreArchivo, String extension) {
         boolean seGeneroReporte = false;
         GeneradorReporte generator = new GeneradorReporte(personaRepos, vacunaRepos);
-        String outputName = outputPath + nombreArchivo + "." + extension;
+        String outputName = outputPath + "\\" + nombreArchivo + "." + extension;
         String jrxml = pathJrxml + "listaVacunas.jrxml";
         switch (extension) {
             case "pdf" ->
-                seGeneroReporte = generator.generarListaVacunasMultiformato(jrxml, outputName,PDF);
+                seGeneroReporte = generator.generarListaVacunasMultiformato(jrxml, outputName, PDF);
             case "html" ->
-                seGeneroReporte = generator.generarListaVacunasMultiformato(jrxml, outputName,HTML);
+                seGeneroReporte = generator.generarListaVacunasMultiformato(jrxml, outputName, HTML);
             case "xls" ->
-                seGeneroReporte = generator.generarListaVacunasMultiformato(jrxml, outputName,XLS);
+                seGeneroReporte = generator.generarListaVacunasMultiformato(jrxml, outputName, XLS);
             default ->
                 throw new AssertionError();
         }
@@ -58,7 +62,7 @@ public class ReporteController {
 
     public void generarReportePersonasPorVacuna(String nombreVacuna, String nombreArchivo, String extension) {
         GeneradorReporte generator = new GeneradorReporte(personaRepos, vacunaRepos);
-        String outputName = outputPath + nombreArchivo + "." + extension;
+        String outputName = outputPath + "\\" + nombreArchivo + "." + extension;
         String jrxml = pathJrxml + "listaPersonasPorVacuna.jrxml";
         generator.generarListaPersonasPorVacunaPDF(jrxml, outputName, nombreVacuna);
     }

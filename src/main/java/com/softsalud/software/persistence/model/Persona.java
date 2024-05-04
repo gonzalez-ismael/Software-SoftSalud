@@ -59,8 +59,6 @@ public class Persona {
     public String toString() {
         return "Persona{" + "dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + ", edad=" + edad + ", fecha_nac=" + fecha_nac + ", numero_tel=" + numero_tel + ", numero_tel_opcional=" + numero_tel_opcional + ", localidad=" + localidad + ", direccion=" + direccion + ", tuvo_covid=" + tuvo_covid + ", tiene_trasplantes=" + tiene_trasplantes + ", factores_riesgo=" + factores_riesgo + ", visible=" + visible + '}';
     }
-    
-    
 
     public Long getDni() {
         return dni;
