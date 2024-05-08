@@ -3,8 +3,10 @@ package com.softsalud.software.controller.resource;
 import com.softsalud.software.connection.ConnectionDB;
 import com.softsalud.software.persistence.model.Persona;
 import com.softsalud.software.persistence.model.Vacuna;
+import com.softsalud.software.persistence.model.Vacunacion;
 import com.softsalud.software.persistence.repository.interfaz.IPersonaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
+import com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,27 @@ public class GeneradorReporte {
     public GeneradorReporte(IPersonaRepository personaRepos, IVacunaRepository vacunaRepos) {
         this.personaRepos = personaRepos;
         this.vacunaRepos = vacunaRepos;
+    }
+
+    public boolean generarCarnetVacunacion(String jrxml, String outputName, String dni){
+        try {
+            //Se obtiene la conexion
+            ConnectionDB conn = new ConnectionDB();
+            //MAP TIENE DOS COMPONENTES, UN STRING NOMBRE Y UN OBJETC (DATO)
+            Map<String, Object> param = new HashMap();
+            //CARGAR LOS PARAMETROS DE PARAM
+            param.put("personaDNI", dni);
+
+            JasperReport jr = JasperCompileManager.compileReport(jrxml);
+            JasperPrint jprint = JasperFillManager.fillReport(jr, param, conn.getConnection());
+            JasperExportManager.exportReportToPdfFile(jprint, outputName);
+            
+            conn.closeConnection();
+            return true;
+        } catch (JRException ex) {
+            Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public boolean generarListaPersonasMultiformato(String jrxml, String outputName, int tipoExtension) {
@@ -82,7 +105,7 @@ public class GeneradorReporte {
         }
     }
 
-    public void generarListaPersonasPorVacunaPDF(String jrxml, String outputName, String vaccineName) {
+    public boolean generarListaPersonasPorVacunaPDF(String jrxml, String outputName, String vaccineName) {
         try {
             //Se obtiene la conexion
             ConnectionDB conn = new ConnectionDB();
@@ -94,10 +117,12 @@ public class GeneradorReporte {
             JasperReport jr = JasperCompileManager.compileReport(jrxml);
             JasperPrint jprint = JasperFillManager.fillReport(jr, param, conn.getConnection());
             JasperExportManager.exportReportToPdfFile(jprint, outputName);
-
+            
             conn.closeConnection();
+            return true;
         } catch (JRException ex) {
             Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
 }

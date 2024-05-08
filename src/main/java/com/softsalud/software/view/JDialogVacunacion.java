@@ -392,7 +392,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
 
         jtfSearchName.setEnabled(false);
 
-        btnSearchName.setText("Por Nombre y Apellido : ");
+        btnSearchName.setText("Por Apellido y Nombre : ");
         btnSearchName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchNameActionPerformed(evt);

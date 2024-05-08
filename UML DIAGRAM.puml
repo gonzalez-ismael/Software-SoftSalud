@@ -1,0 +1,113 @@
+@startuml
+class com.softsalud.software.SoftSaludSoftware
+class com.softsalud.software.configuration.ConfiguracionInicial
+class com.softsalud.software.connection.ConnectionDB
+class com.softsalud.software.controller.BackupController
+class com.softsalud.software.controller.ImportarPersonasController
+class com.softsalud.software.controller.PersonaController
+class com.softsalud.software.controller.ReporteController
+class com.softsalud.software.controller.VacunaController
+class com.softsalud.software.controller.VacunacionController
+class com.softsalud.software.controller.resource.FileProperties
+class com.softsalud.software.controller.resource.GeneradorReporte
+class com.softsalud.software.controller.resource.PaginarTabla
+class com.softsalud.software.controller.resource.Workbok
+class com.softsalud.software.persistence.model.Persona
+class com.softsalud.software.persistence.model.Vacuna
+class com.softsalud.software.persistence.model.Vacunacion
+class com.softsalud.software.persistence.repository.PersonaRepos
+class com.softsalud.software.persistence.repository.VacunaRepos
+class com.softsalud.software.persistence.repository.VacunacionRepos
+class com.softsalud.software.view.JDialogAboutUs
+class com.softsalud.software.view.JDialogConfig
+class com.softsalud.software.view.JDialogImportarPersonas
+class com.softsalud.software.view.JDialogPersona
+class com.softsalud.software.view.JDialogReporte
+class com.softsalud.software.view.JDialogVacuna
+class com.softsalud.software.view.JDialogVacunacion
+class com.softsalud.software.view.JFrameMain
+class com.softsalud.software.view.validation.VistaValidacion
+interface com.softsalud.software.persistence.repository.interfaz.IPersonaRepository
+interface com.softsalud.software.persistence.repository.interfaz.IVacunaRepository
+interface com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository
+com.softsalud.software.SoftSaludSoftware ..> com.softsalud.software.configuration.ConfiguracionInicial
+com.softsalud.software.SoftSaludSoftware ..> com.softsalud.software.connection.ConnectionDB
+com.softsalud.software.SoftSaludSoftware ..> com.softsalud.software.view.JFrameMain
+com.softsalud.software.configuration.ConfiguracionInicial ..> com.softsalud.software.controller.resource.FileProperties
+com.softsalud.software.controller.BackupController ..> com.softsalud.software.controller.PersonaController
+com.softsalud.software.controller.BackupController ..> com.softsalud.software.controller.VacunaController
+com.softsalud.software.controller.BackupController ..> com.softsalud.software.controller.VacunacionController
+com.softsalud.software.controller.BackupController ..> com.softsalud.software.controller.resource.FileProperties
+com.softsalud.software.controller.BackupController ..> com.softsalud.software.controller.resource.Workbok
+com.softsalud.software.controller.BackupController ..> com.softsalud.software.persistence.model.Persona
+com.softsalud.software.controller.BackupController ..> com.softsalud.software.persistence.model.Vacuna
+com.softsalud.software.controller.BackupController ..> com.softsalud.software.persistence.model.Vacunacion
+com.softsalud.software.controller.ImportarPersonasController ..> com.softsalud.software.controller.BackupController
+com.softsalud.software.controller.ImportarPersonasController ..> com.softsalud.software.controller.PersonaController
+com.softsalud.software.controller.ImportarPersonasController ..> com.softsalud.software.controller.resource.Workbok
+com.softsalud.software.controller.PersonaController ..> com.softsalud.software.controller.resource.PaginarTabla
+com.softsalud.software.controller.PersonaController ..> com.softsalud.software.persistence.model.Persona
+com.softsalud.software.controller.PersonaController ..> com.softsalud.software.view.JDialogPersona
+com.softsalud.software.controller.PersonaController ..> com.softsalud.software.persistence.repository.interfaz.IPersonaRepository
+com.softsalud.software.controller.ReporteController ..> com.softsalud.software.controller.resource.FileProperties
+com.softsalud.software.controller.ReporteController ..> com.softsalud.software.controller.resource.GeneradorReporte
+com.softsalud.software.controller.ReporteController ..> com.softsalud.software.persistence.repository.interfaz.IPersonaRepository
+com.softsalud.software.controller.ReporteController ..> com.softsalud.software.persistence.repository.interfaz.IVacunaRepository
+com.softsalud.software.controller.VacunaController ..> com.softsalud.software.controller.resource.PaginarTabla
+com.softsalud.software.controller.VacunaController ..> com.softsalud.software.persistence.model.Vacuna
+com.softsalud.software.controller.VacunaController ..> com.softsalud.software.view.JDialogVacuna
+com.softsalud.software.controller.VacunaController ..> com.softsalud.software.persistence.repository.interfaz.IVacunaRepository
+com.softsalud.software.controller.VacunacionController ..> com.softsalud.software.controller.resource.PaginarTabla
+com.softsalud.software.controller.VacunacionController ..> com.softsalud.software.persistence.model.Persona
+com.softsalud.software.controller.VacunacionController ..> com.softsalud.software.persistence.model.Vacuna
+com.softsalud.software.controller.VacunacionController ..> com.softsalud.software.persistence.model.Vacunacion
+com.softsalud.software.controller.VacunacionController ..> com.softsalud.software.view.JDialogVacunacion
+com.softsalud.software.controller.VacunacionController ..> com.softsalud.software.persistence.repository.interfaz.IPersonaRepository
+com.softsalud.software.controller.VacunacionController ..> com.softsalud.software.persistence.repository.interfaz.IVacunaRepository
+com.softsalud.software.controller.VacunacionController ..> com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository
+com.softsalud.software.controller.resource.FileProperties ..> com.softsalud.software.view.JDialogConfig
+com.softsalud.software.controller.resource.GeneradorReporte ..> com.softsalud.software.connection.ConnectionDB
+com.softsalud.software.controller.resource.GeneradorReporte ..> com.softsalud.software.persistence.model.Persona
+com.softsalud.software.controller.resource.GeneradorReporte ..> com.softsalud.software.persistence.model.Vacuna
+com.softsalud.software.controller.resource.GeneradorReporte ..> com.softsalud.software.persistence.repository.interfaz.IPersonaRepository
+com.softsalud.software.controller.resource.GeneradorReporte ..> com.softsalud.software.persistence.repository.interfaz.IVacunaRepository
+com.softsalud.software.controller.resource.PaginarTabla ..> com.softsalud.software.persistence.model.Persona
+com.softsalud.software.controller.resource.PaginarTabla ..> com.softsalud.software.persistence.model.Vacuna
+com.softsalud.software.controller.resource.PaginarTabla ..> com.softsalud.software.persistence.model.Vacunacion
+com.softsalud.software.persistence.repository.PersonaRepos ..> com.softsalud.software.persistence.model.Persona
+com.softsalud.software.persistence.repository.PersonaRepos --|> com.softsalud.software.persistence.repository.interfaz.IPersonaRepository
+com.softsalud.software.persistence.repository.VacunaRepos ..> com.softsalud.software.persistence.model.Vacuna
+com.softsalud.software.persistence.repository.VacunaRepos --|> com.softsalud.software.persistence.repository.interfaz.IVacunaRepository
+com.softsalud.software.persistence.repository.VacunacionRepos ..> com.softsalud.software.persistence.model.Vacunacion
+com.softsalud.software.persistence.repository.VacunacionRepos --|> com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository
+com.softsalud.software.view.JDialogConfig ..> com.softsalud.software.controller.resource.FileProperties
+com.softsalud.software.view.JDialogImportarPersonas ..> com.softsalud.software.controller.ImportarPersonasController
+com.softsalud.software.view.JDialogImportarPersonas ..> com.softsalud.software.controller.resource.Workbok
+com.softsalud.software.view.JDialogPersona ..> com.softsalud.software.controller.PersonaController
+com.softsalud.software.view.JDialogPersona ..> com.softsalud.software.persistence.model.Persona
+com.softsalud.software.view.JDialogPersona ..> com.softsalud.software.view.validation.VistaValidacion
+com.softsalud.software.view.JDialogReporte ..> com.softsalud.software.controller.ReporteController
+com.softsalud.software.view.JDialogReporte ..> com.softsalud.software.view.validation.VistaValidacion
+com.softsalud.software.view.JDialogVacuna ..> com.softsalud.software.controller.VacunaController
+com.softsalud.software.view.JDialogVacunacion ..> com.softsalud.software.controller.VacunacionController
+com.softsalud.software.view.JDialogVacunacion ..> com.softsalud.software.persistence.model.Vacunacion
+com.softsalud.software.view.JDialogVacunacion ..> com.softsalud.software.view.validation.VistaValidacion
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.connection.ConnectionDB
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.controller.BackupController
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.controller.ImportarPersonasController
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.controller.PersonaController
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.controller.ReporteController
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.controller.VacunaController
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.controller.VacunacionController
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.controller.resource.FileProperties
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.persistence.repository.PersonaRepos
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.persistence.repository.VacunaRepos
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.persistence.repository.VacunacionRepos
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.persistence.repository.interfaz.IPersonaRepository
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.persistence.repository.interfaz.IVacunaRepository
+com.softsalud.software.view.JFrameMain ..> com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository
+com.softsalud.software.view.validation.VistaValidacion ..> com.softsalud.software.view.JDialogPersona
+com.softsalud.software.persistence.repository.interfaz.IPersonaRepository ..> com.softsalud.software.persistence.model.Persona
+com.softsalud.software.persistence.repository.interfaz.IVacunaRepository ..> com.softsalud.software.persistence.model.Vacuna
+com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository ..> com.softsalud.software.persistence.model.Vacunacion
+@enduml

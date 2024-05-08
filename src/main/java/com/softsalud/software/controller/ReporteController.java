@@ -24,7 +24,16 @@ public class ReporteController {
         this.outputPath = fileProperties.getFile().getProperty("urlOutputLocation");
     }
 
-    public boolean generarReportePersonas(String nombreArchivo, String extension) {
+    public String generarCarnetVacunacion(String nombreArchivo, String dni, String extension) {
+        boolean seGeneroReporte;
+        GeneradorReporte generator = new GeneradorReporte(personaRepos, vacunaRepos);
+        String outputName = outputPath + "\\" + nombreArchivo + "." + extension;
+        String jrxml = pathJrxml + "carnetVacunacion.jrxml";
+        seGeneroReporte = generator.generarCarnetVacunacion(jrxml, outputName, dni);
+        return generarResultado(seGeneroReporte, outputName);
+    }
+
+    public String generarReportePersonas(String nombreArchivo, String extension) {
         boolean seGeneroReporte = false;
         GeneradorReporte generator = new GeneradorReporte(personaRepos, vacunaRepos);
         String outputName = outputPath + "\\" + nombreArchivo + "." + extension;
@@ -39,10 +48,10 @@ public class ReporteController {
             default ->
                 throw new AssertionError();
         }
-        return seGeneroReporte;
+        return generarResultado(seGeneroReporte, outputName);
     }
 
-    public boolean generarReporteVacunas(String nombreArchivo, String extension) {
+    public String generarReporteVacunas(String nombreArchivo, String extension) {
         boolean seGeneroReporte = false;
         GeneradorReporte generator = new GeneradorReporte(personaRepos, vacunaRepos);
         String outputName = outputPath + "\\" + nombreArchivo + "." + extension;
@@ -57,13 +66,31 @@ public class ReporteController {
             default ->
                 throw new AssertionError();
         }
-        return seGeneroReporte;
+        return generarResultado(seGeneroReporte, outputName);
     }
 
-    public void generarReportePersonasPorVacuna(String nombreVacuna, String nombreArchivo, String extension) {
+    public String generarReportePersonasPorVacuna(String nombreVacuna, String nombreArchivo, String extension) {
+        boolean seGeneroReporte;
         GeneradorReporte generator = new GeneradorReporte(personaRepos, vacunaRepos);
         String outputName = outputPath + "\\" + nombreArchivo + "." + extension;
         String jrxml = pathJrxml + "listaPersonasPorVacuna.jrxml";
-        generator.generarListaPersonasPorVacunaPDF(jrxml, outputName, nombreVacuna);
+        seGeneroReporte = generator.generarListaPersonasPorVacunaPDF(jrxml, outputName, nombreVacuna);
+        return generarResultado(seGeneroReporte, outputName);
+    }
+
+    private String generarResultado(boolean seGeneroReporte, String outputName) {
+        if (seGeneroReporte) {
+            return outputName;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean existePersona(Long dni) {
+        return personaRepos.buscarPersona(dni) != null;
+    }
+
+    public boolean existeVacuna(String nombre) {
+        return vacunaRepos.buscarVacunaPorNombre(nombre) != null;
     }
 }

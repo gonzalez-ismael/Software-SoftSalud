@@ -143,13 +143,6 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="210" y="10" width="119" height="20" uuid="e3864248-b74b-4e36-a2a9-ad9663a65d32"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Autor: Gonzalez Ismael]]></text>
-			</staticText>
 			<textField pattern="h.mm a">
 				<reportElement x="110" y="10" width="65" height="20" uuid="0407b134-d6ce-432e-9f86-9b5697843e29"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>

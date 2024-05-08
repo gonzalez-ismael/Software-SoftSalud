@@ -77,6 +77,10 @@ public class VistaValidacion {
         }
     }
 
+    public static boolean tieneContenido(String texto) {
+        return !"".equals(texto);
+    }
+
     public static String formatearFecha(String fechaOriginal, int modo) {
         DateTimeFormatter formatoString = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter formatoDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");

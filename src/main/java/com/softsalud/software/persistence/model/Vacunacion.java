@@ -14,7 +14,7 @@ public class Vacunacion {
     private int numero_dosis;
     private LocalDate fecha_vacunacion;
     private String lugar_vacunacion;
-
+    
     private String nombre_completo;
     private String nombre_vacuna;
 

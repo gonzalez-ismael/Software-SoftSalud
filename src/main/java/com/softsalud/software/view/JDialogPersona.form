@@ -682,7 +682,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnSearchName">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Por Nombre y Apellido : "/>
+            <Property name="text" type="java.lang.String" value="Por Apellido y Nombre: "/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchNameActionPerformed"/>

@@ -224,13 +224,6 @@
 	</detail>
 	<pageFooter>
 		<band height="56" splitType="Stretch">
-			<staticText>
-				<reportElement x="210" y="20" width="119" height="20" uuid="28ca6208-1e21-42ee-8a23-fd41b73c848f"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Autor: Gonzalez Ismael]]></text>
-			</staticText>
 			<textField evaluationTime="Report">
 				<reportElement x="430" y="20" width="100" height="20" uuid="d8490a04-8d85-49bc-bd40-7f2b56869a0d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
