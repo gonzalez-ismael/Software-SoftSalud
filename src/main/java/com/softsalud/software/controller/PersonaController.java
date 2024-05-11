@@ -23,7 +23,7 @@ import javax.swing.event.TableModelListener;
 public class PersonaController implements ActionListener, TableModelListener {
 
     //CONSTANTES
-    private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3;
+    private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3, NOELIMINAR = 4;
     private final IPersonaRepository personaRepos;
     //VARIABLES
     private JDialogPersona ventanaPersona;
@@ -63,8 +63,8 @@ public class PersonaController implements ActionListener, TableModelListener {
         events();
         ventanaPersona.getPaginaComboBox().setSelectedIndex(Integer.parseInt("3"));
     }
-    
-    public List<Persona> listarPersonas(){
+
+    public List<Persona> listarPersonas() {
         return personaRepos.listarPersonas();
     }
 
@@ -136,19 +136,28 @@ public class PersonaController implements ActionListener, TableModelListener {
         return resultadoOperacion;
     }
 
-    public boolean eliminarPersonaLogico(JTable tableFrame) {
-        boolean operacionExitosa = false;
+    public int eliminarPersonaLogico(JTable tableFrame, VacunacionController vacunacionController) {
         int row = tableFrame.getSelectedRow();
         if (row != EMPTY) {
-            Long dni = Long.valueOf(tableFrame.getValueAt(row, 0).toString());
-            if (personaRepos.eliminarLogico(dni) == EXITO) {
-                operacionExitosa = true;
+            String dni = tableFrame.getValueAt(row, 0).toString();
+            if (sePuedeEliminar(vacunacionController, dni)) {
+                if (personaRepos.eliminarLogico(Long.valueOf(dni)) == EXITO) {
+                    return EXITO;
+                } else {
+                    return UNKNOWNFAIL;
+                }
+            } else {
+                return NOELIMINAR;
             }
         }
-        return operacionExitosa;
+        return UNKNOWNFAIL;
     }
-    
-    public int eliminarTodosRegistros(){
+
+    private boolean sePuedeEliminar(VacunacionController vacunacionController, String dni) {
+        return !vacunacionController.existeVacunacionConDNI(dni);
+    }
+
+    public int eliminarTodosRegistros() {
         return personaRepos.eliminarTodo();
     }
 

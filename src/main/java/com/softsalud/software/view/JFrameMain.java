@@ -229,14 +229,14 @@ public class JFrameMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JMVacunaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMVacunaMenuActionPerformed
-        JDialogVacuna JDialogVacuna = new JDialogVacuna(this, true, vacunaController);
+        JDialogVacuna JDialogVacuna = new JDialogVacuna(this, true, vacunaController, vacunacionController);
         JDialogVacuna.setTitle("Menú de las Vacunas");
         JDialogVacuna.setLocationRelativeTo(null);
         JDialogVacuna.setVisible(true);
     }//GEN-LAST:event_JMVacunaMenuActionPerformed
 
     private void JMPersonaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMPersonaMenuActionPerformed
-        JDialogPersona personDialog = new JDialogPersona(this, true, personaController);
+        JDialogPersona personDialog = new JDialogPersona(this, true, personaController, vacunacionController);
         personDialog.setTitle("Menú de las Personas");
         personDialog.setLocationRelativeTo(null);
         personDialog.setVisible(true);

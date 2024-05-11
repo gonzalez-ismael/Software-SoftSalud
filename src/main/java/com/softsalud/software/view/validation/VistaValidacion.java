@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Esta clase agrupara todas las validaciones de la capa Vista
@@ -103,5 +104,18 @@ public class VistaValidacion {
             Logger.getLogger(JDialogPersona.class.getName()).log(Level.SEVERE, null, ex);
             return fechaOriginal;
         }
+    }
+    
+    public static boolean mostrarConfirmacion(String mensaje) {
+        int opcion = JOptionPane.showOptionDialog(
+                null, 
+                mensaje, 
+                "Confirmación", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                null, 
+                new String[]{"Sí", "No"},  // Personaliza los botones
+                "default");
+        return opcion == JOptionPane.YES_OPTION;
     }
 }

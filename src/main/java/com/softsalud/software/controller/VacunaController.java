@@ -21,7 +21,7 @@ public class VacunaController implements ActionListener, TableModelListener {
 
     //CONSTANTES
     private final IVacunaRepository vacunaRepos;
-    private final int EMPTY = -1;
+    private final int EMPTY = -1, EXITO = 1, UNKNOWNFAIL = 3, NOELIMINAR = 4;
     //VARIABLES
     private JDialogVacuna ventanaVacuna;
     private PaginarTabla pag;
@@ -91,17 +91,29 @@ public class VacunaController implements ActionListener, TableModelListener {
         }
     }
 
-    public boolean eliminarVacuna(JTable tableFrame) {
-        boolean vacunaEliminada = false;
+    public int eliminarVacuna(JTable tableFrame, VacunacionController vacunacionController) {
         int row = tableFrame.getSelectedRow();
         if (row != EMPTY) {
-            int id = Integer.parseInt(tableFrame.getValueAt(row, 0).toString());
-            vacunaEliminada = vacunaRepos.eliminar(id);
+            String marca = tableFrame.getValueAt(row, 1).toString();
+            if (sePuedeEliminar(vacunacionController, marca)) {
+                int id = Integer.parseInt(tableFrame.getValueAt(row, 0).toString());
+                if (vacunaRepos.eliminar(id)) {
+                    return EXITO;
+                } else {
+                    return UNKNOWNFAIL;
+                }
+            } else {
+                return NOELIMINAR;
+            }
         }
-        return vacunaEliminada;
+        return UNKNOWNFAIL;
     }
-    
-    public int eliminarTodosRegistros(){
+
+    private boolean sePuedeEliminar(VacunacionController vacunacionController, String marca) {
+        return !vacunacionController.existeVacunacionConMarcaVacuna(marca);
+    }
+
+    public int eliminarTodosRegistros() {
         return vacunaRepos.eliminarTodo();
     }
 

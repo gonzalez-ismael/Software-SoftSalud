@@ -3,7 +3,10 @@ package com.softsalud.software.view;
 import com.softsalud.software.controller.ReporteController;
 import static com.softsalud.software.view.validation.VistaValidacion.tieneContenido;
 import static com.softsalud.software.view.validation.VistaValidacion.validarNombreArchivo;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -50,6 +53,7 @@ public class JDialogReporte extends javax.swing.JDialog {
         btnGenerarReporte = new javax.swing.JButton();
         jcbOpcionesReportes = new javax.swing.JComboBox<>();
         jlFileName = new javax.swing.JLabel();
+        btnHelp = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jcbExtension = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -142,34 +146,48 @@ public class JDialogReporte extends javax.swing.JDialog {
         jlFileName.setForeground(new java.awt.Color(44, 62, 80));
         jlFileName.setText("Nombre del Archivo : ");
 
+        btnHelp.setBackground(new java.awt.Color(255, 255, 255));
+        btnHelp.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnHelp.setForeground(new java.awt.Color(0, 0, 204));
+        btnHelp.setText("?");
+        btnHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHelpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnGenerarReporte))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnGenerarReporte))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jlFileName)
-                                    .addComponent(jlParam))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jlParam, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jtfParam)
                                     .addComponent(jtfFileName)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jlSubTitulo)
-                                    .addComponent(jcbOpcionesReportes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, 0)))))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jcbOpcionesReportes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnHelp)))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(17, 17, 17))
         );
         jPanel2Layout.setVerticalGroup(
@@ -178,11 +196,13 @@ public class JDialogReporte extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jcbOpcionesReportes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcbOpcionesReportes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHelp))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jlSubTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfParam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlParam))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -191,7 +211,7 @@ public class JDialogReporte extends javax.swing.JDialog {
                     .addComponent(jlFileName))
                 .addGap(18, 18, 18)
                 .addComponent(btnGenerarReporte)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -228,17 +248,12 @@ public class JDialogReporte extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6))
         );
         layout.setVerticalGroup(
@@ -262,8 +277,9 @@ public class JDialogReporte extends javax.swing.JDialog {
         String seleccionExtension = jcbExtension.getSelectedItem().toString();
         int opcionElegida = jcbOpcionesReportes.getSelectedIndex();
         if (sonDatosValidos(nombreArchivo, parametro, opcionElegida)) {
-            String seGenero = seGeneroReporteSeleccionado(nombreArchivo, parametro, seleccionExtension);
-            mostrarResultado(seGenero);
+            String urlReporte = seGeneroReporteSeleccionado(nombreArchivo, parametro, seleccionExtension);
+            mostrarMensajeConResultado(urlReporte);
+            abrirArchivo(urlReporte);
         } else {
             mostrarMensajeDatosInvalidos();
         }
@@ -272,6 +288,11 @@ public class JDialogReporte extends javax.swing.JDialog {
     private void jtfFileNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfFileNameKeyTyped
         validarNombreArchivo(evt);
     }//GEN-LAST:event_jtfFileNameKeyTyped
+
+    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
+        String mensaje = "Solo complete los campos y presione 'Generar' para crear el reporte.\nEn caso de dudas observe el manual de usuario\nen el menú Ayuda en el menú Principal.";
+        JOptionPane.showMessageDialog(null, mensaje, "Asistente", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnHelpActionPerformed
 
     private void seleccionarOpcionEventoItemListenner() {
         jcbOpcionesReportes.addActionListener((ActionEvent e) -> {
@@ -333,7 +354,7 @@ public class JDialogReporte extends javax.swing.JDialog {
         return null;
     }
 
-    private void mostrarResultado(String seGenero) {
+    private void mostrarMensajeConResultado(String seGenero) {
         if (seGenero != null) {
             JOptionPane.showMessageDialog(null, "Copia guardada correctamente.", "Todo Correcto", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -348,7 +369,24 @@ public class JDialogReporte extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(rootPane, mensaje, titulo, tipoMensaje);
     }
 
-    //COMPLETAR
+    private void abrirArchivo(String urlReporte) {
+        File archivo = new File(urlReporte);
+        try {
+            // Verificar si el sistema soporta el escritorio
+            if (Desktop.isDesktopSupported()) {
+                // Obtener la instancia del escritorio
+                Desktop escritorio = Desktop.getDesktop();
+
+                // Abrir el archivo con la aplicación predeterminada
+                escritorio.open(archivo);
+            } else {
+                System.out.println("El escritorio no está soportado en este sistema.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al abrir el archivo: " + e.getMessage());
+        }
+    }
+
     private boolean existeVacuna(String vacuna) {
         return controller.existeVacuna(vacuna);
     }
@@ -359,6 +397,7 @@ public class JDialogReporte extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerarReporte;
+    private javax.swing.JButton btnHelp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

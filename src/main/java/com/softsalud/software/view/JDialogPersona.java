@@ -1,6 +1,7 @@
 package com.softsalud.software.view;
 
 import com.softsalud.software.controller.PersonaController;
+import com.softsalud.software.controller.VacunacionController;
 import com.softsalud.software.persistence.model.Persona;
 import static com.softsalud.software.view.validation.VistaValidacion.*;
 import java.awt.Color;
@@ -18,8 +19,9 @@ public class JDialogPersona extends javax.swing.JDialog {
 
     public JComboBox<Integer> paginaComboBox;
     private final PersonaController controller;
+    private final VacunacionController vacunacionController;
     private Long dniBuscado;
-    private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3;
+    private final int EMPTY = -1, EXITO = 1, CLAVEREPETIDA = 2, UNKNOWNFAIL = 3, NOELIMINAR = 4;
 
     /**
      * Creates new form JDialogPerson
@@ -27,10 +29,12 @@ public class JDialogPersona extends javax.swing.JDialog {
      * @param parent
      * @param modal
      * @param controller
+     * @param vacunacionController
      */
-    public JDialogPersona(java.awt.Frame parent, boolean modal, PersonaController controller) {
+    public JDialogPersona(java.awt.Frame parent, boolean modal, PersonaController controller, VacunacionController vacunacionController) {
         super(parent, modal);
         initComponents();
+        this.vacunacionController = vacunacionController;
         this.controller = controller;
         this.controller.setVentana(this);
         this.controller.listarPersonas(TablePerson, jPanelBotonesPagina);
@@ -524,7 +528,6 @@ public class JDialogPersona extends javax.swing.JDialog {
         jScrollPane1.setViewportView(TablePerson);
 
         btnDelete.setText("Eliminar");
-        btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -648,11 +651,18 @@ public class JDialogPersona extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (controller.eliminarPersonaLogico(TablePerson)) {
-            controller.listarPersonas(TablePerson, jPanelBotonesPagina);
-            clearCells();
-        } else {
-            mostrarMensajesError(EMPTY);
+        String mensaje = "¿Está seguro que desea eliminar a la persona? Esta acción no se puede deshacer.";
+        boolean confirmado = mostrarConfirmacion(mensaje);
+        if (confirmado) {
+            int resultado = controller.eliminarPersonaLogico(TablePerson, this.vacunacionController);
+            switch (resultado) {
+                case EXITO -> {
+                    controller.listarPersonas(TablePerson, jPanelBotonesPagina);
+                    clearCells();
+                }
+                case NOELIMINAR -> mostrarMensajesError(resultado);
+                default -> mostrarMensajesError(EMPTY);
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -877,6 +887,11 @@ public class JDialogPersona extends javax.swing.JDialog {
             case EMPTY -> {
                 mensaje = "Seleccione una celda para editar.";
                 titulo = "Atención";
+                tipoMensaje = JOptionPane.WARNING_MESSAGE;
+            }
+            case NOELIMINAR -> {
+                mensaje = "No puede elimnar a una persona que ya se aplico alguna vacuna.";
+                titulo = "Error";
                 tipoMensaje = JOptionPane.WARNING_MESSAGE;
             }
             default -> {

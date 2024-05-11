@@ -39,6 +39,12 @@ public class VacunacionController implements ActionListener, TableModelListener 
         this.vacunaRepos = vacunaRepos;
     }
 
+    public VacunacionController(IVacunacionRepository vacunacionRepos) {
+        this.vacunacionRepos = vacunacionRepos;
+        this.personaRepos = null;
+        this.vacunaRepos = null;
+    }
+
     public final void events() {
         ventanaVacunacion.paginaComboBox.addActionListener(this);
         ventanaVacunacion.getTableVacunacion().getModel().addTableModelListener(this);
@@ -210,6 +216,14 @@ public class VacunacionController implements ActionListener, TableModelListener 
     private boolean esMismaVacunacion(Long dniBuscado, String marcaVacunaBuscada, String loteVacunaBuscada,
             Long dni, String marcaVacuna, String loteVacuna) {
         return dniBuscado.equals(dni) && marcaVacunaBuscada.equals(marcaVacuna) && loteVacunaBuscada.equals(loteVacuna);
+    }
+
+    public boolean existeVacunacionConDNI(String dni) {
+        return vacunacionRepos.existeVacunacionConDni(dni);
+    }
+
+    public boolean existeVacunacionConMarcaVacuna(String marca) {
+        return vacunacionRepos.existeVacunacionConMarcaVacuna(marca);
     }
 
     public JDialogVacunacion getVentanaVacunacion() {

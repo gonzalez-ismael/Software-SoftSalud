@@ -504,17 +504,21 @@ public class JDialogVacunacion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        Vacunacion v = controller.editarVacunacion(tableVacunacion);
-        if (v != null) {
-            controller.eliminarVacunacion(v);
-            controller.listarVacunaciones(tableVacunacion, jPanelBotonesPagina);
-            clearBtns();
-            clearCells();
-        } else {
-            String mensaje = "Seleccione una celda para editar.";
-            String titulo = "Atención";
-            int tipoMensaje = JOptionPane.WARNING_MESSAGE;
-            mostrarMensajeError(mensaje, titulo, tipoMensaje);
+        String mensaje = "¿Está seguro que desea eliminar esta vacunación? Esta acción no se puede deshacer.";
+        boolean confirmado = mostrarConfirmacion(mensaje);
+        if (confirmado) {
+            Vacunacion v = controller.editarVacunacion(tableVacunacion);
+            if (v != null) {
+                controller.eliminarVacunacion(v);
+                controller.listarVacunaciones(tableVacunacion, jPanelBotonesPagina);
+                clearBtns();
+                clearCells();
+            } else {
+                mensaje = "Seleccione una celda para editar.";
+                String titulo = "Atención";
+                int tipoMensaje = JOptionPane.WARNING_MESSAGE;
+                mostrarMensajeError(mensaje, titulo, tipoMensaje);
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 

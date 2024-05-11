@@ -225,6 +225,44 @@ public class VacunacionRepos implements IVacunacionRepository {
     }
 
     @Override
+    public boolean existeVacunacionConDni(String dni) {
+        boolean existeVacunacion = false;
+        String query = "Select * from historial_vacunacion where persona_dni = ?";
+        try (PreparedStatement pstmt = conn.prepareCall(query)) {
+            pstmt.setString(1, dni);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                existeVacunacion = true;
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return existeVacunacion;
+    }
+
+    @Override
+    public boolean existeVacunacionConMarcaVacuna(String marca) {
+        boolean existeVacunacion = false;
+        String query = """
+                       SELECT * FROM ssbd.historial_vacunacion as hp 
+                       INNER JOIN vacuna as v on hp.vacuna_codigo = v.codigo 
+                       WHERE v.nombre_vacuna = ?
+                       """;
+        try (PreparedStatement pstmt = conn.prepareCall(query)) {
+            pstmt.setString(1, marca);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                existeVacunacion = true;
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VacunaRepos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return existeVacunacion;
+    }
+
+    @Override
     public List<Vacunacion> buscarVacunacionesPorNomYApe(String nomYApe) {
         List<Vacunacion> listado = null;
         String query = """
@@ -288,7 +326,7 @@ public class VacunacionRepos implements IVacunacionRepository {
         }
         return listado;
     }
-    
+
     @Override
     public List<Vacunacion> buscarVacunacionesPorDosis(String dosis) {
         List<Vacunacion> listado = null;

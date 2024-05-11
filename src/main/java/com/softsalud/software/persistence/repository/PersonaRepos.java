@@ -173,7 +173,8 @@ public class PersonaRepos implements IPersonaRepository {
                        ((YEAR(current_date()) - YEAR(fecha_nac)) - (right(current_date,5) < right(fecha_nac,5))) as edad, 
                        numero_tel, numero_tel_opcional, localidad, direccion, 
                        tuvo_covid, tiene_trasplantes, factores_riesgo
-                       FROM persona WHERE visible = 1;
+                       FROM persona WHERE visible = 1
+                       ORDER BY apellido ASC;
                        """;
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);

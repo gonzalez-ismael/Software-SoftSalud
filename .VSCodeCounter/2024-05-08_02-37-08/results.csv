@@ -1,0 +1,37 @@
+"filename", "language", "Java Properties", "XML", "Java", "comment", "blank", "total"
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\nb-configuration.xml", "XML", 0, 6, 0, 12, 1, 19
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\nbactions.xml", "XML", 0, 168, 0, 0, 1, 169
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\pom.xml", "XML", 0, 61, 0, 0, 0, 61
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\SoftSaludSoftware.java", "Java", 0, 0, 44, 18, 8, 70
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\configuration\ConfiguracionInicial.java", "Java", 0, 0, 37, 12, 5, 54
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\connection\ConnectionDB.java", "Java", 0, 0, 35, 16, 9, 60
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\BackupController.java", "Java", 0, 0, 220, 109, 31, 360
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\ImportarPersonasController.java", "Java", 0, 0, 127, 55, 18, 200
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\PersonaController.java", "Java", 0, 0, 161, 6, 29, 196
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\ReporteController.java", "Java", 0, 0, 81, 4, 12, 97
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\VacunaController.java", "Java", 0, 0, 100, 6, 24, 130
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\VacunacionController.java", "Java", 0, 0, 177, 6, 40, 223
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\resource\FileProperties.java", "Java", 0, 0, 34, 13, 7, 54
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\resource\GeneradorReporte.java", "Java", 0, 0, 101, 14, 14, 129
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\resource\PaginarTabla.java", "Java", 0, 0, 165, 52, 19, 236
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\controller\resource\Workbok.java", "Java", 0, 0, 77, 11, 9, 97
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\persistence\model\Persona.java", "Java", 0, 0, 128, 4, 35, 167
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\persistence\model\Vacuna.java", "Java", 0, 0, 34, 4, 11, 49
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\persistence\model\Vacunacion.java", "Java", 0, 0, 84, 4, 26, 114
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\persistence\repository\PersonaRepos.java", "Java", 0, 0, 295, 4, 15, 314
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\persistence\repository\VacunaRepos.java", "Java", 0, 0, 161, 38, 13, 212
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\persistence\repository\VacunacionRepos.java", "Java", 0, 0, 299, 9, 16, 324
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\persistence\repository\interfaz\IPersonaRepository.java", "Java", 0, 0, 15, 4, 3, 22
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\persistence\repository\interfaz\IVacunaRepository.java", "Java", 0, 0, 13, 4, 3, 20
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\persistence\repository\interfaz\IVacunacionRepository.java", "Java", 0, 0, 16, 4, 3, 23
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\view\JDialogAboutUs.java", "Java", 0, 0, 50, 15, 13, 78
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\view\JDialogConfig.java", "Java", 0, 0, 174, 16, 26, 216
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\view\JDialogImportarPersonas.java", "Java", 0, 0, 220, 19, 29, 268
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\view\JDialogPersona.java", "Java", 0, 0, 886, 21, 99, 1006
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\view\JDialogReporte.java", "Java", 0, 0, 359, 21, 42, 422
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\view\JDialogVacuna.java", "Java", 0, 0, 368, 13, 49, 430
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\view\JDialogVacunacion.java", "Java", 0, 0, 794, 22, 89, 905
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\view\JFrameMain.java", "Java", 0, 0, 323, 10, 59, 392
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\java\com\softsalud\software\view\validation\VistaValidacion.java", "Java", 0, 0, 86, 6, 16, 108
+"d:\Archivos\Documentos\NetBeansProjects\SoftSaludSoftware\src\main\resources\app.properties", "Java Properties", 5, 0, 0, 2, 1, 8
+"Total", "-", 5, 235, 5664, 554, 775, 7233

@@ -1,6 +1,8 @@
 package com.softsalud.software.view;
 
 import com.softsalud.software.controller.VacunaController;
+import com.softsalud.software.controller.VacunacionController;
+import static com.softsalud.software.view.validation.VistaValidacion.mostrarConfirmacion;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -16,11 +18,13 @@ public class JDialogVacuna extends javax.swing.JDialog {
 
     public JComboBox<Integer> paginaComboBox;
     private final VacunaController controller;
-    private final int EXITO = 1, CLAVEREPETIDA = 2;
+    private final VacunacionController vacunacionController;
+    private final int EXITO = 1, CLAVEREPETIDA = 2, NOELIMINAR = 4;
 
-    public JDialogVacuna(java.awt.Frame parent, boolean modal, VacunaController controller) {
+    public JDialogVacuna(java.awt.Frame parent, boolean modal, VacunaController controller, VacunacionController vacunacionController) {
         super(parent, modal);
         initComponents();
+        this.vacunacionController = vacunacionController;
         this.controller = controller;
         this.controller.setVentana(this);
         controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
@@ -117,7 +121,6 @@ public class JDialogVacuna extends javax.swing.JDialog {
         });
 
         btnDelete.setText("Eliminar");
-        btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -202,7 +205,7 @@ public class JDialogVacuna extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabelID)
                     .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -300,14 +303,28 @@ public class JDialogVacuna extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (controller.eliminarVacuna(tableVaccine)) {
-            controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
-            clearCells();
-        } else {
-            String mensaje = "Seleccione una celda para editar.";
-            String titulo = "Ups";
-            int modo = JOptionPane.ERROR_MESSAGE;
-            mostrarMensaje(mensaje, titulo, modo);
+        String mensaje = "¿Está seguro que desea eliminar a la persona? Esta acción no se puede deshacer.";
+        boolean confirmado = mostrarConfirmacion(mensaje);
+        if (confirmado) {
+            int resultado = controller.eliminarVacuna(tableVaccine, vacunacionController);
+            switch (resultado) {
+                case EXITO -> {
+                    controller.listarVacunas(tableVaccine, jPanelBotonesPagina);
+                    clearCells();
+                }
+                case NOELIMINAR -> {
+                    mensaje = "No puede elimnar una vacuna que ya se aplico alguna persona.";
+                    String titulo = "Error";
+                    int modo = JOptionPane.WARNING_MESSAGE;
+                    mostrarMensaje(mensaje, titulo, modo);
+                }
+                default -> {
+                    mensaje = "Seleccione una celda para editar.";
+                    String titulo = "Ups";
+                    int modo = JOptionPane.ERROR_MESSAGE;
+                    mostrarMensaje(mensaje, titulo, modo);
+                }
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
