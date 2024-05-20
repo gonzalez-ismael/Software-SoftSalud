@@ -1,7 +1,5 @@
 package com.softsalud.software.controller;
 
-import com.softsalud.software.controller.BackupController;
-import com.softsalud.software.controller.PersonaController;
 import com.softsalud.software.controller.resource.Workbok;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +19,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
+ * Esta clase se encarga de importar el listado de persona de google drive y validar el listado.
  *
  * @author Gonzalez Ismael
  */

@@ -117,9 +117,9 @@ public class VacunaController implements ActionListener, TableModelListener {
         return vacunaRepos.eliminarTodo();
     }
 
-    public void buscarVacunaPorNombre(JTable tableFrame, JPanel panelBotones, JTextField jtfSearchDni) {
-        if (jtfSearchDni != null) {
-            List<Vacuna> listaDatos = vacunaRepos.listarVacunasPorNombre(jtfSearchDni.getText());
+    public void buscarVacunaPorNombre(JTable tableFrame, JPanel panelBotones, JTextField jtfSearchMarca) {
+        if (jtfSearchMarca != null) {
+            List<Vacuna> listaDatos = vacunaRepos.listarVacunasPorNombre(jtfSearchMarca.getText());
 
             pag = new PaginarTabla(tableFrame, listaDatos, PaginarTabla.MODO_VACUNA);
 

@@ -1,17 +1,21 @@
 package com.softsalud.software;
 
+import com.softsalud.software.login.JFrameLogin;
 import com.softsalud.software.connection.ConnectionDB;
 import com.softsalud.software.configuration.ConfiguracionInicial;
+import com.softsalud.software.login.LoginListener;
 import com.softsalud.software.view.JFrameMain;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Gonzalez Ismael
  */
-public class SoftSaludSoftware {
+public class SoftSaludSoftware implements LoginListener {
 
     /**
      * MENÚ PRINCIPAL
@@ -40,12 +44,20 @@ public class SoftSaludSoftware {
         java.awt.EventQueue.invokeLater(() -> {
             ConfiguracionInicial.crearDirectorios();
             ConfiguracionInicial.establecerRutasPredeterminadas();
-            try {
-                ConnectionDB conexion = new ConnectionDB();
-                System.out.println("\n\n");
-                System.out.println("Conexion a: " + conexion.getConnection().getCatalog());
-                System.out.println("\n\n");
 
+            SoftSaludSoftware app = new SoftSaludSoftware();
+            JFrameLogin login = new JFrameLogin(app);
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+        });
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        // Aquí se inicializa y muestra el JFrameMain
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                ConnectionDB conexion = obtenerConexion();
                 JFrameMain main = new JFrameMain(conexion);
                 System.setProperty("java.awt.headless", "false");
                 main.setLocationRelativeTo(null);
@@ -61,9 +73,23 @@ public class SoftSaludSoftware {
                 });
 
                 main.setVisible(true);
-            } catch (SQLException ex) {
-                System.out.println("ERROR: " + ex.getMessage());
+            } catch (Exception ex) {
+                Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+    }
+
+    private ConnectionDB obtenerConexion() {
+        ConnectionDB conexion;
+        try {
+            conexion = new ConnectionDB();
+            System.out.println("\n\n");
+            System.out.println("Conexion a: " + conexion.getConnection().getCatalog());
+            System.out.println("\n\n");
+        } catch (SQLException ex) {
+            conexion = null;
+            System.out.println("ERROR: " + ex.getMessage());
+        }
+        return conexion;
     }
 }
