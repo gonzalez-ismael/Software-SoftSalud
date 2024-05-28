@@ -106,7 +106,7 @@ public class ImportarPersonasController {
                     "Ingrese su/sus nombre/s tal como aparecen en su documento",
                     "DNI", "Domicilio", "Localidad", "Número de teléfono o celular", "Segundo número de teléfono o celular",
                     "Día de nacimiento", "Mes de nacimiento", "Año de nacimiento",
-                    "¿Tuvo Covid-19?", "¿Tiene trasplantes?", "Indique si padece alguna de las siguientes patologías:"};
+                    "¿Tuvo Covid 19?", "¿Ha recibido trasplante de órganos?", "Indique si padece alguna de las siguientes patologías:"};
                 boolean sonCoindentes = Arrays.equals(encabezados, Workbok.obtenerEncabezadosHojas(primeraHoja));
                 return sonCoindentes;
             }

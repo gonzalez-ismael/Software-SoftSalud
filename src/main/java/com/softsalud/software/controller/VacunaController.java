@@ -79,6 +79,8 @@ public class VacunaController implements ActionListener, TableModelListener {
         if (row != EMPTY) {
             data[0] = tableFrame.getValueAt(row, 0).toString();
             data[1] = tableFrame.getValueAt(row, 1).toString();
+        } else {
+            data[0] = "EMPTY";
         }
         return data;
     }

@@ -15,6 +15,7 @@ import com.softsalud.software.persistence.repository.interfaz.IVacunaRepository;
 import com.softsalud.software.persistence.repository.interfaz.IVacunacionRepository;
 import com.softsalud.software.controller.BackupController;
 import static com.softsalud.software.controller.BackupController.esArchivoExcelValidoParaImportar;
+import static com.softsalud.software.view.validation.VistaValidacion.mostrarConfirmacion;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
@@ -275,13 +276,14 @@ public class JFrameMain extends javax.swing.JFrame {
         if (backupConrtoller.guardarCopiaSeguridadExcel()) {
             JOptionPane.showMessageDialog(null, "Copia guardada correctamente.", "Todo Correcto", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Ups, intente nuevamente en unos minutos.", "Algo ocurrio", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se puede crear la copia de seguridad debido a que una de las listas de registros (persona, vacunas o vacunaciones) está vacía.\nPor favor, asegúrese de que todas las listas contengan al menos 1 registro antes de intentar nuevamente.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMExportarTodosDatosActionPerformed
 
     private void jMenuRestaurarCopiaSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRestaurarCopiaSeguridadActionPerformed
-        int confirmacion = mostrarConfirmacion();
-        if (confirmacion == JOptionPane.YES_OPTION) {
+        String mensaje = "¿Está seguro que desea continuar?\nEsto elimina y reemplaza todos los datos actuales.\nSe recomienda guardar una copia de seguridad antes.";
+        boolean confirmacion = mostrarConfirmacion(mensaje);
+        if (confirmacion) {
             File archivoBackup = seleccionarArchivo();
             if (archivoBackup != null) {
                 procesarCopiaSeguridad(archivoBackup);
@@ -295,11 +297,6 @@ public class JFrameMain extends javax.swing.JFrame {
         configuracionDialog.setLocationRelativeTo(null);
         configuracionDialog.setVisible(true);
     }//GEN-LAST:event_jMConfiguracionActionPerformed
-
-    private int mostrarConfirmacion() {
-        String mensaje = "¿Está seguro que desea continuar?\nEsto elimina y reemplaza todos los datos actuales.\nSe recomienda guardar una copia de seguridad antes.";
-        return JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
-    }
 
     private File seleccionarArchivo() {
         FileProperties fileProperties = new FileProperties();

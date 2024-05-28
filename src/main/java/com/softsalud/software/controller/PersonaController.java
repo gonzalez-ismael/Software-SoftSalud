@@ -141,7 +141,7 @@ public class PersonaController implements ActionListener, TableModelListener {
         if (row != EMPTY) {
             String dni = tableFrame.getValueAt(row, 0).toString();
             if (sePuedeEliminar(vacunacionController, dni)) {
-                if (personaRepos.eliminarLogico(Long.valueOf(dni)) == EXITO) {
+                if (personaRepos.eliminar(Long.valueOf(dni)) == EXITO) {
                     return EXITO;
                 } else {
                     return UNKNOWNFAIL;

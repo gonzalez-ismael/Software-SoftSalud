@@ -68,19 +68,22 @@ public class BackupController<E> {
         List<Vacuna> listaVacuna = vacunaController.listarVacunas();
         List<Vacunacion> listaVacunacion = vacunacionController.listarVacunaciones();
 
-        try (Workbook workbook = new XSSFWorkbook()) {
-            crearHojaDeDatos(workbook, listaPersona, "Listado de Personas");
-            crearHojaDeDatos(workbook, listaVacuna, "Listado de Vacunas");
-            crearHojaDeDatos(workbook, listaVacunacion, "Listado de Vacunaciones");
+        //Verificar que la listas no esten vacias y den error al restaurar.
+        if (!listaPersona.isEmpty() & !listaVacuna.isEmpty() & !listaVacunacion.isEmpty()) {
+            try (Workbook workbook = new XSSFWorkbook()) {
+                crearHojaDeDatos(workbook, listaPersona, "Listado de Personas");
+                crearHojaDeDatos(workbook, listaVacuna, "Listado de Vacunas");
+                crearHojaDeDatos(workbook, listaVacunacion, "Listado de Vacunaciones");
 
-            // Guardar el archivo Excel
-            String fileName = outputPath + "/Copia de Seguridad de Fecha " + String.valueOf(LocalDate.now()) + ".xlsx";
-            FileOutputStream fileOut = new FileOutputStream(fileName);
-            workbook.write(fileOut);
-            fileOut.close();
-            seGuardoCorrectamente = true;
-        } catch (IOException ex) {
-            Logger.getLogger(BackupController.class.getName()).log(Level.SEVERE, null, ex);
+                // Guardar el archivo Excel
+                String fileName = outputPath + "/Copia de Seguridad de Fecha " + String.valueOf(LocalDate.now()) + ".xlsx";
+                FileOutputStream fileOut = new FileOutputStream(fileName);
+                workbook.write(fileOut);
+                fileOut.close();
+                seGuardoCorrectamente = true;
+            } catch (IOException ex) {
+                Logger.getLogger(BackupController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return seGuardoCorrectamente;
     }
@@ -351,8 +354,8 @@ public class BackupController<E> {
             }
         }
     }
-    
-    private String obtenerRutaOutpath(){
+
+    private String obtenerRutaOutpath() {
         FileProperties fileProperties = new FileProperties();
         return fileProperties.getFile().getProperty("urlBackupLocation");
     }

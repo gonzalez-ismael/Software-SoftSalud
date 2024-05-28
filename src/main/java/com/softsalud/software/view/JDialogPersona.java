@@ -152,7 +152,7 @@ public class JDialogPersona extends javax.swing.JDialog {
             }
         });
 
-        jlHouseNum1.setText("Localidad : ");
+        jlHouseNum1.setText("Jurisdiccion");
 
         jcbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rio Turbio", "Julia Defour", "Zona Rural", "Otros" }));
 
@@ -885,7 +885,7 @@ public class JDialogPersona extends javax.swing.JDialog {
                 tipoMensaje = JOptionPane.ERROR_MESSAGE;
             }
             case EMPTY -> {
-                mensaje = "Seleccione una celda para editar.";
+                mensaje = "Seleccione una celda antes de continuar con la operación.";
                 titulo = "Atención";
                 tipoMensaje = JOptionPane.WARNING_MESSAGE;
             }

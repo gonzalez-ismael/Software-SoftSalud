@@ -3,6 +3,7 @@ package com.softsalud.software.view;
 import com.softsalud.software.controller.ReporteController;
 import static com.softsalud.software.view.validation.VistaValidacion.tieneContenido;
 import static com.softsalud.software.view.validation.VistaValidacion.validarNombreArchivo;
+import static com.softsalud.software.view.validation.VistaValidacion.validarNumero;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -114,6 +115,12 @@ public class JDialogReporte extends javax.swing.JDialog {
         jtfFileName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfFileNameKeyTyped(evt);
+            }
+        });
+
+        jtfParam.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfParamKeyTyped(evt);
             }
         });
 
@@ -276,12 +283,13 @@ public class JDialogReporte extends javax.swing.JDialog {
         String parametro = jtfParam.getText();
         String seleccionExtension = jcbExtension.getSelectedItem().toString();
         int opcionElegida = jcbOpcionesReportes.getSelectedIndex();
-        if (sonDatosValidos(nombreArchivo, parametro, opcionElegida)) {
+        String errorMensaje = validarDatos(nombreArchivo, parametro, opcionElegida);
+        if (errorMensaje == null) {
             String urlReporte = seGeneroReporteSeleccionado(nombreArchivo, parametro, seleccionExtension);
             mostrarMensajeConResultado(urlReporte);
             abrirArchivo(urlReporte);
         } else {
-            mostrarMensajeDatosInvalidos();
+            mostrarMensajeDatosInvalidos(errorMensaje);
         }
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
@@ -293,6 +301,12 @@ public class JDialogReporte extends javax.swing.JDialog {
         String mensaje = "Solo complete los campos y presione 'Generar' para crear el reporte.\nEn caso de dudas observe el manual de usuario\nen el menú Ayuda en el menú Principal.";
         JOptionPane.showMessageDialog(null, mensaje, "Asistente", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnHelpActionPerformed
+
+    private void jtfParamKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfParamKeyTyped
+        if(jcbOpcionesReportes.getSelectedIndex() == CARNET){
+            validarNumero(evt);
+        }
+    }//GEN-LAST:event_jtfParamKeyTyped
 
     private void seleccionarOpcionEventoItemListenner() {
         jcbOpcionesReportes.addActionListener((ActionEvent e) -> {
@@ -325,15 +339,27 @@ public class JDialogReporte extends javax.swing.JDialog {
         });
     }
 
-    private boolean sonDatosValidos(String nombreArchivo, String parametro, int opcionElegida) {
-        return switch (opcionElegida) {
-            case CARNET ->
-                tieneContenido(nombreArchivo) && tieneContenido(parametro) && existePersona(parametro);
-            case PERSONPERVACCINE ->
-                tieneContenido(nombreArchivo) && tieneContenido(parametro) && existeVacuna(parametro);
-            default ->
-                tieneContenido(nombreArchivo);
-        };
+    private String validarDatos(String nombreArchivo, String parametro, int opcionElegida) {
+        if (!tieneContenido(nombreArchivo)) {
+            return "El nombre del archivo no puede estar vacío.";
+        }
+        switch (opcionElegida) {
+            case CARNET:
+                if (!tieneContenido(parametro)) {
+                    return "El DNI de la persona no puede estar vacío.";
+                } else if (!existePersona(parametro)) {
+                    return "La persona con DNI " + parametro + " no existe.";
+                }
+                break;
+            case PERSONPERVACCINE:
+                if (!tieneContenido(parametro)) {
+                    return "La marca de la vacuna no puede estar vacía.";
+                } else if (!existeVacuna(parametro)) {
+                    return "La vacuna con marca " + parametro + " no existe.";
+                }
+                break;
+        }
+        return null; // Si no hay errores, devolver null
     }
 
     private String seGeneroReporteSeleccionado(String nombreArchivo, String parametro, String seleccionExtension) {
@@ -362,8 +388,7 @@ public class JDialogReporte extends javax.swing.JDialog {
         }
     }
 
-    private void mostrarMensajeDatosInvalidos() {
-        String mensaje = "Faltan ingresar datos. Revise e intente de nuevo.";
+    private void mostrarMensajeDatosInvalidos(String mensaje) {
         String titulo = "Error";
         int tipoMensaje = JOptionPane.ERROR_MESSAGE;
         JOptionPane.showMessageDialog(rootPane, mensaje, titulo, tipoMensaje);

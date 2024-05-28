@@ -1,6 +1,11 @@
 package com.softsalud.software.login;
 
 import com.softsalud.software.controller.resource.FileProperties;
+import com.softsalud.software.login.LoginListener;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,16 +49,17 @@ public class JFrameLogin extends javax.swing.JFrame {
         jPasswordField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Iniciar Sesión");
+        setTitle("Bienvenido SoftSalud - Iniciar Sesión");
+        setIconImage(getIconImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
-        jLabelUser.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabelUser.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jLabelUser.setForeground(new java.awt.Color(0, 0, 0));
         jLabelUser.setText("USUARIO :");
 
-        jLabelPassword.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabelPassword.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jLabelPassword.setForeground(new java.awt.Color(0, 0, 0));
         jLabelPassword.setText("CONTRASEÑA :");
 
@@ -64,7 +70,23 @@ public class JFrameLogin extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldUserKeyTyped(evt);
+            }
+        });
+
         jPasswordField.setText("jPasswordField1");
+        jPasswordField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPasswordFieldFocusGained(evt);
+            }
+        });
+        jPasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPasswordFieldKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,8 +141,8 @@ public class JFrameLogin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -144,6 +166,20 @@ public class JFrameLogin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
+    private void jPasswordFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordFieldKeyTyped
+        eventoEnter(evt);
+    }//GEN-LAST:event_jPasswordFieldKeyTyped
+
+    private void jTextFieldUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUserKeyTyped
+        eventoEnter(evt);
+    }//GEN-LAST:event_jTextFieldUserKeyTyped
+
+    private void jPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFieldFocusGained
+        if (new String(jPasswordField.getPassword()).equals("jPasswordField1")) {
+            jPasswordField.setText("");
+        }
+    }//GEN-LAST:event_jPasswordFieldFocusGained
+
     private int validarUsuarioContraseña() {
         String usuarioFile = properties.getFile().getProperty("usuarioSS");
         String contraseñaFile = properties.getFile().getProperty("contraseñaSS");
@@ -160,6 +196,19 @@ public class JFrameLogin extends javax.swing.JFrame {
         }
     }
 
+    private void eventoEnter(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+            btnIniciarSesionActionPerformed(new ActionEvent(evt.getSource(), ActionEvent.ACTION_PERFORMED, null));
+        }
+    }
+
+    @Override
+    public Image getIconImage() {
+        String ruta = "images/logoSimple.png";
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource(ruta));
+        return retValue;
+    }
+
     private void mostrarError(String mensaje) {
         String titulo = "Error";
         int tipoMensaje = JOptionPane.ERROR_MESSAGE;
@@ -167,7 +216,7 @@ public class JFrameLogin extends javax.swing.JFrame {
     }
 
     private void mostrarExito() {
-        String mensaje = "Bienvenido";
+        String mensaje = "BIENVENIDO";
         String titulo = "Inicio de sesión exitoso";
         int tipoMensaje = JOptionPane.INFORMATION_MESSAGE;
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipoMensaje);

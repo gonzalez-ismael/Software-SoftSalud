@@ -274,7 +274,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
         jlFechaVac2.setForeground(new java.awt.Color(0, 0, 0));
         jlFechaVac2.setText("Activar Fecha Actual : ");
 
-        jcbLugarVacunacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hospital Dr. José A.S", "CIC Hielos Continentales", "CIC Padre Mujica", "CIC Julia Defour", "Otro" }));
+        jcbLugarVacunacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hospital Dr. José A.S.", "CIC Hielos Continentales", "CIC Padre Mujica", "CIC Julia Dufour", "Otro" }));
 
         jlErrorDNI.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jlErrorDNI.setForeground(new java.awt.Color(175, 0, 50));
@@ -514,7 +514,7 @@ public class JDialogVacunacion extends javax.swing.JDialog {
                 clearBtns();
                 clearCells();
             } else {
-                mensaje = "Seleccione una celda para editar.";
+                mensaje = "Seleccione una celda para eliminar.";
                 String titulo = "Atención";
                 int tipoMensaje = JOptionPane.WARNING_MESSAGE;
                 mostrarMensajeError(mensaje, titulo, tipoMensaje);
@@ -630,12 +630,16 @@ public class JDialogVacunacion extends javax.swing.JDialog {
             switch (resultado) {
                 case EXITO -> {
                     controller.listarVacunaciones(tableVacunacion, jPanelBotonesPagina);
+                    clearLabelError();
                     clearCells();
                 }
                 case CLAVEREPETIDA -> {
                     mostrarMensajeError("Ya existe un registro con el dni, la marca y el lote ingresados.",
                             "Datos Repetidos",
                             JOptionPane.ERROR_MESSAGE);
+                    jlErrorDNI.setText("DNI repetido");
+                    jlErrorMarcaVacuna.setText("MARCA repetida");
+                    jlErrorLoteVacuna.setText("Lote Vacuna repetida");
                 }
                 case NOEXISTEPERSONA -> {
                     mostrarMensajeError("No existe una persona con el DNI ingresado, verifique el dni o registrelo primero.",

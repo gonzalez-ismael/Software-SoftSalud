@@ -2,6 +2,7 @@ package com.softsalud.software.view;
 
 import com.softsalud.software.controller.ImportarPersonasController;
 import com.softsalud.software.controller.resource.Workbok;
+import static com.softsalud.software.view.validation.VistaValidacion.mostrarConfirmacion;
 import java.io.File;
 import java.util.Arrays;
 import javax.swing.JFileChooser;
@@ -79,6 +80,7 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
         ProgressBarCarga.setStringPainted(true);
 
         btnIniciarProceso.setText("Iniciar Proceso");
+        btnIniciarProceso.setEnabled(false);
         btnIniciarProceso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarProcesoActionPerformed(evt);
@@ -199,9 +201,10 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
                     jTextField1.setText(archivo.getName());
                     ProgressBarCarga.setValue(0);
                     jTextAreaResultados.setText(" ");
-                    JOptionPane.showMessageDialog(null, "Archivo seleccionado exitosamente");
+                    btnIniciarProceso.setEnabled(true);
+                    JOptionPane.showMessageDialog(null, "Archivo seleccionado exitosamente", "Seleccion del Listado", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Elija una archivo válido para importar.");
+                    JOptionPane.showMessageDialog(null, "Elija una archivo válido para importar", "Seleccion del Listado", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showConfirmDialog(null, "Elija un formato válido.");
@@ -211,12 +214,13 @@ public class JDialogImportarPersonas extends javax.swing.JDialog {
 
     private void btnIniciarProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarProcesoActionPerformed
         String mensaje = "¿Estás seguro de querer cargar el archivo?";
-        int opcion = JOptionPane.showConfirmDialog(null, mensaje, "Confirmación", JOptionPane.YES_NO_OPTION);
-        if (opcion == JOptionPane.YES_OPTION) {
+        boolean opcion = mostrarConfirmacion(mensaje);
+        if (opcion) {
             String[][] datosSincabecera = Arrays.copyOfRange(datos, 1, datos.length);
             int[] resultados = new int[4];
             resultados = controladorImp.insertarPersonas(datosSincabecera, ProgressBarCarga, resultados);
             insertarResultadosTextArea(resultados);
+            btnIniciarProceso.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(null, "Inserción cancelada");
         }

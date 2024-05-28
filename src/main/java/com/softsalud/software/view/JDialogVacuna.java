@@ -277,6 +277,7 @@ public class JDialogVacuna extends javax.swing.JDialog {
                 }
             }
         } else {
+            jlErrorNombreVacuna.setText("Ingrese un valor aquí, por favor");
             String mensaje = "Complete el nombre de la vacuna para poder ingresarla.";
             String titulo = "El nombre de la vacuna esta vacio";
             int modo = JOptionPane.ERROR_MESSAGE;
@@ -303,7 +304,7 @@ public class JDialogVacuna extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        String mensaje = "¿Está seguro que desea eliminar a la persona? Esta acción no se puede deshacer.";
+        String mensaje = "¿Está seguro que desea eliminar la vacuna? Esta acción no se puede deshacer.";
         boolean confirmado = mostrarConfirmacion(mensaje);
         if (confirmado) {
             int resultado = controller.eliminarVacuna(tableVaccine, vacunacionController);
@@ -319,7 +320,7 @@ public class JDialogVacuna extends javax.swing.JDialog {
                     mostrarMensaje(mensaje, titulo, modo);
                 }
                 default -> {
-                    mensaje = "Seleccione una celda para editar.";
+                    mensaje = "Seleccione una celda para eliminar.";
                     String titulo = "Ups";
                     int modo = JOptionPane.ERROR_MESSAGE;
                     mostrarMensaje(mensaje, titulo, modo);

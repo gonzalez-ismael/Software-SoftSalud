@@ -238,7 +238,7 @@ where p.dni=$P{personaDNI}]]>
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{numero_dosis}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[IF($F{numero_dosis} == 0,"Anual",$F{numero_dosis})]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="202" y="0" width="100" height="30" uuid="888d277c-7472-4d9e-ab5b-29e2c7d16389">

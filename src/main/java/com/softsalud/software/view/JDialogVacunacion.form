@@ -519,10 +519,10 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="5">
-                <StringItem index="0" value="Hospital Dr. Jos&#xe9; A.S"/>
+                <StringItem index="0" value="Hospital Dr. Jos&#xe9; A.S."/>
                 <StringItem index="1" value="CIC Hielos Continentales"/>
                 <StringItem index="2" value="CIC Padre Mujica"/>
-                <StringItem index="3" value="CIC Julia Defour"/>
+                <StringItem index="3" value="CIC Julia Dufour"/>
                 <StringItem index="4" value="Otro"/>
               </StringArray>
             </Property>
